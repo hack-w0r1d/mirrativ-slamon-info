@@ -12,13 +12,24 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.0.2">
+  <link rel="stylesheet" href="style.css?v=0.0.4">
   <title>スラモン攻略メモ</title>
 </head>
 
 <body>
 <div class="memo">
 <h1>スラモン攻略メモ</h1>
+
+<div class="tabs__nav" role="tablist">
+  <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-event" aria-controls="tab-panel-event" aria-selected="true" data-tab="event">選択イベント</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-training" aria-controls="tab-panel-training" aria-selected="false" data-tab="training">トレーニング</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-item" aria-controls="tab-panel-item" aria-selected="false" data-tab="item">アイテム</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-skill" aria-controls="tab-panel-skill" aria-selected="false" data-tab="skill">スキル</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-tab="blessing">加護</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-tab="rank">ステータスランク</button>
+</div>
+
+<div class="tabs__panel" id="tab-panel-event" role="tabpanel" aria-labelledby="tab-btn-event" data-tab-panel="event">
 ♥️ハート🍪メタボ
 🩷HP⚔️攻撃🛡守備💨素早さ
 🔀上記4つのうちランダムに1つ
@@ -90,16 +101,22 @@
 レント→探す♥️3/探させる
 支配人→決意🔥10/プレッシャー♥️3
 ササモト博士→成功全ステ35🔥30/失敗全ステ-15🔥-30
+</div>
 
+<div class="tabs__panel" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
+【あそぶ】
+通常期間               🔥10~30♥️3~7
+集中強化合宿期間 🔥10~29♥️6~14
+</div>
+
+<div class="tabs__panel" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
 ツヨクナールZ→全ステ+20🔥100♥️10
 ホネビスケット🔥10🍪20
 しっとりたいやき🔥25🍪40♥️1
 DXいちごパフェ🔥50🍪80♥️3
+</div>
 
-【あそぶ】
-通常期間               🔥10~30♥️3~7
-集中強化合宿期間 🔥10~29♥️6~14
-
+<div class="tabs__panel" id="tab-panel-skill" role="tabpanel" aria-labelledby="tab-btn-skill" data-tab-panel="skill" hidden>
 【バトルスキル】
 ・進化スキルの♥️消費数
 ▶︎進化前♥️10/進化後♥️30
@@ -107,7 +124,9 @@ DXいちごパフェ🔥50🍪80♥️3
 ▶︎Lv.1♥️5/Lv.2♥️10/Lv.3♥️20
 ・ステータスの心得の上昇数値
 Lv.1 +10/Lv.2 +10/Lv.3 +10
+</div>
 
+<div class="tabs__panel" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
 💡加護Lv.はトレーニングと試験報酬にボーナス
 加護Lv.1強化につき試験報酬ボーナス+1
 加護Lv.は最大Lv.18(Max+17)
@@ -141,14 +160,17 @@ Lv.14 ぶる太6
 Lv.15 ぶる太7
 Lv.16 ぶる太8
 Lv.17 ぶる太9
+</div>
 
+<div class="tabs__panel" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
 S 251~
 A 218~242
 B 168~188
-C 126~159
+C 121~159
 D 85~119
 E 67~82
-F
+F 0~20
+</div>
 </div>
 
 <footer class="footer">
@@ -168,7 +190,7 @@ F
   <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
 </div>
 
-<script src="script.js?v=0.0.2"></script>
+<script src="script.js?v=0.0.4"></script>
 
 </body>
 </html>

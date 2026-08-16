@@ -1,22 +1,25 @@
 (function () {
-  const memo = document.querySelector('.memo');
+  const searchScope = document.getElementById('tab-panel-event');
   const searchInput = document.getElementById('searchInput');
   const searchCount = document.getElementById('searchCount');
   const prevBtn = document.getElementById('searchPrev');
   const nextBtn = document.getElementById('searchNext');
   const searchBar = document.getElementById('searchBar');
   const footer = document.querySelector('footer.footer');
+  const tabButtons = document.querySelectorAll('.tabs__btn');
+  const tabPanels = document.querySelectorAll('.tabs__panel');
 
-  const originalHTML = memo.innerHTML;
+  const originalHTML = searchScope.innerHTML;
   let matches = [];
   let currentIndex = -1;
+  let isFooterVisible = false;
 
   function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   function clearHighlights() {
-    memo.innerHTML = originalHTML;
+    searchScope.innerHTML = originalHTML;
     matches = [];
     currentIndex = -1;
   }
@@ -29,7 +32,7 @@
     }
 
     const regex = new RegExp(escapeRegExp(query), 'gu');
-    const walker = document.createTreeWalker(memo, NodeFilter.SHOW_TEXT, null);
+    const walker = document.createTreeWalker(searchScope, NodeFilter.SHOW_TEXT, null);
     const textNodes = [];
     let node;
     while ((node = walker.nextNode())) {
@@ -140,11 +143,33 @@
     document.documentElement.style.setProperty('--search-bar-offset', '16px');
   });
 
+  function updateSearchBarVisibility() {
+    const activeTab = document.querySelector('.tabs__btn.is-active')?.dataset.tab;
+    searchBar.classList.toggle('search-bar--hidden', activeTab !== 'event' || isFooterVisible);
+  }
+
+  function switchTab(tabName) {
+    tabButtons.forEach((btn) => {
+      const isActive = btn.dataset.tab === tabName;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    tabPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.tabPanel !== tabName;
+    });
+    updateSearchBarVisibility();
+  }
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
   if (footer) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          searchBar.classList.toggle('search-bar--hidden', entry.isIntersecting);
+          isFooterVisible = entry.isIntersecting;
+          updateSearchBarVisibility();
         });
       },
       { threshold: 0 }
