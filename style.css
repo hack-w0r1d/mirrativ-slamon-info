@@ -37,7 +37,7 @@ footer {
 .search-bar {
   position: fixed;
   left: 50%;
-  bottom: 16px;
+  bottom: var(--search-bar-offset, 16px);
   transform: translateX(-50%);
   display: flex;
   align-items: center;
