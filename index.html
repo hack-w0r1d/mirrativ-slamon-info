@@ -24,8 +24,10 @@
   <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-event" aria-controls="tab-panel-event" aria-selected="true" data-tab="event">選択イベント</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-training" aria-controls="tab-panel-training" aria-selected="false" data-tab="training">トレーニング</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-item" aria-controls="tab-panel-item" aria-selected="false" data-tab="item">アイテム</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-exam" aria-controls="tab-panel-exam" aria-selected="false" data-tab="exam">試験</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-skill" aria-controls="tab-panel-skill" aria-selected="false" data-tab="skill">スキル</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-tab="blessing">加護</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-boss" aria-controls="tab-panel-boss" aria-selected="false" data-tab="boss">ボス討伐</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-tab="rank">ステータスランク</button>
 </div>
 
@@ -102,16 +104,18 @@
 成功で全ステ+12
 
 【スキン限定イベント】
-マイク→いいよ！全ステ+10❤️5🔥50/しょうがない
+マイク→いいよ!全ステ+10❤️5🔥50/しょうがない
 </div>
 
 <div class="tabs__panel" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
 【トレーニング】
-各トレーナーの基礎値に、育成モンスターの上昇ボーナスと加護Lv.ボーナスが+される
+各トレーナーの基礎ボーナス値に、育成モンスターの上昇ボーナスと加護Lv.ボーナスが+される
 ※上昇ボーナスは育成前のモンスター詳細画面で確認できます(例: ↑+1/↑↑+2)
-大成功は基礎値×2+上昇ボーナス
-🟡は基礎値×2
-浜辺は草原×2
+※加護Lv.ボーナスはLv.?〜?で+1、?〜?で+2、?〜MAXで+3
+
+大成功は基礎ボーナス値×2+上昇ボーナス
+🟡は基礎ボーナス値×2
+集中強化合宿期間は各トレーナーの基礎ボーナス値×2
 
 【あそぶ】
 通常期間             🔥10~30♥️3~7
@@ -119,10 +123,38 @@
 </div>
 
 <div class="tabs__panel" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
+ホネビスケット→🔥10🍪20
+しっとりたいやき→🔥25🍪40♥️1
+DXいちごパフェ→🔥50🍪80♥️3
 ツヨクナールZ→全ステ+20🔥100♥️10
-ホネビスケット🔥10🍪20
-しっとりたいやき🔥25🍪40♥️1
-DXいちごパフェ🔥50🍪80♥️3
+</div>
+
+<div class="tabs__panel" id="tab-panel-exam" role="tabpanel" aria-labelledby="tab-btn-exam" data-tab-panel="exam" hidden>
+👼加護Lv.1強化につき試験報酬の対応するステータスボーナス+1(MAX+17)
+😈悪魔像のごほうびLv.に応じた数値がランダムな1つのステータスに加算(MAXLv.30)
+⚔️Lv.1強化する度に敵の戦闘力が1〜50増加
+
+【試験報酬】※勝利時
+一次試験(vsハカイオー)
+5/5/5/5 (Max 22/22/22/22)
+😈ごほうびLv.×1の値がランダムに加算
+♥️+5🔥+10🍪-11から-25
+
+二次試験(vsゴジョー)
+7/7/7/7 (Max 24/24/24/24)
+😈ごほうびLv.×2の値がランダムに加算
+♥️+10🔥+20🍪-14から-25
+
+最終試験(vsクーゴ)
+15/15/15/15 (Max 32/32/32/32)
+😈ごほうびLv.×3の値がランダムに加算
+♥️+15
+
+※HP/攻撃/守備/素早さ
+※全加護Lv.1 (全加護Lv.MAX)
+
+天使像はスキルと攻撃力が全くない場合のみ検討。それ以外のメリットなし。
+
 </div>
 
 <div class="tabs__panel" id="tab-panel-skill" role="tabpanel" aria-labelledby="tab-btn-skill" data-tab-panel="skill" hidden>
@@ -140,22 +172,7 @@ Lv.1 +10/Lv.2 +10/Lv.3 +10
 <div class="tabs__panel" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
 💡加護Lv.はトレーニングと試験報酬にボーナス
 ⚠️毎シーズンリセットされます
-加護Lv.1強化につき試験報酬の対応するステータスボーナス+1
 加護Lv.は最大Lv.18(Max+17)
-
-【試験報酬】※勝利時
-一次試験(vsハカイオー)
-5/5/5/5 (Max 22/22/22/22)
-♥️+5🔥+10🍪-11から-25
-二次試験(vsゴジョー)
-7/7/7/7 (Max 24/24/24/24)
-♥️+10🔥+20🍪-14から-25
-最終試験(vsクーゴ)
-15/15/15/15 (Max 32/32/32/32)
-♥️+15
-※HP/攻撃/守備/素早さ
-※全加護Lv.1 (全加護Lv.MAX)
-😈上記ベースに悪魔像のごほうびLv.に応じた数値が加算
 
 【加護Lv.Upに必要な条件】
 Lv.1 🪙100
@@ -177,6 +194,10 @@ Lv.16 ぶる太8
 Lv.17 ぶる太9
 </div>
 
+<div class="tabs__panel" id="tab-panel-boss" role="tabpanel" aria-labelledby="tab-btn-boss" data-tab-panel="boss" hidden>
+（準備中）
+</div>
+
 <div class="tabs__panel" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
 S 251~
 A 218~242
@@ -186,6 +207,7 @@ D 85~119
 E 32~82
 F 0~27
 </div>
+
 </div>
 
 <footer class="footer">
