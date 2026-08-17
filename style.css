@@ -45,6 +45,10 @@ footer {
   color: orange;
 }
 
+.tabs__panel a {
+  color: orange;
+}
+
 .search-bar {
   position: fixed;
   left: 50%;
