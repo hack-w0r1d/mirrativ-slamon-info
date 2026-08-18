@@ -104,6 +104,7 @@ footer {
   cursor: pointer;
   font-size: 12px;
   line-height: 1;
+  touch-action: manipulation;
 }
 
 .search-bar__nav:hover:not(:disabled) {
@@ -116,14 +117,24 @@ footer {
 }
 
 .search-highlight {
-  background: #ffb74d;
+  background: #ffe0b2;
   color: #1a1a1a;
   border-radius: 2px;
 }
 
 .search-highlight--active {
-  background: #ff8f00;
   color: #1a1a1a;
+  border-radius: 2px;
+  animation: search-highlight-blink 1s ease-in-out infinite;
+}
+
+@keyframes search-highlight-blink {
+  0%, 100% {
+    background: #ff8f00;
+  }
+  50% {
+    background: #ffe0b2;
+  }
 }
 
 .tabs__nav {
