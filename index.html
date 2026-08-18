@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.0.6">
+  <link rel="stylesheet" href="style.css?v=0.0.7">
   <title>スラモン攻略メモ</title>
 </head>
 
@@ -35,6 +35,7 @@
 〜 まとめ 〜
 ・基本的には♥️を獲得できる選択肢を選んだほうがいい
 
+♥️ハート🍪メタボ
 🩷HP⚔️攻撃🛡守備💨素早さ
 🔀上記4つのうちランダムに1つ
 
@@ -96,7 +97,7 @@
 レント→引き受け🔥10/練習を優先💨2or🔥-5
 レント→お礼を言う♥️4/中身を聞く⚔️2
 レント→メモ🩷3/実演🔀3or🔥-10
-レント→みんなで食べる♥️4🍪5/ほどほどに
+レント→みんなで食べる♥️4🍪5/ほどほどに♥️2🍪5
 レント→挑戦⚔️-3🛡-3/様子を見る♥️2
 レント→探す♥️3/探させる🔀3
 支配人→決意🔥10/プレッシャー♥️3
@@ -152,6 +153,50 @@ DXいちごパフェ→🔥50🍪80♥️3
 ・ごほうびの効果はランダムな1つのステータスに与えられる
 ・安定した育成には加護Lv.が必要
 
+<div class="exam-calc">
+  <h2 class="exam-calc__title">試験報酬ボーナス計算</h2>
+  <div class="exam-calc__field">
+    <label for="examType">試験の種類</label>
+    <select id="examType">
+      <option value="1">一次試験</option>
+      <option value="2">二次試験</option>
+      <option value="3">最終試験</option>
+    </select>
+  </div>
+  <div class="exam-calc__row">
+    <div class="exam-calc__field">
+      <label for="blessingHp">🩷体力の加護</label>
+      <select id="blessingHp"></select>
+    </div>
+    <div class="exam-calc__field">
+      <label for="blessingAtk">⚔️力の加護</label>
+      <select id="blessingAtk"></select>
+    </div>
+  </div>
+  <div class="exam-calc__row">
+    <div class="exam-calc__field">
+      <label for="blessingDef">🛡️守りの加護</label>
+      <select id="blessingDef"></select>
+    </div>
+    <div class="exam-calc__field">
+      <label for="blessingSpd">💨速さの加護</label>
+      <select id="blessingSpd"></select>
+    </div>
+  </div>
+  <div class="exam-calc__field">
+    <label for="rewardLv">😈ごほうびLv.</label>
+    <select id="rewardLv"></select>
+  </div>
+  <button type="button" id="examCalcBtn" class="exam-calc__btn">計算する</button>
+  <div class="exam-calc__result" id="examCalcResult" hidden>
+    <table class="exam-calc__table">
+      <thead>
+        <tr><th>ごほうび対象</th><th>HP</th><th>攻撃</th><th>守備</th><th>素早さ</th></tr>
+      </thead>
+      <tbody id="examCalcTableBody"></tbody>
+    </table>
+  </div>
+</div>
 👼加護Lv.1強化につき試験報酬時に強化したステータスのボーナス+1(MAX+17)
 😈悪魔像のごほうびLv.に応じた数値がランダムな1つのステータスに加算(MAXLv.30)
 😈ごほうびLv.1強化する度に敵の戦闘力が1〜50増加
@@ -161,6 +206,7 @@ DXいちごパフェ→🔥50🍪80♥️3
 😈ごほうびLv.×1の値がランダムに加算
 +5/+5/+5/+5 (Max +22/+22/+22/+22)
 ♥️+5🔥+10🍪-11から-25
+※敗北時は♥️+2🔥+10🍪-11から-25のみ
 
 二次試験(vsゴジョー)
 😈ごほうびLv.×2の値がランダムに加算
@@ -277,7 +323,7 @@ F 0〜27
   <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
 </div>
 
-<script src="script.js?v=0.0.6"></script>
+<script src="script.js?v=0.0.7"></script>
 
 </body>
 </html>

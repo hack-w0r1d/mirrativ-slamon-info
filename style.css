@@ -159,3 +159,96 @@ footer {
 .tabs__panel {
   white-space: pre-wrap;
 }
+
+.exam-calc {
+  white-space: normal;
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exam-calc__title {
+  margin: 0;
+  font-size: 16px;
+  color: orange;
+}
+
+.exam-calc__field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.exam-calc__field label {
+  font-size: 14px;
+}
+
+.exam-calc__field select {
+  background: #2d2d2d;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+.exam-calc__row {
+  display: flex;
+  gap: 10px;
+}
+
+.exam-calc__row .exam-calc__field {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.exam-calc__row .exam-calc__field select {
+  width: 100%;
+}
+
+.exam-calc__btn {
+  background: orange;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: center;
+}
+
+.exam-calc__btn:hover {
+  background: #ffb74d;
+}
+
+.exam-calc__result {
+  overflow-x: auto;
+}
+
+.exam-calc__table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+.exam-calc__table th,
+.exam-calc__table td {
+  border: 1px solid #444;
+  padding: 6px 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.exam-calc__table th {
+  background: #1a1a1a;
+  color: orange;
+}

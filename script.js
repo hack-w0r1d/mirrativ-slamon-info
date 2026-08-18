@@ -177,3 +177,72 @@
     observer.observe(footer);
   }
 })();
+
+(function () {
+  const examType = document.getElementById('examType');
+  const calcBtn = document.getElementById('examCalcBtn');
+  if (!examType || !calcBtn) return;
+
+  const blessingIds = ['blessingHp', 'blessingAtk', 'blessingDef', 'blessingSpd'];
+  const rewardLv = document.getElementById('rewardLv');
+  const resultBox = document.getElementById('examCalcResult');
+  const tableBody = document.getElementById('examCalcTableBody');
+  const statLabels = ['HP', '攻撃', '守備', '素早さ'];
+
+  const examConfig = {
+    1: { base: 5, multiplier: 1 },
+    2: { base: 7, multiplier: 2 },
+    3: { base: 15, multiplier: 3 },
+  };
+
+  function fillLevelOptions(select, max) {
+    for (let i = 1; i <= max; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i === max ? 'Lv.MAX' : `Lv.${i}`;
+      select.appendChild(opt);
+    }
+  }
+
+  function fillRewardOptions(select, max) {
+    for (let i = 0; i <= max; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = i;
+      select.appendChild(opt);
+    }
+  }
+
+  blessingIds.forEach((id) => fillLevelOptions(document.getElementById(id), 18));
+  fillRewardOptions(rewardLv, 30);
+
+  function calculate() {
+    const config = examConfig[examType.value];
+    const blessingBonuses = blessingIds.map((id) => Number(document.getElementById(id).value) - 1);
+    const rewardBonus = Number(rewardLv.value) * config.multiplier;
+
+    tableBody.innerHTML = '';
+    statLabels.forEach((rewardedLabel, rewardedIndex) => {
+      const row = document.createElement('tr');
+      const nameCell = document.createElement('td');
+      nameCell.textContent = rewardedLabel;
+      row.appendChild(nameCell);
+
+      statLabels.forEach((_, statIndex) => {
+        const cell = document.createElement('td');
+        let value = config.base + blessingBonuses[statIndex];
+        if (statIndex === rewardedIndex) {
+          value += rewardBonus;
+        }
+        cell.textContent = `+${value}`;
+        row.appendChild(cell);
+      });
+
+      tableBody.appendChild(row);
+    });
+
+    resultBox.hidden = false;
+  }
+
+  calcBtn.addEventListener('click', calculate);
+})();
