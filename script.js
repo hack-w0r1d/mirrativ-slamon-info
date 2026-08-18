@@ -216,6 +216,19 @@
   blessingIds.forEach((id) => fillLevelOptions(document.getElementById(id), 18));
   fillRewardOptions(rewardLv, 30);
 
+  const BLESSING_STORAGE_PREFIX = 'examCalc:';
+
+  blessingIds.forEach((id) => {
+    const select = document.getElementById(id);
+    const saved = localStorage.getItem(BLESSING_STORAGE_PREFIX + id);
+    if (saved !== null) {
+      select.value = saved;
+    }
+    select.addEventListener('change', () => {
+      localStorage.setItem(BLESSING_STORAGE_PREFIX + id, select.value);
+    });
+  });
+
   function calculate() {
     const config = examConfig[examType.value];
     const blessingBonuses = blessingIds.map((id) => Number(document.getElementById(id).value) - 1);
