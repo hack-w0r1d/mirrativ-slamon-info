@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.0.9">
+  <link rel="stylesheet" href="style.css?v=0.1.0">
   <title>スラモン攻略メモ</title>
 </head>
 
@@ -260,14 +260,7 @@ DXいちごパフェ→🔥+50🍪+80♥️+3
 Lv.1 +10 / Lv.2 +10 / Lv.3 +10
 
 【各バトルスキルの詳細】
-・ドリルスピン → 通常攻撃の約1.5倍
-・ドクルト → モンスターを毒状態にし、毎ターン行動後最大HPの約1/6ダメージ。ボス討伐においてかなり優秀。2~3回目で発動すれば必ず制限ターン内に決着がつきます。
-・シオシオルト → ボス討伐においてかなり優秀。
-・ナイトメーア → 敵全体に通常攻撃分のダメージ、素早さを下げる
-・バキバキン → 攻撃力2倍
-・ブレブレルト → ボス討伐においてかなり優秀。
-・ユルミノウタ → 相手全員の攻撃力約3/4倍
-・リフレシュ → HP150回復か
+<ul class="skill-detail-list" id="skillDetailList"></ul>
 </div>
 
 <div class="tabs__panel" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
@@ -349,10 +342,11 @@ Lv.MAX
 ボス・ドラニャン 160/89/65/41
 ボス・ぶる太ライダー 150/73/57/59
 ボス・プルドッグ 150/77/29/57
+ボス・フレクー 140/65/65/39 ⚔️475
 ボス・ベルチャ 120/77/61/41
 ボス・マホビット 150/69/53/41
 ボス・ミラナイト 110/77/53/35
-ボス。ヤミクマ 200/89/73/39
+ボス・ヤミクマ 200/89/73/39
 ボス・ユーベェ 90/81/61/55
 ボス・ライアード 150/81/61/49
 ボス・ルトペン 170/89/41/31
@@ -367,6 +361,7 @@ Lv.MAX
 メガ・ぶる太ライダー 225/102/78/108
 メガ・フレクー 210/90/90/68
 メガ・モケマル 255/90/78/80
+メガ・ヤミクマ 300/114/98/68
 メガ・ユーベェ 135/106/86/100
 メガ・ライアード 225/106/86/88
 メガ・ルトペン 255/114/66/52
@@ -410,7 +405,8 @@ F 0 〜 27
   <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
 </div>
 
-<script src="script.js?v=0.0.9"></script>
+<script src="skillData.js?v=0.1.0"></script>
+<script src="script.js?v=0.1.0"></script>
 
 </body>
 </html>

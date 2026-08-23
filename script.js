@@ -1,4 +1,20 @@
 (function () {
+  const skillListEl = document.getElementById('skillDetailList');
+  if (!skillListEl || typeof SKILL_DATA === 'undefined') return;
+
+  const sortedSkills = [...SKILL_DATA].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+
+  sortedSkills.forEach((skill) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `skill.html?name=${encodeURIComponent(skill.name)}`;
+    a.textContent = skill.name;
+    li.appendChild(a);
+    skillListEl.appendChild(li);
+  });
+})();
+
+(function () {
   const searchScope = document.getElementById('tab-panel-event');
   const searchInput = document.getElementById('searchInput');
   const searchCount = document.getElementById('searchCount');
@@ -175,6 +191,24 @@
       { threshold: 0 }
     );
     observer.observe(footer);
+  }
+
+  const deepLinkParams = new URLSearchParams(window.location.search);
+  const deepLinkTab = deepLinkParams.get('tab');
+  const deepLinkSkill = deepLinkParams.get('skill');
+
+  if (deepLinkTab) {
+    switchTab(deepLinkTab);
+  }
+
+  if (deepLinkSkill) {
+    const skillLinks = document.querySelectorAll('#tab-panel-skill a[href^="skill.html?name="]');
+    skillLinks.forEach((link) => {
+      const linkParams = new URLSearchParams(link.getAttribute('href').split('?')[1]);
+      if (linkParams.get('name') === deepLinkSkill) {
+        link.scrollIntoView({ block: 'center' });
+      }
+    });
   }
 })();
 

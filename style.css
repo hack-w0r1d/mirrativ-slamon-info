@@ -37,6 +37,20 @@ footer {
   padding: 20px;
 }
 
+.skill-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 12px;
+}
+
+.skill-heart-cost {
+  font-size: 14px;
+  color: #ccc;
+  white-space: nowrap;
+}
+
 .back-link {
   color: orange;
 }
@@ -169,6 +183,16 @@ footer {
 
 .tabs__panel {
   white-space: pre-wrap;
+}
+
+.skill-detail-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skill-detail-list li::before {
+  content: '・';
 }
 
 .exam-calc {
