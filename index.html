@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.1.0">
+  <link rel="stylesheet" href="style.css?v=0.1.1">
   <title>スラモン攻略メモ</title>
 </head>
 
@@ -35,11 +35,14 @@
 〜 まとめ 〜
 ・基本的には♥️を獲得できる選択肢を選んだほうが良さそうです
 
+<div class="exam-calc__field exam-calc__field--plain">
+  <label for="eventTrainingTargetMonster">育成モンスター</label>
+  <select id="eventTrainingTargetMonster"></select>
+</div>
 【各絵文字の意味】
 ♥️ハート🍪メタボ
-🩷HP⚔️攻撃🛡守備💨素早さ
-🔀上記4つのうちランダムに1つ
-※選択肢によってはモンスターによって+されるステータスが決まっている可能性がありますが、確定するまでは🔀で表示します。
+<span id="eventStatEmojiLine">🩷HP⚔️攻撃🛡守備💨素早さ</span>
+<span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span>
 
 【選択イベント一覧】
 青空 → 外🍪-3 / 日向ぼっこ♥️+3
@@ -167,6 +170,10 @@ DXいちごパフェ→🔥+50🍪+80♥️+3
 
 <div class="exam-calc">
   <h2 class="exam-calc__title">試験報酬ボーナス計算</h2>
+  <div class="exam-calc__field">
+    <label for="trainingTargetMonster">育成モンスター</label>
+    <select id="trainingTargetMonster"></select>
+  </div>
   <div class="exam-calc__field">
     <label for="examType">試験の種類</label>
     <select id="examType">
@@ -405,8 +412,10 @@ F 0 〜 27
   <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
 </div>
 
-<script src="skillData.js?v=0.1.0"></script>
-<script src="script.js?v=0.1.0"></script>
+<script src="skillData.js?v=0.1.1"></script>
+<script src="trainerData.js?v=0.1.1"></script>
+<script src="monsterData.js?v=0.1.1"></script>
+<script src="script.js?v=0.1.1"></script>
 
 </body>
 </html>

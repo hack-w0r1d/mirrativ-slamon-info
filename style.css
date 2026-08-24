@@ -224,6 +224,10 @@ footer {
   font-size: 14px;
 }
 
+.exam-calc__field--plain label {
+  font-size: 16px;
+}
+
 .exam-calc__field select {
   background: #2d2d2d;
   color: #fff;

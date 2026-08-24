@@ -177,7 +177,10 @@
   }
 
   tabButtons.forEach((btn) => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    btn.addEventListener('click', () => {
+      switchTab(btn.dataset.tab);
+      history.replaceState(null, '', window.location.pathname);
+    });
   });
 
   if (footer) {
@@ -213,15 +216,77 @@
 })();
 
 (function () {
+  const trainingTargetMonsterSelects = [
+    document.getElementById('trainingTargetMonster'),
+    document.getElementById('eventTrainingTargetMonster'),
+  ].filter(Boolean);
+  if (trainingTargetMonsterSelects.length === 0 || typeof MONSTER_DATA === 'undefined') return;
+
+  const statEmojiEl = document.getElementById('eventStatEmojiLine');
+  const statRandomEl = document.getElementById('eventStatRandomLine');
+  const statUnchangedEl = document.getElementById('eventStatUnchangedLine');
+  const statInfo = [
+    { key: 'hp', text: '🩷HP' },
+    { key: 'atk', text: '⚔️攻撃' },
+    { key: 'def', text: '🛡守備' },
+    { key: 'spd', text: '💨素早さ' },
+  ];
+  const TRAINING_TARGET_MONSTER_STORAGE_KEY = 'trainingTargetMonster';
+
+  trainingTargetMonsterSelects.forEach((select) => {
+    MONSTER_DATA.forEach((monster) => {
+      const opt = document.createElement('option');
+      opt.value = monster.name;
+      opt.textContent = monster.name;
+      select.appendChild(opt);
+    });
+  });
+
+  function updateLegend(value) {
+    if (!statEmojiEl || !statRandomEl || typeof TRAINER_DATA === 'undefined') return;
+    const trainer = TRAINER_DATA.find((t) => t.name === value);
+    const growth = trainer ? trainer.growth : null;
+    const shown = growth ? statInfo.filter((s) => growth[s.key] !== 0) : statInfo;
+    const unchanged = growth ? statInfo.filter((s) => growth[s.key] === 0) : [];
+    statEmojiEl.textContent = shown.map((s) => s.text).join('');
+    statRandomEl.textContent = `🔀上記${shown.length}つのうちランダムに1つ`;
+    if (statUnchangedEl) {
+      statUnchangedEl.textContent = unchanged.length > 0
+        ? `\n(${unchanged.map((s) => s.text).join('と')}は変化しません)`
+        : '';
+    }
+  }
+
+  function applyTrainingTargetMonster(value, save) {
+    trainingTargetMonsterSelects.forEach((select) => {
+      if (select.value !== value) select.value = value;
+    });
+    updateLegend(value);
+    if (save) {
+      localStorage.setItem(TRAINING_TARGET_MONSTER_STORAGE_KEY, value);
+    }
+  }
+
+  const savedTrainingTargetMonster = localStorage.getItem(TRAINING_TARGET_MONSTER_STORAGE_KEY);
+  applyTrainingTargetMonster(savedTrainingTargetMonster || trainingTargetMonsterSelects[0].value, false);
+
+  trainingTargetMonsterSelects.forEach((select) => {
+    select.addEventListener('change', () => applyTrainingTargetMonster(select.value, true));
+  });
+})();
+
+(function () {
   const examType = document.getElementById('examType');
+  const trainingTargetMonster = document.getElementById('trainingTargetMonster');
   const calcBtn = document.getElementById('examCalcBtn');
-  if (!examType || !calcBtn) return;
+  if (!examType || !trainingTargetMonster || !calcBtn) return;
 
   const blessingIds = ['blessingHp', 'blessingAtk', 'blessingDef', 'blessingSpd'];
   const rewardLv = document.getElementById('rewardLv');
   const resultBox = document.getElementById('examCalcResult');
   const tableBody = document.getElementById('examCalcTableBody');
   const statLabels = ['HP', '攻撃', '守備', '素早さ'];
+  const statKeys = ['hp', 'atk', 'def', 'spd'];
 
   const examConfig = {
     1: { base: 5, multiplier: 1 },
@@ -263,13 +328,22 @@
     });
   });
 
+  function getTrainerGrowth() {
+    if (typeof TRAINER_DATA === 'undefined') return null;
+    const trainer = TRAINER_DATA.find((t) => t.name === trainingTargetMonster.value);
+    return trainer ? trainer.growth : null;
+  }
+
   function calculate() {
     const config = examConfig[examType.value];
     const blessingBonuses = blessingIds.map((id) => Number(document.getElementById(id).value) - 1);
     const rewardBonus = Number(rewardLv.value) * config.multiplier;
+    const growth = getTrainerGrowth();
 
     tableBody.innerHTML = '';
     statLabels.forEach((rewardedLabel, rewardedIndex) => {
+      if (growth && growth[statKeys[rewardedIndex]] === 0) return;
+
       const row = document.createElement('tr');
       const nameCell = document.createElement('td');
       nameCell.textContent = rewardedLabel;

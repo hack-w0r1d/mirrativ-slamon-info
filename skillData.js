@@ -1,13 +1,23 @@
 const SKILL_DATA = [
   {
+    name: 'ファイーア',
+    heartCost: 10,
+    description: '相手1体に炎の魔法攻撃。「ギガファイーア」に進化可能。',
+  },
+  {
+    name: 'ギガファイーア',
+    heartCost: 30,
+    description: '「ファイーア」から進化。相手1体に炎の魔法攻撃。',
+  },
+  {
     name: 'サンーダ',
     heartCost: 10,
-    description: '雷の魔法攻撃。HPが高い時に発動確率が上がる。「ギガサンーダ」に進化可能。',
+    description: '相手1体に雷の魔法攻撃。HPが高い時に発動確率が上がる。「ギガサンーダ」に進化可能。',
   },
   {
     name: 'ギガサンーダ',
     heartCost: 30,
-    description: '「サンーダ」から進化。雷の魔法攻撃。HPが高い時に発動確率が上がる。',
+    description: '「サンーダ」から進化。相手1体に雷の魔法攻撃。HPが高い時に発動確率が上がる。',
   },
   {
     name: 'するどいキバ',
@@ -23,6 +33,11 @@ const SKILL_DATA = [
     name: 'ドリルスピン',
     heartCost: null,
     description: '通常攻撃の約1.5倍',
+  },
+  {
+    name: 'リフレシュ',
+    heartCost: 10,
+    description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能',
   },
   {
     name: 'ムキムキン',
@@ -163,10 +178,5 @@ const SKILL_DATA = [
     name: 'ユルミノウタ',
     heartCost: null,
     description: '相手全員の攻撃力約3/4倍',
-  },
-  {
-    name: 'リフレシュ',
-    heartCost: null,
-    description: 'HP150回復か',
   },
 ];
