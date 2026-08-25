@@ -1,5 +1,10 @@
 const SKILL_DATA = [
   {
+    name: 'つきくずし',
+    heartCost: 20,
+    description: 'モンスター1体にダメージを与えつつ、攻撃力を少し下げる。',
+  },
+  {
     name: 'ファイーア',
     heartCost: 10,
     description: '相手1体に炎の魔法攻撃。「ギガファイーア」に進化可能。',
@@ -78,6 +83,16 @@ const SKILL_DATA = [
     name: 'バチバチン',
     heartCost: 30,
     description: '「ピタピタン」から進化。命中率をかなり上げる。',
+  },
+  {
+    name: 'ズバズバン',
+    heartCost: 10,
+    description: 'クリティカル率を上げる。「ズドズドン」に進化可能。',
+  },
+  {
+    name: 'ズドズドン',
+    heartCost: 30,
+    description: '「ズバズバン」から進化。クリティカル率をかなり上げる。',
   },
   {
     name: 'フニャムキン',
