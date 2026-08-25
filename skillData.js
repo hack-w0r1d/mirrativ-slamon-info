@@ -27,7 +27,7 @@ const SKILL_DATA = [
   {
     name: 'するどいキバ',
     heartCost: 15,
-    description: '相手1体に強力な攻撃。',
+    description: '相手1体に攻撃力を1.5倍にして攻撃。',
   },
   {
     name: 'おしつぶし',
@@ -62,7 +62,7 @@ const SKILL_DATA = [
   {
     name: 'ガチガチン',
     heartCost: 30,
-    description: '「カチコチン」から進化。守備力をかなり上げる。',
+    description: '「カチコチン」から進化。守備力を大きく上げる。',
   },
   {
     name: 'キビキビン',
@@ -72,7 +72,7 @@ const SKILL_DATA = [
   {
     name: 'シュビシュビン',
     heartCost: 30,
-    description: '「キビキビン」から進化。素早さをかなり上げる。',
+    description: '「キビキビン」から進化。素早さを大きく上げる。',
   },
   {
     name: 'ピタピタン',
@@ -82,7 +82,7 @@ const SKILL_DATA = [
   {
     name: 'バチバチン',
     heartCost: 30,
-    description: '「ピタピタン」から進化。命中率をかなり上げる。',
+    description: '「ピタピタン」から進化。命中率を大きく上げる。',
   },
   {
     name: 'ズバズバン',
@@ -92,7 +92,7 @@ const SKILL_DATA = [
   {
     name: 'ズドズドン',
     heartCost: 30,
-    description: '「ズバズバン」から進化。クリティカル率をかなり上げる。',
+    description: '「ズバズバン」から進化。クリティカル率を大きく上げる。',
   },
   {
     name: 'フニャムキン',
@@ -107,7 +107,7 @@ const SKILL_DATA = [
   {
     name: 'ブヨブヨン',
     heartCost: 30,
-    description: '「ポヨポヨン」から進化。魔法守備力をかなり上げる。',
+    description: '「ポヨポヨン」から進化。魔法守備力を大きく上げる。',
   },
   {
     name: 'カシコイン',
@@ -117,7 +117,7 @@ const SKILL_DATA = [
   {
     name: 'インテリン',
     heartCost: 30,
-    description: '「カシコイン」から進化。魔法攻撃力をかなり上げる。',
+    description: '「カシコイン」から進化。魔法攻撃力を大きく上げる。',
   },
   {
     name: 'フニャルト',
@@ -127,7 +127,7 @@ const SKILL_DATA = [
   {
     name: 'フニャフニャルト',
     heartCost: 30,
-    description: '「フニャルト」から進化。相手1体の守備力をかなり下げる。',
+    description: '「フニャルト」から進化。相手1体の守備力を大きく下げる。',
   },
   {
     name: 'シオルト',
@@ -137,7 +137,7 @@ const SKILL_DATA = [
   {
     name: 'シオシオルト',
     heartCost: 30,
-    description: '「シオルト」から進化。相手1体の攻撃力をかなり下げる。討伐戦においてかなり優秀。',
+    description: '「シオルト」から進化。相手1体の攻撃力を半分にする。討伐戦においてかなり優秀。',
   },
   {
     name: 'オソルト',
@@ -147,7 +147,7 @@ const SKILL_DATA = [
   {
     name: 'オソオソルト',
     heartCost: 30,
-    description: '「オソルト」から進化。相手1体の素早さをかなり下げる。',
+    description: '「オソルト」から進化。相手1体の素早さを大きく下げる。',
   },
   {
     name: 'ブレルト',
@@ -157,7 +157,7 @@ const SKILL_DATA = [
   {
     name: 'ブレブレルト',
     heartCost: 30,
-    description: '「ブレルト」から進化。相手1体の命中率をかなり下げる。討伐戦においてかなり優秀。',
+    description: '「ブレルト」から進化。相手1体の命中率を大きく下げる。討伐戦においてかなり優秀。',
   },
   {
     name: 'ポヤルト',
@@ -167,7 +167,7 @@ const SKILL_DATA = [
   {
     name: 'ポヤポヤルト',
     heartCost: 30,
-    description: '「ポヤルト」から進化。相手1体の魔法攻撃力をかなり下げる。',
+    description: '「ポヤルト」から進化。相手1体の魔法攻撃力を大きく下げる。',
   },
   {
     name: 'カサルト',
@@ -177,7 +177,7 @@ const SKILL_DATA = [
   {
     name: 'カサカサルト',
     heartCost: 30,
-    description: '「カサルト」から進化。相手1体の魔法守備力をかなり下げる。',
+    description: '「カサルト」から進化。相手1体の魔法守備力を大きく下げる。',
   },
   {
     name: 'ドクルト',
