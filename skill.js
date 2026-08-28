@@ -11,6 +11,7 @@
 
   const nameEl = document.getElementById('skillName');
   const descEl = document.getElementById('skillDescription');
+  const typeEl = document.getElementById('skillType');
 	const heartCostEl = document.getElementById('skillHeartCost');
   const listEl = document.getElementById('skillMonsterList');
 
@@ -23,6 +24,7 @@
 
   nameEl.textContent = skill.name;
   descEl.textContent = skill.description;
+  typeEl.textContent = skill.type ? `種類：${skill.type}` : '';
 	heartCostEl.textContent = typeof skill.heartCost === 'number'
   ? `❤️${skill.heartCost}`
   : '❤️-';
