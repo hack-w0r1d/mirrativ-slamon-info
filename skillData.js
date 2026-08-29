@@ -2,26 +2,32 @@ const SKILL_DATA = [
   {
     name: 'ガオガオスラッシュ',
     heartCost: null,
-    type: 'その他',
+    type: '攻撃スキル',
     description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
+  },
+  {
+    name: 'だいちのいかり',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: 'モンスター1体に大ダメージ。',
   },
   {
     name: 'つきくずし',
     heartCost: 20,
-    type: 'その他',
+    type: '攻撃スキル',
     description: 'モンスター1体にダメージを与えつつ、攻撃力を少し下げる。',
-  },
-  {
-    name: 'ナイトメーア',
-    heartCost: 20,
-    type: 'その他',
-    description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
   },
   {
     name: 'ユルミノウタ',
     heartCost: 20,
     type: 'デバフスキル',
     description: '相手全員の攻撃力約3/4倍',
+  },
+  {
+    name: 'ナイトメーア',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
   },
   {
     name: 'アイース',
@@ -62,13 +68,13 @@ const SKILL_DATA = [
   {
     name: 'するどいキバ',
     heartCost: 15,
-    type: 'その他',
+    type: '攻撃スキル',
     description: '相手1体に攻撃力を1.5倍にして攻撃。',
   },
   {
     name: 'おしつぶし',
     heartCost: 15,
-    type: 'その他',
+    type: '攻撃スキル',
     description: '相手1体にかなり強力な攻撃。HPが低い時発動確率が上がる。',
   },
   {
@@ -84,28 +90,28 @@ const SKILL_DATA = [
     description: '相手1体を数ターンこんらん状態にする。こんらん状態のモンスターは一定の確率で自分自身を攻撃する。',
   },
   {
-    name: 'ドクルト',
-    heartCost: 20,
-    type: '状態異常',
-    description: 'モンスターを毒状態にし、毎ターン行動後最大HPの約1/6ダメージ。ボス討伐においてかなり優秀。2~3回目で発動すれば必ず制限ターン内に決着がつきます。',
-  },
-  {
     name: 'ドリルスピン',
     heartCost: null,
-    type: 'その他',
+    type: '攻撃スキル',
     description: '通常攻撃の約1.5倍',
   },
   {
     name: 'リフレシュ',
     heartCost: 10,
-    type: 'その他',
+    type: '回復',
     description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能。',
   },
   {
     name: 'チョーリフレシュ',
     heartCost: 30,
-    type: 'その他',
+    type: '回復',
     description: '「リフレシュ」から進化。自分のHPを209~?回復。',
+  },
+  {
+    name: 'ドクルト',
+    heartCost: 20,
+    type: '状態異常',
+    description: 'モンスターを毒状態にし、毎ターン行動後最大HPの約1/6ダメージ。ボス討伐においてかなり優秀。2~3回目で発動すれば必ず制限ターン内に決着がつきます。',
   },
   {
     name: 'ムキムキン',
