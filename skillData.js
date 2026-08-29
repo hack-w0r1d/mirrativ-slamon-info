@@ -13,7 +13,7 @@ const SKILL_DATA = [
   },
   {
     name: 'ナイトメーア',
-    heartCost: null,
+    heartCost: 20,
     type: 'その他',
     description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
   },
@@ -99,7 +99,13 @@ const SKILL_DATA = [
     name: 'リフレシュ',
     heartCost: 10,
     type: 'その他',
-    description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能',
+    description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能。',
+  },
+  {
+    name: 'チョーリフレシュ',
+    heartCost: 30,
+    type: 'その他',
+    description: '「リフレシュ」から進化。自分のHPを209~?回復。',
   },
   {
     name: 'ムキムキン',
