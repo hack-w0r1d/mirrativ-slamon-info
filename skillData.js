@@ -24,22 +24,22 @@ const SKILL_DATA = [
     description: '相手全員の攻撃力約3/4倍',
   },
   {
+    name: 'カナシバルト',
+    heartCost: null,
+    type: 'その他',
+    description: 'ダメージを与えつつしびれ状態にする。しびれ状態のモンスターは1~3ターンの間、行動不能になる。',
+  },
+  {
     name: 'ナイトメーア',
     heartCost: 20,
     type: '攻撃スキル',
     description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
   },
   {
-    name: 'アイース',
-    heartCost: 10,
+    name: 'ハナカグラ',
+    heartCost: 20,
     type: '魔法攻撃',
-    description: '相手1体に氷の魔法攻撃。HPが低い時に発動確率が上がる。「ギガアイース」に進化可能。',
-  },
-  {
-    name: 'ギガアイース',
-    heartCost: 30,
-    type: '魔法攻撃',
-    description: '「アイース」から進化。HPが低い時に発動確率が上がる。相手1体に氷の魔法攻撃。',
+    description: '相手1体に花びらの弾で攻撃。魔法に弱いモンスターに大ダメージ。',
   },
   {
     name: 'ファイーア',
@@ -52,6 +52,18 @@ const SKILL_DATA = [
     heartCost: 30,
     type: '魔法攻撃',
     description: '「ファイーア」から進化。相手1体に炎の魔法攻撃。',
+  },
+  {
+    name: 'アイース',
+    heartCost: 10,
+    type: '魔法攻撃',
+    description: '相手1体に氷の魔法攻撃。HPが低い時に発動確率が上がる。「ギガアイース」に進化可能。',
+  },
+  {
+    name: 'ギガアイース',
+    heartCost: 30,
+    type: '魔法攻撃',
+    description: '「アイース」から進化。HPが低い時に発動確率が上がる。相手1体に氷の魔法攻撃。',
   },
   {
     name: 'サンーダ',
@@ -84,18 +96,6 @@ const SKILL_DATA = [
     description: '相手1体をしびれ状態にする。しびれ状態のモンスターは行動不能になる。',
   },
   {
-    name: 'ピヨルト',
-    heartCost: 20,
-    type: 'その他',
-    description: '相手1体を数ターンこんらん状態にする。こんらん状態のモンスターは一定の確率で自分自身を攻撃する。',
-  },
-  {
-    name: 'ドリルスピン',
-    heartCost: null,
-    type: '攻撃スキル',
-    description: '通常攻撃の約1.5倍',
-  },
-  {
     name: 'リフレシュ',
     heartCost: 10,
     type: '回復',
@@ -106,6 +106,18 @@ const SKILL_DATA = [
     heartCost: 30,
     type: '回復',
     description: '「リフレシュ」から進化。自分のHPを209~?回復。',
+  },
+  {
+    name: 'ピヨルト',
+    heartCost: 20,
+    type: 'その他',
+    description: '相手1体を数ターンこんらん状態にする。こんらん状態のモンスターは一定の確率で自分自身を攻撃する。',
+  },
+  {
+    name: 'ドリルスピン',
+    heartCost: null,
+    type: '攻撃スキル',
+    description: '通常攻撃の約1.5倍',
   },
   {
     name: 'ドクルト',
