@@ -43,8 +43,8 @@ const SKILL_DATA = [
   },
   {
     name: 'カナシバルト',
-    heartCost: null,
-    type: 'その他',
+    heartCost: 20,
+    type: '状態異常',
     description: 'ダメージを与えつつしびれ状態にする。しびれ状態のモンスターは1~3ターンの間、行動不能になる。',
   },
   {
@@ -117,7 +117,7 @@ const SKILL_DATA = [
     name: 'シビルト',
     heartCost: 20,
     type: '状態異常',
-    description: '相手1体をしびれ状態にする。しびれ状態のモンスターは行動不能になる。',
+    description: '相手1体をしびれ状態にする。しびれ状態のモンスターは1~3ターンの間行動不能になる。',
   },
   {
     name: 'リフレシュ',
@@ -134,7 +134,7 @@ const SKILL_DATA = [
   {
     name: 'ピヨルト',
     heartCost: 20,
-    type: 'その他',
+    type: '状態異常',
     description: '相手1体を数ターンこんらん状態にする。こんらん状態のモンスターは一定の確率で自分自身を攻撃する。',
   },
   {
