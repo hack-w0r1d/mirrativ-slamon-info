@@ -36,6 +36,12 @@ const SKILL_DATA = [
     description: '相手全員の攻撃力約3/4倍',
   },
   {
+    name: 'おやつのじかん',
+    heartCost: 20,
+    type: '回復',
+    description: '自分のHPを45回復し、攻撃力を少し上げる。',
+  },
+  {
     name: 'カナシバルト',
     heartCost: null,
     type: 'その他',
