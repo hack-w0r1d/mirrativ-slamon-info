@@ -12,6 +12,12 @@ const SKILL_DATA = [
     description: '最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
   },
   {
+    name: 'カチムキン',
+    heartCost: 20,
+    type: 'バフスキル',
+    description: '自分の攻撃力と守備力を少し上げる。',
+  },
+  {
     name: 'だいちのいかり',
     heartCost: 20,
     type: '攻撃スキル',
