@@ -36,6 +36,12 @@ const SKILL_DATA = [
     description: '相手全員の攻撃力約3/4倍',
   },
   {
+    name: 'ニャンニャンドレイン',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
+  },
+  {
     name: 'おやつのじかん',
     heartCost: 20,
     type: '回復',
