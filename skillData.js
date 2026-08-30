@@ -6,6 +6,12 @@ const SKILL_DATA = [
     description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
   },
   {
+    name: 'モード・バリア',
+    heartCost: 20,
+    type: 'バフスキル',
+    description: '最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
+  },
+  {
     name: 'だいちのいかり',
     heartCost: 20,
     type: '攻撃スキル',
@@ -84,6 +90,12 @@ const SKILL_DATA = [
     description: '相手1体に攻撃力を1.5倍にして攻撃。',
   },
   {
+    name: 'ドリルスピン',
+    heartCost: null,
+    type: '攻撃スキル',
+    description: '通常攻撃の約1.5倍',
+  },
+  {
     name: 'おしつぶし',
     heartCost: 15,
     type: '攻撃スキル',
@@ -112,12 +124,6 @@ const SKILL_DATA = [
     heartCost: 20,
     type: 'その他',
     description: '相手1体を数ターンこんらん状態にする。こんらん状態のモンスターは一定の確率で自分自身を攻撃する。',
-  },
-  {
-    name: 'ドリルスピン',
-    heartCost: null,
-    type: '攻撃スキル',
-    description: '通常攻撃の約1.5倍',
   },
   {
     name: 'ドクルト',
