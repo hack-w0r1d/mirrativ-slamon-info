@@ -13,35 +13,6 @@ body {
   flex-direction: column;
 }
 
-.ticker {
-  overflow: hidden;
-  white-space: nowrap;
-  background: #ffe0e0;
-  color: red;
-  padding: 8px 0;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.ticker__track {
-  display: inline-flex;
-  width: max-content;
-  animation: ticker-scroll 20s linear infinite;
-}
-
-.ticker__text {
-  padding-right: 60px;
-}
-
-@keyframes ticker-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 h1 {
   font-size: 26px;
 }
