@@ -9,7 +9,7 @@ const SKILL_DATA = [
     name: 'モード・バリア',
     heartCost: 20,
     type: 'バフスキル',
-    description: '最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
+    description: 'HPが3/4以上ある時、最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
   },
   {
     name: 'カチムキン',
