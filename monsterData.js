@@ -314,6 +314,12 @@ const MONSTER_DATA = [
     ],
   },
   {
+    name: 'ミミロット',
+    stats: { hp: 12, atk:14, def: 7, spd: 33 },
+    target: '',
+    skills: [],
+  },
+  {
     name: 'ミラナイト',
     stats: { hp: 11, atk: 20, def: 11, spd: 5 },
     target: 'とどめ狙い',
@@ -429,12 +435,6 @@ const MONSTER_DATA = [
       'ポヤルト',
       'カサルト',
     ],
-  },
-  {
-    name: 'ラフリィ',
-    stats: { hp: 0, atk: 0, def: 0, spd: 0 },
-    target: '',
-    skills: [],
   },
   {
     name: 'ルトペン',
