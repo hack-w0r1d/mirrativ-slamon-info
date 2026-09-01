@@ -135,7 +135,7 @@ const SKILL_DATA = [
     name: 'おしつぶし',
     heartCost: 15,
     type: '攻撃スキル',
-    description: '相手1体にかなり強力な攻撃。HPが低い時発動確率が上がる。',
+    description: '相手1体に元々の攻撃力を約2倍にして攻撃。HPが低い時発動確率が上がる。',
   },
   {
     name: 'シビルト',
