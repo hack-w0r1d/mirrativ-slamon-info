@@ -26,7 +26,7 @@ const SKILL_DATA = [
   {
     name: 'おやつのじかん',
     heartCost: 20,
-    type: '回復',
+    type: '回復・カウンター',
     description: '自分のHPを45回復し、攻撃力を少し上げる。',
   },
   {
@@ -64,6 +64,12 @@ const SKILL_DATA = [
     heartCost: 20,
     type: '攻撃スキル',
     description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
+  },
+  {
+    name: 'ぷるぷるカウンター',
+    heartCost: 20,
+    type: '回復・カウンター',
+    description: '相手の攻撃を跳ね返す「ぷるぷるカウンター状態」になる。魔法攻撃やスキルは跳ね返せない。',
   },
   {
     name: 'ハナカグラ',
@@ -140,13 +146,13 @@ const SKILL_DATA = [
   {
     name: 'リフレシュ',
     heartCost: 10,
-    type: '回復',
+    type: '回復・カウンター',
     description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能。',
   },
   {
     name: 'チョーリフレシュ',
     heartCost: 30,
-    type: '回復',
+    type: '回復・カウンター',
     description: '「リフレシュ」から進化。自分のHPを209~?回復。',
   },
   {
