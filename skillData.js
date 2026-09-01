@@ -66,6 +66,12 @@ const SKILL_DATA = [
     description: '相手1体に花びらの弾で攻撃。魔法に弱いモンスターに大ダメージ。',
   },
   {
+    name: 'ダウナースロット',
+    heartCost: 20,
+    type: 'その他',
+    description: '相手1体のいずれかの能力を下げるか、いずれかの状態異常にする。',
+  },
+  {
     name: 'ファイーア',
     heartCost: 10,
     type: '魔法攻撃',
