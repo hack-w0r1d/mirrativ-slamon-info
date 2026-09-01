@@ -1,51 +1,9 @@
 const SKILL_DATA = [
   {
-    name: 'ガオガオスラッシュ',
-    heartCost: null,
-    type: '攻撃スキル',
-    description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
-  },
-  {
-    name: 'モード・バリア',
-    heartCost: 20,
-    type: 'バフスキル',
-    description: 'HPが3/4以上ある時、最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
-  },
-  {
     name: 'カチムキン',
     heartCost: 20,
     type: 'バフスキル',
     description: '自分の攻撃力と守備力を少し上げる。',
-  },
-  {
-    name: 'だいちのいかり',
-    heartCost: 20,
-    type: '攻撃スキル',
-    description: 'モンスター1体に大ダメージ。',
-  },
-  {
-    name: 'つきくずし',
-    heartCost: 20,
-    type: '攻撃スキル',
-    description: 'モンスター1体にダメージを与えつつ、攻撃力を少し下げる。',
-  },
-  {
-    name: 'ユルミノウタ',
-    heartCost: 20,
-    type: 'デバフスキル',
-    description: '相手全員の攻撃力約3/4倍',
-  },
-  {
-    name: 'ニャンニャンドレイン',
-    heartCost: 20,
-    type: '攻撃スキル',
-    description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
-  },
-  {
-    name: 'おやつのじかん',
-    heartCost: 20,
-    type: '回復',
-    description: '自分のHPを45回復し、攻撃力を少し上げる。',
   },
   {
     name: 'カナシバルト',
@@ -54,10 +12,52 @@ const SKILL_DATA = [
     description: 'ダメージを与えつつしびれ状態にする。しびれ状態のモンスターは1~3ターンの間、行動不能になる。',
   },
   {
+    name: 'モード・バリア',
+    heartCost: 20,
+    type: 'バフスキル',
+    description: 'HPが3/4以上ある時、最大HPの半分のダメージを受け、自分の守備力を大きく上げる。',
+  },
+  {
+    name: 'おやつのじかん',
+    heartCost: 20,
+    type: '回復',
+    description: '自分のHPを45回復し、攻撃力を少し上げる。',
+  },
+  {
+    name: 'だいちのいかり',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: 'モンスター1体に大ダメージ。',
+  },
+  {
+    name: 'ユルミノウタ',
+    heartCost: 20,
+    type: 'デバフスキル',
+    description: '相手全員の攻撃力約3/4倍',
+  },
+  {
+    name: 'つきくずし',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: 'モンスター1体にダメージを与えつつ、攻撃力を少し下げる。',
+  },
+  {
+    name: 'ガオガオスラッシュ',
+    heartCost: null,
+    type: '攻撃スキル',
+    description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
+  },
+  {
     name: 'ナイトメーア',
     heartCost: 20,
     type: '攻撃スキル',
     description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
+  },
+  {
+    name: 'ニャンニャンドレイン',
+    heartCost: 20,
+    type: '攻撃スキル',
+    description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
   },
   {
     name: 'ハナカグラ',
@@ -115,7 +115,7 @@ const SKILL_DATA = [
   },
   {
     name: 'ドリルスピン',
-    heartCost: null,
+    heartCost: 15,
     type: '攻撃スキル',
     description: '通常攻撃の約1.5倍',
   },
