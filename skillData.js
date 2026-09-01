@@ -1,5 +1,11 @@
 const SKILL_DATA = [
   {
+    name: 'フニャリズム',
+    heartCost: 20,
+    type: 'デバフスキル',
+    description: '相手全員の守備力を大きく下げる。',
+  },
+  {
     name: 'カチムキン',
     heartCost: 20,
     type: 'バフスキル',
@@ -68,7 +74,7 @@ const SKILL_DATA = [
   {
     name: 'ダウナースロット',
     heartCost: 20,
-    type: 'その他',
+    type: 'デバフスキル',
     description: '相手1体のいずれかの能力を下げるか、いずれかの状態異常にする。',
   },
   {
