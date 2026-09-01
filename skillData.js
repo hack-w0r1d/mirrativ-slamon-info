@@ -49,7 +49,7 @@ const SKILL_DATA = [
   },
   {
     name: 'ガオガオスラッシュ',
-    heartCost: null,
+    heartCost: 20,
     type: '攻撃スキル',
     description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
   },
