@@ -431,6 +431,12 @@ const MONSTER_DATA = [
     ],
   },
   {
+    name: 'ラフリィ',
+    stats: { hp: 0, atk: 0, def: 0, spd: 0 },
+    target: '',
+    skills: [],
+  },
+  {
     name: 'ルトペン',
     stats: { hp: 17, atk: 16, def: 4, spd: 3 },
     target: '魔導師狙い',
