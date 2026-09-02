@@ -1,16 +1,44 @@
 (function () {
-  const skillListEl = document.getElementById('skillDetailList');
-  if (!skillListEl || typeof SKILL_DATA === 'undefined') return;
+  const groupsEl = document.getElementById('skillGroups');
+  if (!groupsEl || typeof SKILL_DATA === 'undefined') return;
 
-  const sortedSkills = [...SKILL_DATA].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+  const SKILL_TYPE_ORDER = ['物理攻撃', '魔法攻撃', 'バフスキル', 'デバフスキル', '状態異常', '回復・カウンター'];
 
-  sortedSkills.forEach((skill) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = `skill.html?name=${encodeURIComponent(skill.name)}`;
-    a.textContent = skill.name;
-    li.appendChild(a);
-    skillListEl.appendChild(li);
+  SKILL_TYPE_ORDER.forEach((type) => {
+    const skills = SKILL_DATA.filter((skill) => skill.type === type);
+    if (skills.length === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'skill-group';
+    section.dataset.skillType = type;
+
+    const header = document.createElement('button');
+    header.type = 'button';
+    header.className = 'skill-group__header';
+    header.textContent = type;
+    header.setAttribute('aria-expanded', 'false');
+
+    const list = document.createElement('ul');
+    list.className = 'skill-detail-list skill-group__list';
+
+    skills.forEach((skill) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `skill.html?name=${encodeURIComponent(skill.name)}`;
+      a.textContent = skill.name;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+
+    header.addEventListener('click', () => {
+      const isOpen = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', String(!isOpen));
+      list.classList.toggle('is-open', !isOpen);
+    });
+
+    section.appendChild(header);
+    section.appendChild(list);
+    groupsEl.appendChild(section);
   });
 })();
 

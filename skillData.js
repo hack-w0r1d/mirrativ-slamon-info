@@ -32,7 +32,7 @@ const SKILL_DATA = [
   {
     name: 'だいちのいかり',
     heartCost: 20,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: 'モンスター1体に大ダメージ。',
   },
   {
@@ -44,25 +44,25 @@ const SKILL_DATA = [
   {
     name: 'つきくずし',
     heartCost: 20,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: 'モンスター1体にダメージを与えつつ、攻撃力を少し下げる。',
   },
   {
     name: 'ガオガオスラッシュ',
     heartCost: 20,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: 'モンスター1体にダメージを与えた後、自分の攻撃力を上げる。何度も使うと武器を失って攻撃がねこパンチになる。',
   },
   {
     name: 'ナイトメーア',
     heartCost: 20,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
   },
   {
     name: 'ニャンニャンドレイン',
     heartCost: 20,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
   },
   {
@@ -122,19 +122,19 @@ const SKILL_DATA = [
   {
     name: 'するどいキバ',
     heartCost: 15,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: '相手1体に攻撃力を1.5倍にして攻撃。',
   },
   {
     name: 'ドリルスピン',
     heartCost: 15,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: '通常攻撃の約1.5倍',
   },
   {
     name: 'おしつぶし',
     heartCost: 15,
-    type: '攻撃スキル',
+    type: '物理攻撃',
     description: '相手1体に元々の攻撃力を約2倍にして攻撃。HPが低い時発動確率が上がる。',
   },
   {

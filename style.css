@@ -191,8 +191,125 @@ footer {
   padding: 0;
 }
 
-.skill-detail-list li::before {
+/* .skill-detail-list li::before {
   content: '・';
+} */
+
+.skill-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.skill-group {
+  white-space: normal;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skill-group__header {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: left;
+}
+
+.skill-group__header:hover {
+  filter: brightness(1.08);
+}
+
+.skill-group__header::after {
+  content: '▼';
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+
+.skill-group__header[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.skill-group__list {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+  padding: 0 14px;
+  margin: 0;
+}
+
+.skill-group__list.is-open {
+  max-height: 2000px;
+  opacity: 1;
+  padding: 10px 14px 12px;
+}
+
+.skill-group[data-skill-type="物理攻撃"] .skill-group__header {
+  background: #e19d94;
+}
+
+.skill-group[data-skill-type="状態異常"] .skill-group__header {
+  background: #bc9ef4;
+}
+
+.skill-group[data-skill-type="魔法攻撃"] .skill-group__header {
+  background: #ed77e5;
+}
+
+.skill-group[data-skill-type="バフスキル"] .skill-group__header {
+  background: #d5d156;
+}
+
+.skill-group[data-skill-type="デバフスキル"] .skill-group__header {
+  background: #6678f6;
+}
+
+.skill-group[data-skill-type="回復・カウンター"] .skill-group__header {
+  background: #79d570;
+}
+
+.skill-type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  background: #1a1a1a;
+}
+
+.skill-type-badge[data-skill-type="物理攻撃"] {
+  background: #e19d94;
+}
+
+.skill-type-badge[data-skill-type="魔法攻撃"] {
+  background: #ed77e5;
+}
+
+.skill-type-badge[data-skill-type="バフスキル"] {
+  background: #d5d156;
+}
+
+.skill-type-badge[data-skill-type="デバフスキル"] {
+  background: #6678f6;
+}
+
+.skill-type-badge[data-skill-type="状態異常"] {
+  background: #bc9ef4;
+}
+
+.skill-type-badge[data-skill-type="回復・カウンター"] {
+  background: #79d570;
 }
 
 .exam-calc {

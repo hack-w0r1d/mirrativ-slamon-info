@@ -24,7 +24,8 @@
 
   nameEl.textContent = skill.name;
   descEl.textContent = skill.description;
-  typeEl.textContent = skill.type ? `種類：${skill.type}` : '';
+  typeEl.textContent = skill.type || '';
+  typeEl.dataset.skillType = skill.type || '';
 	heartCostEl.textContent = typeof skill.heartCost === 'number'
   ? `❤️${skill.heartCost}`
   : '❤️-';
