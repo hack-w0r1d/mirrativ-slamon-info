@@ -59,6 +59,10 @@ footer {
   color: orange;
 }
 
+#skillDescription {
+  white-space: pre-line;
+}
+
 .tabs__panel a {
   color: orange;
 }
