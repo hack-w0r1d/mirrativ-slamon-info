@@ -1,497 +1,501 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BKD9T5BP9D"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BKD9T5BP9D"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    gtag('config', 'G-BKD9T5BP9D');
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.4.6">
-  <title>スラモン攻略メモ</title>
-</head>
+      gtag('config', 'G-BKD9T5BP9D');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css?v=0.4.7">
+    <title>スラモン攻略メモ</title>
+  </head>
 
-<body>
-<div class="memo">
-<h1>スラモン攻略メモ</h1>
+  <body>
+    <div class="memo">
+      <h1>スラモン攻略メモ</h1>
 
-<div class="tabs__nav" role="tablist">
-  <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-event" aria-controls="tab-panel-event" aria-selected="true" data-tab="event">選択イベント</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-training" aria-controls="tab-panel-training" aria-selected="false" data-tab="training">トレーニング</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-item" aria-controls="tab-panel-item" aria-selected="false" data-tab="item">アイテム</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-exam" aria-controls="tab-panel-exam" aria-selected="false" data-tab="exam">試験</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-skill" aria-controls="tab-panel-skill" aria-selected="false" data-tab="skill">スキル</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-tab="blessing">加護</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-boss" aria-controls="tab-panel-boss" aria-selected="false" data-tab="boss">ボス討伐</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster" aria-controls="tab-panel-monster" aria-selected="false" data-tab="monster">モンスター</button>
-  <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-tab="rank">ステータスランク</button>
-</div>
+      <div class="tabs__nav tabs__nav--main" role="tablist">
+        <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-training-main" aria-controls="tab-panel-training-main" aria-selected="true" data-tab="training-main">育成</button>
+        <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-main" aria-controls="tab-panel-monster-main" aria-selected="false" data-tab="monster-main">モンスター</button>
+        <button type="button" class="tabs__btn" role="tab" id="tab-btn-boss" aria-controls="tab-panel-boss" aria-selected="false" data-tab="boss">ボス討伐</button>
+      </div>
 
-<div class="tabs__panel" id="tab-panel-event" role="tabpanel" aria-labelledby="tab-btn-event" data-tab-panel="event">
-〜 まとめ 〜
-・基本的には♥️を獲得できる選択肢を選んだほうが良さそうです
+      <div class="tabs__panel" id="tab-panel-training-main" role="tabpanel" aria-labelledby="tab-btn-training-main" data-tab-panel="training-main">
+        <div class="tabs__nav tabs__nav--sub" role="tablist">
+          <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-event" aria-controls="tab-panel-event" aria-selected="true" data-subtab="event">選択イベント</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-training" aria-controls="tab-panel-training" aria-selected="false" data-subtab="training">トレーニング</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-item" aria-controls="tab-panel-item" aria-selected="false" data-subtab="item">アイテム</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-exam" aria-controls="tab-panel-exam" aria-selected="false" data-subtab="exam">試験</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-skill" aria-controls="tab-panel-skill" aria-selected="false" data-subtab="skill">スキル</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-subtab="blessing">加護</button>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-event" role="tabpanel" aria-labelledby="tab-btn-event" data-tab-panel="event">
+          〜 まとめ 〜<br>
+          ・基本的には♥️を獲得できる選択肢を選んだほうが良さそうです<br>
+          <br>
+          <div class="exam-calc__field exam-calc__field--plain">
+            <label for="eventTrainingTargetMonster">育成モンスター</label>
+            <select id="eventTrainingTargetMonster"></select>
+          </div>
+          【各絵文字の意味】<br>
+          ♥️ハート🍪メタボ<br>
+          <span id="eventStatEmojiLine">🩷HP🗡️攻撃🛡守備💨素早さ</span><br>
+          <span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span><br>
+          <br>
+          【選択イベント一覧】<br>
+          青空 → 外🍪-3 / 日向ぼっこ♥️+3<br>
+          遊びたそう → 遊ぶ♥️+2 / トレーニング🔀+1<br>
+          新しい動き → 難しい技🔀+3 or 🔀-3 / 固め直す🔀+2<br>
+          新しいトレ → 🔀+3 or 🔀-3 or × / 重心🔀+1<br>
+          暑さ → 水分補給♥️+3 / 鍛える🔀+3 or 🔀-3<br>
+          アドバイス → スバッ🔀+3 or × / 20度🔀+1 or ×<br>
+          甘いもの → ご褒美♥️+5🍪5 / フルーツ♥️+2<br>
+          甘えてきた → よしよし♥️+4 / 無視♥️+6 or ×<br>
+          一点 → 集中🔀+3 / 休憩♥️+3<br>
+          イメトレ → 勝つ姿🔥+10 / 技のイメージ🔀+3 or 🔥-5<br>
+          うたたね → そっとする♥️+2 / 起こす🔀+2 or ×<br>
+          訴えている → オヤツ♥️+4🍪5 / トイレ♥️+2<br>
+          おかわり → あげる♥️+4🍪5 / 我慢🔥+5🍪-10 or 🔥-5<br>
+          落ち込んでいる → 励ます♥️+2 or × / 改善点🔀+2<br>
+          落ち葉 → キャッチ🔀+2 / 掃除♥️+3<br>
+          お腹押さえてる → 温め♥️+3 / 消化♥️+3<br>
+          お昼寝の時間 → 寝かしつけ♥️+4 / 自主練🔀+3 or 🔀-3<br>
+          おもちゃ → 叱る♥️+2 or × / しょうがない♥️+2 or ×<br>
+          おやつ → こらっ🔀+1 or × / 見て見ぬフリ♥️+4🍪5<br>
+          ガチガチ → ほぐす♥️+4 / ツボ押し🔀+2 or 🔥-6<br>
+          決めポーズ → 褒める🔥+10 / 一緒にポーズ♥️+3<br>
+          休息日 → のんびり♥️+4 / 気分転換🔥+10<br>
+          強風 → 踏ん張る🔀+3 / 室内へ♥️+2<br>
+          気力体力 → 全身全霊🔀+3 or 🔥-6 / バランス🔀+2<br>
+          くしゃみ → 鼻を拭く♥️+3 / 温める♥️+3<br>
+          元気がない → 休ませる♥️+2 / 散歩♥️+2<br>
+          自主トレ → 応援🔥+6 / アドバイス🔀+3 or 🔥-10<br>
+          しゃっくり → 驚かす🔥+6 or 🔥-6 / 水♥️+3<br>
+          食欲旺盛 → たっぷり♥️+4🍪5 / 適量♥️+2<br>
+          空模様 → 切り上げ♥️+2 / 追い込み🔀+3 or 🔥-10<br>
+          体力測定 → 全力🔀+3 or 🔀-2 / 無理のない範囲♥️+2<br>
+          ちらちら → 学ばせる🔀+2 or 🔥-10 / マイペース🔥+6<br>
+          伝えたそう → 遊ぶ♥️+4 / なでる♥️+4<br>
+          手抜き → 追い込む🔀+2 or × / 注意♥️+2 or ×<br>
+          独自トレ → やらせる🔀+3 or × / 矯正🔀+1<br>
+          トレーニング → 褒める♥️+3 / 気合い🔀+1 or ×<br>
+          トレーニング方法 → 数🔀+3 or × / 重心🔀+1 or ×<br>
+          謎の踊り → 一緒に🔥+10 / 真似する🔀+3 or 🔀-2<br>
+          夏バテ → 冷たいもの♥️+3 / 休息♥️+4<br>
+          なまけている → 喝♥️+2 or × / なまける×<br>
+          苦手な食べ物 → 工夫🔀+3 or 🔥-6 / 別の物に替える♥️+3<br>
+          肉体 → マッスル♥️+2 / 見せつける♥️+3 or ×<br>
+          喉が渇く → 水♥️+3 / スポドリ🔀+2<br>
+          走りたそう → ジョギング🔀+3 / かけっこ♥️+3 or 🔥-5<br>
+          光 → 日光浴♥️+3 / 高ぶり🔀+3<br>
+          拾ってきた → 確認🔀+1 / 戻す×<br>
+          ファン → 手を振る🔥+10 / 照れる♥️+3<br>
+          変なものを口に → あわてて🔥-5 / 落ち着いて♥️+2 or 🔀+2<br>
+          ぽかぽか陽気 → お花見♥️+3 / 特訓🔥+10<br>
+          真似 → 大げさに🔥+10 / 逃げる🔀+3 or 🔥-6<br>
+          やけに冴えている → 集中特訓🔥-10 / 寝かせる♥️+4<br>
+          やる気 → 追加トレ🔀+2 / 休ませる♥️+3<br>
+          <br>
+          【メタボ専用イベント】<br>
+          おやつに飽きた → ご飯少なく🔥-3 / 種類変える🔥+3🍪+8<br>
+          特訓終了時に🩷-5<br>
+          <br>
+          【キャラクターイベント】<br>
+          レント → よろしく🗡️+1 / アイテム🗡️+1<br>
+          レント → お礼を言う♥️+4 / 中身を聞く🔀+2<br>
+          レント → 探す♥️+3 / 探させる🔀+3<br>
+          レント → すぐ飲ませる🔀+3 / あとで飲ませる♥️+3<br>
+          レント → 挑戦🔀-3 / 様子を見る♥️+2<br>
+          レント → 引き受け🔥+10 / 練習を優先🔀+2 or 🔥-5<br>
+          レント → みんなで食べる♥️+4🍪5 / ほどほどに♥️+2🍪5<br>
+          レント → メモ🔀+3 / 実演🔀+3 or 🔥-10<br>
+          支配人 → 決意🔥+10 / プレッシャー♥️+3 or 🔥-5<br>
+          ササモト博士 → 成功全ステータス+35🔥+30 / 失敗全ステータス-15🔥-30<br>
+          成功確率は50%だと思われます。<br>
+          <br>
+          【ゲームイベント】<br>
+          ジョン → こっち向いてホイ or トス&アタック<br>
+          ・こっち向いてホイ<br>
+          1回でも失敗したらアウト<br>
+          成功 → 全ステータス+12 / 失敗 → 🔥-2<br>
+          ・トス&アタック<br>
+          25本中13本以上打ち返せば成功<br>
+          成功 → 全ステータス+12 / 失敗 → 🔥-2<br>
+          <br>
+          【スキン限定イベント】<br>
+          マイク → いいよ!全ステータス+10❤️+5🔥+50 / しょうがない<br>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
+          〜 まとめ 〜<br>
+          ・加護Lv.とレアリティボーナスが安定した育成に重要<br>
+          ・出現トレーナーや大成功ボーナスなど運要素がかなり絡んでくる<br>
+          ・モチベが高いと大成功確率がUp<br>
+          <br>
+          【トレーニング】<br>
+          各トレーナーの基礎ボーナス値に、育成モンスターのレアリティボーナスと加護Lv.ボーナスが+される<br>
+          ※レアリティボーナスは育成前のモンスター詳細画面で確認できます(例: ↑+1/↑↑+2)<br>
+          ※加護Lv.ボーナスはLv.9で+1、Lv.10〜17で+2、Lv.MAXで+3<br>
+          <br>
+          大成功は基礎ボーナス値×2+レアリティボーナス+加護ボーナス<br>
+          🟡ゴールデントレーナーは基礎ボーナス値×2<br>
+          集中強化合宿期間は各トレーナーの基礎ボーナス値×2<br>
+          <br>
+          【あそぶ】<br>
+          通常期間&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔥+10~30♥️+3~7<br>
+          集中強化合宿期間 🔥+10~29♥️+6~14<br>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
+          〜 まとめ 〜<br>
+          ・強化したいキャラには必ず ツヨクナールZ を使用すること！<br>
+          ⚠️流れ作業でやるとたまに出現した時に見逃します<br>
+          ・メタボはなるべく避ける<br>
+          ・ホネビスケットは効果が低いのであまりおすすめしません<br>
+          <br>
+          ホネビスケット→🔥+10🍪+20<br>
+          しっとりたいやき→🔥+25🍪+40♥️+1<br>
+          DXいちごパフェ→🔥+50🍪+80♥️+3<br>
+          ※ツヨクナールZ→🔥+100♥️+10全ステータス+20<br>
+          ※出現はランダム<br>
+          <br>
+          🔥MAX100、🍪メタボボーダー100か(MAX120くらい)<br>
+          <br>
+          DXいちごパフェは育成開始後の初回トレーニング後と各試験前に使用するのがおすすめ。<br>
+          <br>
+          メタボになると通常のイベントが高確率でメタボ専用イベントに。<br>
+          試験直前のみメタボになるデメリットが少ないのでok。<br>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-exam" role="tabpanel" aria-labelledby="tab-btn-exam" data-tab-panel="exam" hidden>
+          〜 まとめ 〜<br>
+          ・試験報酬は最終>二次>一次の順で多い<br>
+          ・悪魔像のごほうびは最終>二次>一次の順で高い<br>
+          ・悪魔像のごほうびはモンスターごとに特定のステータスの中からランダムな1つに与えられる<br>
+          ・安定した育成には加護Lv.が必要<br>
+          <br>
+          <div class="exam-calc">
+            <h2 class="exam-calc__title">試験報酬ボーナス計算</h2>
+            <div class="exam-calc__field">
+              <label for="trainingTargetMonster">育成モンスター</label>
+              <select id="trainingTargetMonster"></select>
+            </div>
+            <div class="exam-calc__field">
+              <label for="examType">試験の種類</label>
+              <select id="examType">
+                <option value="1">一次試験</option>
+                <option value="2">二次試験</option>
+                <option value="3">最終試験</option>
+              </select>
+            </div>
+            <div class="exam-calc__row">
+              <div class="exam-calc__field">
+                <label for="blessingHp">🩷体力の加護</label>
+                <select id="blessingHp"></select>
+              </div>
+              <div class="exam-calc__field">
+                <label for="blessingAtk">🗡️力の加護</label>
+                <select id="blessingAtk"></select>
+              </div>
+            </div>
+            <div class="exam-calc__row">
+              <div class="exam-calc__field">
+                <label for="blessingDef">🛡️守りの加護</label>
+                <select id="blessingDef"></select>
+              </div>
+              <div class="exam-calc__field">
+                <label for="blessingSpd">💨速さの加護</label>
+                <select id="blessingSpd"></select>
+              </div>
+            </div>
+            <div class="exam-calc__field">
+              <label for="rewardLv">😈ごほうびLv.</label>
+              <select id="rewardLv"></select>
+            </div>
+            <button type="button" id="examCalcBtn" class="exam-calc__btn">計算する</button>
+            <div class="exam-calc__result" id="examCalcResult" hidden>
+              <table class="exam-calc__table">
+                <thead>
+                  <tr><th>ごほうび対象</th><th>HP</th><th>攻撃</th><th>守備</th><th>素早さ</th></tr>
+                </thead>
+                <tbody id="examCalcTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          ※👼加護Lv.1強化につき試験報酬時に強化したステータスのボーナス+1(MAX+17)<br>
+          ※😈悪魔像のごほうびLv.に応じた数値がモンスターごとに特定のステータスの中からランダムな1つに加算(MAXLv.30)<br>
+          <br>
+          【試験報酬】<br>
+          一次試験 (vsハカイオー)<br>
+          😈ごほうびLv.×1の値がランダムに加算<br>
+          +5/+5/+5/+5 (Max +22/+22/+22/+22)<br>
+          ♥️+5🔥+10🍪-11から-25<br>
+          ※敗北時は♥️+2🔥+10🍪-11から-25のみ<br>
+          <br>
+          二次試験 (vsゴジョー)<br>
+          😈ごほうびLv.×2の値がランダムに加算<br>
+          +7/+7/+7/+7 (Max +24/+24/+24/+24)<br>
+          ♥️+10🔥+20🍪-10から-25<br>
+          <br>
+          最終試験 (vsクーゴ)<br>
+          😈ごほうびLv.×3の値がランダムに加算<br>
+          +15/+15/+15/+15 (Max +32/+32/+32/+32)<br>
+          ♥️+15<br>
+          ※敗北時は♥️+7のみ<br>
+          <br>
+          ※HP/攻撃/守備/素早さ<br>
+          ※上記は全加護Lv.1 (全加護Lv.MAX)の場合<br>
+          <br>
+          【😈悪魔像】<br>
+          ごほうびLv.1強化する度に敵の戦闘力がランダムで1〜50増加。<br>
+          一次試験はステータスやスキルが強化しにくいためリスクは取るメリットは少ない。<br>
+          <br>
+          【👼天使像】<br>
+          スキルと攻撃力が全くない場合のみ検討。それ以外で利用するメリットはあまりありません。<br>
+          <br>
+          【⌛️制限ターン】<br>
+          各試験おおよそ40ターンの制限があります。<br>
+          残り9ターンから左上に表示されます。<br>
+          ターン数は各キャラが行動するたびに減ります。<br>
+          残り1ターンの表示が出た時点で終了か。<br>
+          <br>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-skill" role="tabpanel" aria-labelledby="tab-btn-skill" data-tab-panel="skill" hidden>
+          【バトルスキル】<br>
+          ・進化スキルの♥️消費数<br>
+          ▶︎進化前 ♥️-10 / 進化後 ♥️-30<br>
+          <br>
+          【パッシブスキル】<br>
+          ・各ステータスの心得の♥️消費数<br>
+          ▶︎Lv.1 ♥️-5 / Lv.2 ♥️-10 / Lv.3 ♥️-20<br>
+          ・各ステータスの心得の上昇数値*<br>
+          Lv.1 +10 / Lv.2 +10 / Lv.3 +10<br>
+          *魔法防御の心得のみLv.1 +20 / Lv.2 +20 / Lv.3 +20か<br>
+          <br>
+          【各バトルスキルの詳細】<br>
+          <div class="skill-groups" id="skillGroups"></div>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
+          〜 まとめ 〜<br>
+          ・Lv.1強化するごとに試験報酬の対応するステータスが+1される<br>
+          ・Lv.8とLv.9ではトレーニング効果に差があるため可能ならLv.9に強化する<br>
+          ・Lv.9とLv.10ではトレーニング効果に差があるため可能ならLv.10に強化する<br>
+          ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する<br>
+          <br>
+          💡加護Lv.はトレーニングと試験報酬にボーナス<br>
+          ⚠️毎シーズンリセットされます<br>
+          <br>
+          【加護Lv.Upに必要な条件】<br>
+          Lv.1 🪙100<br>
+          Lv.2 🪙500<br>
+          Lv.3 🪙1000<br>
+          Lv.4 🪙1500<br>
+          Lv.5 🪙2000<br>
+          Lv.6 🪙3000<br>
+          Lv.7 🪙4000<br>
+          Lv.8 🪙5000<br>
+          Lv.9 金ぶる1<br>
+          Lv.10 金ぶる2<br>
+          Lv.11 金ぶる3<br>
+          Lv.12 金ぶる4<br>
+          Lv.13 金ぶる5<br>
+          Lv.14 金ぶる6<br>
+          Lv.15 金ぶる7<br>
+          Lv.16 金ぶる8<br>
+          Lv.17 金ぶる9<br>
+          Lv.MAX<br>
+          <br>
+          各Lv.MAXまでに必要な🪙17,100、金ぶる45個<br>
+          全Lv.MAXまでに必要な🪙68,400、金ぶる180個<br>
+        </div>
+      </div>
 
-<div class="exam-calc__field exam-calc__field--plain">
-  <label for="eventTrainingTargetMonster">育成モンスター</label>
-  <select id="eventTrainingTargetMonster"></select>
-</div>
-【各絵文字の意味】
-♥️ハート🍪メタボ
-<span id="eventStatEmojiLine">🩷HP🗡️攻撃🛡守備💨素早さ</span>
-<span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span>
+      <div class="tabs__panel" id="tab-panel-monster-main" role="tabpanel" aria-labelledby="tab-btn-monster-main" data-tab-panel="monster-main" hidden>
+        <div class="tabs__nav tabs__nav--sub" role="tablist">
+          <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-monster" aria-controls="tab-panel-monster" aria-selected="true" data-subtab="monster">モンスター</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-subtab="rank">ステータスランク</button>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster">
+          【各モンスターの詳細】<br>
+          <ul class="skill-detail-list" id="monsterDetailList"></ul>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
+          S 250 〜<br>
+          A 200 〜 249<br>
+          B 160 〜 199<br>
+          C 120 〜 159<br>
+          D 84 〜 119<br>
+          E 28 〜 83<br>
+          F 0 〜 27<br>
+        </div>
+      </div>
 
-【選択イベント一覧】
-青空 → 外🍪-3 / 日向ぼっこ♥️+3
-遊びたそう → 遊ぶ♥️+2 / トレーニング🔀+1
-新しい動き → 難しい技🔀+3 or 🔀-3 / 固め直す🔀+2
-新しいトレ → 🔀+3 or 🔀-3 or × / 重心🔀+1
-暑さ → 水分補給♥️+3 / 鍛える🔀+3 or 🔀-3
-アドバイス → スバッ🔀+3 or × / 20度🔀+1 or ×
-甘いもの → ご褒美♥️+5🍪5 / フルーツ♥️+2
-甘えてきた → よしよし♥️+4 / 無視♥️+6 or ×
-一点 → 集中🔀+3 / 休憩♥️+3
-イメトレ → 勝つ姿🔥+10 / 技のイメージ🔀+3 or 🔥-5
-うたたね → そっとする♥️+2 / 起こす🔀+2 or ×
-訴えている → オヤツ♥️+4🍪5 / トイレ♥️+2
-おかわり → あげる♥️+4🍪5 / 我慢🔥+5🍪-10 or 🔥-5
-落ち込んでいる → 励ます♥️+2 or × / 改善点🔀+2
-落ち葉 → キャッチ🔀+2 / 掃除♥️+3
-お腹押さえてる → 温め♥️+3 / 消化♥️+3
-お昼寝の時間 → 寝かしつけ♥️+4 / 自主練🔀+3 or 🔀-3
-おもちゃ → 叱る♥️+2 or × / しょうがない♥️+2 or ×
-おやつ → こらっ🔀+1 or × / 見て見ぬフリ♥️+4🍪5
-ガチガチ → ほぐす♥️+4 / ツボ押し🔀+2 or 🔥-6
-決めポーズ → 褒める🔥+10 / 一緒にポーズ♥️+3
-休息日 → のんびり♥️+4 / 気分転換🔥+10
-強風 → 踏ん張る🔀+3 / 室内へ♥️+2
-気力体力 → 全身全霊🔀+3 or 🔥-6 / バランス🔀+2
-くしゃみ → 鼻を拭く♥️+3 / 温める♥️+3
-元気がない → 休ませる♥️+2 / 散歩♥️+2
-自主トレ → 応援🔥+6 / アドバイス🔀+3 or 🔥-10
-しゃっくり → 驚かす🔥+6 or 🔥-6 / 水♥️+3
-食欲旺盛 → たっぷり♥️+4🍪5 / 適量♥️+2
-空模様 → 切り上げ♥️+2 / 追い込み🔀+3 or 🔥-10
-体力測定 → 全力🔀+3 or 🔀-2 / 無理のない範囲♥️+2
-ちらちら → 学ばせる🔀+2 or 🔥-10 / マイペース🔥+6
-伝えたそう → 遊ぶ♥️+4 / なでる♥️+4
-手抜き → 追い込む🔀+2 or × / 注意♥️+2 or ×
-独自トレ → やらせる🔀+3 or × / 矯正🔀+1
-トレーニング → 褒める♥️+3 / 気合い🔀+1 or ×
-トレーニング方法 → 数🔀+3 or × / 重心🔀+1 or ×
-謎の踊り → 一緒に🔥+10 / 真似する🔀+3 or 🔀-2
-夏バテ → 冷たいもの♥️+3 / 休息♥️+4
-なまけている → 喝♥️+2 or × / なまける×
-苦手な食べ物 → 工夫🔀+3 or 🔥-6 / 別の物に替える♥️+3
-肉体 → マッスル♥️+2 / 見せつける♥️+3 or ×
-喉が渇く → 水♥️+3 / スポドリ🔀+2
-走りたそう → ジョギング🔀+3 / かけっこ♥️+3 or 🔥-5
-光 → 日光浴♥️+3 / 高ぶり🔀+3
-拾ってきた → 確認🔀+1 / 戻す×
-ファン → 手を振る🔥+10 / 照れる♥️+3
-変なものを口に → あわてて🔥-5 / 落ち着いて♥️+2 or 🔀+2
-ぽかぽか陽気 → お花見♥️+3 / 特訓🔥+10
-真似 → 大げさに🔥+10 / 逃げる🔀+3 or 🔥-6
-やけに冴えている → 集中特訓🔥-10 / 寝かせる♥️+4
-やる気 → 追加トレ🔀+2 / 休ませる♥️+3
+      <div class="tabs__panel" id="tab-panel-boss" role="tabpanel" aria-labelledby="tab-btn-boss" data-tab-panel="boss" hidden>
+        ⚔️<a href="https://dmg-calc.cieln.com/" target="_blank" rel="noopener noreferrer">ダメージ計算ツールはこちら</a><br>
+        <br>
+        受注料は受注する度に、無料→🪙100→🪙200→...→🪙1,000(MAX)<br>
+        ※0時リセット<br>
+        討伐時に確率で妖精さんから家具GET(通常ボス未確認)<br>
+        <br>
+        ⚪️ボス<br>
+        勝利報酬▶︎🪙100、タマゴor金のタマゴ<br>
+        <br>
+        🟣メガ<br>
+        勝利報酬▶︎🪙200、タマゴor銀のタマゴor金のタマゴ<br>
+        <br>
+        🟡ギガ<br>
+        勝利報酬▶︎🪙500、金ぶる1、銀のタマゴor金のタマゴ<br>
+        失敗報酬▶︎🪙100<br>
+        <br>
+        👑キング<br>
+        勝利報酬▶︎🪙5,000&金ぶる2個 or 🪙2,500&金ぶる1個、(金のタマゴ)<br>
+        失敗報酬▶︎🪙1,000、金ぶる1、(金のタマゴ)<br>
+        <br>
+        【ボス討伐で活躍するスキル】<br>
+        ドクルト、シオルト、ブレルト<br>
+        ステータスが足りなくてもこれらのスキルが上手く噛み合えば攻略可能。<br>
+        <br>
+        【⌛️制限ターン】<br>
+        各ボスおおよそ40ターンの制限があります。<br>
+        残り9ターンから左上に表示されます。<br>
+        ターン数は各キャラが行動するたびに減ります。<br>
+        残り1ターンの表示が出た時点で終了か。<br>
+        <br>
+        【ボスステータス詳細】<br>
+        ※ダメージ計算や素早さの比較で使用するのがおすすめです<br>
+        ※狙いは弱者狙いですがあまり参考にはなりません<br>
+        ⚪️ボス<br>
+        ボス・アチャガラ 180/77/57/47<br>
+        ボス・アトラン 170/93/57/65<br>
+        ボス・オーク 200/81/53/29<br>
+        ボス・ガーゴイ 130/105/69/57<br>
+        ボス・ガーディアン 140/81/97/37<br>
+        ボス・Cpt.ワル太 160/85/57/53<br>
+        ボス・グラゴン 250/129/37/27<br>
+        ボス・ゴーレム 110/89/77/31<br>
+        ボス・スノードロップ 130/45/53/51<br>
+        ボス・スラポン 140/97/41/45<br>
+        ボス・チューヘイさん 120/81/49/51<br>
+        ボス・ドラニャン 160/89/65/41<br>
+        ボス・ぶる太ライダー 150/73/57/59<br>
+        ボス・プルドッグ 150/77/29/57<br>
+        ボス・フレクー 140/65/65/39<br>
+        ボス・ベルチャ 120/77/61/41<br>
+        ボス・マホビット 150/69/53/41<br>
+        ボス・ミミロット 120/81/53/91<br>
+        ボス・ミラナイト 110/77/53/35<br>
+        ボス・モケマル 170/65/53/45<br>
+        ボス・ヤミクマ 200/89/73/39<br>
+        ボス・ユーベェ 90/81/61/55<br>
+        ボス・ライアード 150/81/61/49<br>
+        ボス・ルトペン 170/89/41/31<br>
+        ボス・ワルビット 140/73/49/43<br>
+        🟣メガ<br>
+        メガ・アチャガラ 270/102/82/84<br>
+        メガ・アトラン 255/118/82/120<br>
+        メガ・オーク -/-/-/-<br>
+        メガ・ガーゴイ 195/106/78/104<br>
+        メガ・ガーディアン 210/106/122/64<br>
+        メガ・Cpt.ワル太 240/110/82/96<br>
+        メガ・グラゴン 375/154/62/44<br>
+        メガ・ゴーレム -/-/-/-<br>
+        メガ・スノードロップ 195/70/78/92<br>
+        メガ・スラポン 210/98/74/80<br>
+        メガ・チューヘイさん 180/106/74/92<br>
+        メガ・ドラニャン 240/114/90/72<br>
+        メガ・ぶる太ライダー 225/102/78/108<br>
+        メガ・プルドッグ 225/102/54/104<br>
+        メガ・フレクー 210/90/90/68<br>
+        メガ・ベルチャ 180/102/86/72<br>
+        メガ・マホビット 225/94/78/72<br>
+        メガ・ミミロット -/-/-/-<br>
+        メガ・ミラナイト 165/130/94/60<br>
+        メガ・モケマル 255/90/78/80<br>
+        メガ・ヤミクマ 300/114/98/68<br>
+        メガ・ユーベェ 135/106/86/100<br>
+        メガ・ライアード 225/106/86/88<br>
+        メガ・ルトペン 255/114/66/52<br>
+        メガ・ワルビット 210/98/82/76<br>
+        🟡ギガ<br>
+        ギガ・アチャガラ -/-/-/-<br>
+        ギガ・アトラン 510/270/180/210<br>
+        ギガ・オーク -/-/-/-<br>
+        ギガ・ガーゴイ 390/240/170/182<br>
+        ギガ・ガーディアン -/-/-/-<br>
+        ギガ・Cpt.ワル太 -/-/-/-<br>
+        ギガ・グラゴン 750/360/130/77<br>
+        ギガ・ゴーレム 330/260/230/91<br>
+        ギガ・スノードロップ 390/150/170/161<br>
+        ギガ・スラポン -/-/-/-<br>
+        ギガ・チューヘイさん 360/240/160/161<br>
+        ギガ・ドラニャン 480/260/200/126<br>
+        ギガ・ぶる太ライダー -/-/-/-<br>
+        ギガ・プルドッグ 450/230/110/182<br>
+        ギガ・フレクー 420/200/200/110<br>
+        ギガ・ベルチャ -/-/-/-<br>
+        ギガ・マホビット -/-/-/-<br>
+        ギガ・ミミロット 360/240/170/301<br>
+        ギガ・ミラナイト -/-/-/-<br>
+        ギガ・モケマル -/-/-/-<br>
+        ギガ・ヤミクマ -/-/-/-<br>
+        ギガ・ユーベェ -/-/-/-<br>
+        ギガ・ライアード 450/240/190/154<br>
+        ギガ・ルトペン 510/260/140/91<br>
+        ギガ・ワルビット 420/220/180/133<br>
+        👑キング<br>
+        キング・アチャガラ -/-/-/-<br>
+        キング・アトラン 1320/470/380/300<br>
+        キング・オーク -/-/-/-<br>
+        キング・ガーゴイ -/-/-/-<br>
+        キング・ガーディアン -/-/-/-<br>
+        キング・Cpt.ワル太 -/-/-/-<br>
+        キング・グラゴン -/-/-/-<br>
+        キング・ゴーレム -/-/-/-<br>
+        キング・スノードロップ -/-/-/-<br>
+        キング・スラポン -/-/-/-<br>
+        キング・チューヘイさん -/-/-/-<br>
+        キング・ドラニャン 1260/460/400/180<br>
+        キング・ぶる太ライダー -/-/-/-<br>
+        キング・プルドッグ 1200/430/310/260<br>
+        キング・フレクー 1140/400/400/170<br>
+        キング・ベルチャ -/-/-/-<br>
+        キング・マホビット 1200/410/370/180<br>
+        キング・ミミロット -/-/-/-<br>
+        キング・ミラナイト 960/500/410/150<br>
+        キング・モケマル 1320/400/370/200<br>
+        キング・ヤミクマ -/-/-/-<br>
+        キング・ユーベェ -/-/-/-<br>
+        キング・ライアード -/-/-/-<br>
+        キング・ルトペン -/-/-/-<br>
+        キング・ワルビット -/-/-/-<br>
+      </div>
 
-【メタボ専用イベント】
-おやつに飽きた → ご飯少なく🔥-3 / 種類変える🔥+3🍪+8
-特訓終了時に🩷-5
-
-【キャラクターイベント】
-レント → よろしく🗡️+1 / アイテム🗡️+1
-レント → お礼を言う♥️+4 / 中身を聞く🔀+2
-レント → 探す♥️+3 / 探させる🔀+3
-レント → すぐ飲ませる🔀+3 / あとで飲ませる♥️+3
-レント → 挑戦🔀-3 / 様子を見る♥️+2
-レント → 引き受け🔥+10 / 練習を優先🔀+2 or 🔥-5
-レント → みんなで食べる♥️+4🍪5 / ほどほどに♥️+2🍪5
-レント → メモ🔀+3 / 実演🔀+3 or 🔥-10
-支配人 → 決意🔥+10 / プレッシャー♥️+3 or 🔥-5
-ササモト博士 → 成功全ステータス+35🔥+30 / 失敗全ステータス-15🔥-30
-成功確率は50%だと思われます。
-
-【ゲームイベント】
-ジョン → こっち向いてホイ or トス&アタック
-・こっち向いてホイ
-1回でも失敗したらアウト
-成功 → 全ステータス+12 / 失敗 → 🔥-2
-・トス&アタック
-25本中13本以上打ち返せば成功
-成功 → 全ステータス+12 / 失敗 → 🔥-2
-
-【スキン限定イベント】
-マイク → いいよ!全ステータス+10❤️+5🔥+50 / しょうがない
-</div>
-
-<div class="tabs__panel" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
-〜 まとめ 〜
-・加護Lv.とレアリティボーナスが安定した育成に重要
-・出現トレーナーや大成功ボーナスなど運要素がかなり絡んでくる
-・モチベが高いと大成功確率がUp
-
-【トレーニング】
-各トレーナーの基礎ボーナス値に、育成モンスターのレアリティボーナスと加護Lv.ボーナスが+される
-※レアリティボーナスは育成前のモンスター詳細画面で確認できます(例: ↑+1/↑↑+2)
-※加護Lv.ボーナスはLv.9で+1、Lv.10〜17で+2、Lv.MAXで+3
-
-大成功は基礎ボーナス値×2+レアリティボーナス+加護ボーナス
-🟡ゴールデントレーナーは基礎ボーナス値×2
-集中強化合宿期間は各トレーナーの基礎ボーナス値×2
-
-【あそぶ】
-通常期間             🔥10~30♥️+3~7
-集中強化合宿期間 🔥10~29♥️+6~14
-</div>
-
-<div class="tabs__panel" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
-〜 まとめ 〜
-・強化したいキャラには必ず ツヨクナールZ を使用すること！
-⚠️流れ作業でやるとたまに出現した時に見逃します
-・メタボはなるべく避ける
-・ホネビスケットは効果が低いのであまりおすすめしません
-
-ホネビスケット→🔥+10🍪+20
-しっとりたいやき→🔥+25🍪+40♥️+1
-DXいちごパフェ→🔥+50🍪+80♥️+3
-※ツヨクナールZ→🔥+100♥️+10全ステータス+20
-※出現はランダム
-
-🔥MAX100、🍪メタボボーダー100か(MAX120くらい)
-
-DXいちごパフェは育成開始後の初回トレーニング後と各試験前に使用するのがおすすめ。
-
-メタボになると通常のイベントが高確率でメタボ専用イベントに。
-試験直前のみメタボになるデメリットが少ないのでok。
-</div>
-
-<div class="tabs__panel" id="tab-panel-exam" role="tabpanel" aria-labelledby="tab-btn-exam" data-tab-panel="exam" hidden>
-〜 まとめ 〜
-・試験報酬は最終>二次>一次の順で多い
-・悪魔像のごほうびは最終>二次>一次の順で高い
-・悪魔像のごほうびはモンスターごとに特定のステータスの中からランダムな1つに与えられる
-・安定した育成には加護Lv.が必要
-
-<div class="exam-calc">
-  <h2 class="exam-calc__title">試験報酬ボーナス計算</h2>
-  <div class="exam-calc__field">
-    <label for="trainingTargetMonster">育成モンスター</label>
-    <select id="trainingTargetMonster"></select>
-  </div>
-  <div class="exam-calc__field">
-    <label for="examType">試験の種類</label>
-    <select id="examType">
-      <option value="1">一次試験</option>
-      <option value="2">二次試験</option>
-      <option value="3">最終試験</option>
-    </select>
-  </div>
-  <div class="exam-calc__row">
-    <div class="exam-calc__field">
-      <label for="blessingHp">🩷体力の加護</label>
-      <select id="blessingHp"></select>
     </div>
-    <div class="exam-calc__field">
-      <label for="blessingAtk">🗡️力の加護</label>
-      <select id="blessingAtk"></select>
+
+    <footer class="footer">
+      <nav class="footer__links">
+        <a href="privacy.html">プライバシーポリシー</a>
+      </nav>
+      <a class="footer__x" href="https://x.com/yu_cielkun" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）">
+        <img src="images/x-logo-white.png" alt="" width="20" height="20">
+      </a>
+      <p>Created by Ciel'N</p>
+    </footer>
+
+    <div class="search-bar" id="searchBar">
+      <input type="text" id="searchInput" class="search-bar__input" placeholder="キーワード検索" autocomplete="off">
+      <span class="search-bar__count" id="searchCount">0/0</span>
+      <button type="button" class="search-bar__nav" id="searchPrev" aria-label="前の一致へ" disabled>▲</button>
+      <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
     </div>
-  </div>
-  <div class="exam-calc__row">
-    <div class="exam-calc__field">
-      <label for="blessingDef">🛡️守りの加護</label>
-      <select id="blessingDef"></select>
-    </div>
-    <div class="exam-calc__field">
-      <label for="blessingSpd">💨速さの加護</label>
-      <select id="blessingSpd"></select>
-    </div>
-  </div>
-  <div class="exam-calc__field">
-    <label for="rewardLv">😈ごほうびLv.</label>
-    <select id="rewardLv"></select>
-  </div>
-  <button type="button" id="examCalcBtn" class="exam-calc__btn">計算する</button>
-  <div class="exam-calc__result" id="examCalcResult" hidden>
-    <table class="exam-calc__table">
-      <thead>
-        <tr><th>ごほうび対象</th><th>HP</th><th>攻撃</th><th>守備</th><th>素早さ</th></tr>
-      </thead>
-      <tbody id="examCalcTableBody"></tbody>
-    </table>
-  </div>
-</div>
-※👼加護Lv.1強化につき試験報酬時に強化したステータスのボーナス+1(MAX+17)
-※😈悪魔像のごほうびLv.に応じた数値がモンスターごとに特定のステータスの中からランダムな1つに加算(MAXLv.30)
 
-【試験報酬】
-一次試験 (vsハカイオー)
-😈ごほうびLv.×1の値がランダムに加算
-+5/+5/+5/+5 (Max +22/+22/+22/+22)
-♥️+5🔥+10🍪-11から-25
-※敗北時は♥️+2🔥+10🍪-11から-25のみ
+    <script src="skillData.js?v=0.4.7"></script>
+    <script src="trainerData.js?v=0.4.7"></script>
+    <script src="monsterData.js?v=0.4.7"></script>
+    <script src="script.js?v=0.4.7"></script>
 
-二次試験 (vsゴジョー)
-😈ごほうびLv.×2の値がランダムに加算
-+7/+7/+7/+7 (Max +24/+24/+24/+24)
-♥️+10🔥+20🍪-10から-25
-
-最終試験 (vsクーゴ)
-😈ごほうびLv.×3の値がランダムに加算
-+15/+15/+15/+15 (Max +32/+32/+32/+32)
-♥️+15
-※敗北時は♥️+7のみ
-
-※HP/攻撃/守備/素早さ
-※上記は全加護Lv.1 (全加護Lv.MAX)の場合
-
-【😈悪魔像】
-ごほうびLv.1強化する度に敵の戦闘力がランダムで1〜50増加。
-一次試験はステータスやスキルが強化しにくいためリスクは取るメリットは少ない。
-
-【👼天使像】
-スキルと攻撃力が全くない場合のみ検討。それ以外で利用するメリットはあまりありません。
-
-【⌛️制限ターン】
-各試験おおよそ40ターンの制限があります。
-残り9ターンから左上に表示されます。
-ターン数は各キャラが行動するたびに減ります。
-残り1ターンの表示が出た時点で終了か。
-
-</div>
-
-<div class="tabs__panel" id="tab-panel-skill" role="tabpanel" aria-labelledby="tab-btn-skill" data-tab-panel="skill" hidden>
-【バトルスキル】
-・進化スキルの♥️消費数
-▶︎進化前 ♥️-10 / 進化後 ♥️-30
-
-【パッシブスキル】
-・各ステータスの心得の♥️消費数
-▶︎Lv.1 ♥️-5 / Lv.2 ♥️-10 / Lv.3 ♥️-20
-・各ステータスの心得の上昇数値*
-Lv.1 +10 / Lv.2 +10 / Lv.3 +10
-*魔法防御の心得のみLv.1 +20 / Lv.2 +20 / Lv.3 +20か
-
-【各バトルスキルの詳細】
-<div class="skill-groups" id="skillGroups"></div>
-</div>
-
-<div class="tabs__panel" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
-〜 まとめ 〜
-・Lv.1強化するごとに試験報酬の対応するステータスが+1される
-・Lv.8とLv.9ではトレーニング効果に差があるため可能ならLv.9に強化する
-・Lv.9とLv.10ではトレーニング効果に差があるため可能ならLv.10に強化する
-・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
-
-💡加護Lv.はトレーニングと試験報酬にボーナス
-⚠️毎シーズンリセットされます
-
-【加護Lv.Upに必要な条件】
-Lv.1 🪙100
-Lv.2 🪙500
-Lv.3 🪙1000
-Lv.4 🪙1500
-Lv.5 🪙2000
-Lv.6 🪙3000
-Lv.7 🪙4000
-Lv.8 🪙5000
-Lv.9 金ぶる1
-Lv.10 金ぶる2
-Lv.11 金ぶる3
-Lv.12 金ぶる4
-Lv.13 金ぶる5
-Lv.14 金ぶる6
-Lv.15 金ぶる7
-Lv.16 金ぶる8
-Lv.17 金ぶる9
-Lv.MAX
-
-各Lv.MAXまでに必要な🪙17,100、金ぶる45個
-全Lv.MAXまでに必要な🪙68,400、金ぶる180個
-</div>
-
-<div class="tabs__panel" id="tab-panel-boss" role="tabpanel" aria-labelledby="tab-btn-boss" data-tab-panel="boss" hidden>
-  ⚔️<a href="https://dmg-calc.cieln.com/" target="_blank" rel="noopener noreferrer">ダメージ計算ツールはこちら</a>
-
-受注料は受注する度に、無料→🪙100→🪙200→...→🪙1,000(MAX)
-※0時リセット
-討伐時に確率で妖精さんから家具GET(通常ボス未確認)
-
-⚪️ボス
-勝利報酬▶︎🪙100、タマゴor金のタマゴ
-
-🟣メガ
-勝利報酬▶︎🪙200、タマゴor銀のタマゴor金のタマゴ
-
-🟡ギガ
-勝利報酬▶︎🪙500、金ぶる1、銀のタマゴor金のタマゴ
-失敗報酬▶︎🪙100
-
-👑キング
-勝利報酬▶︎🪙5,000&金ぶる2個 or 🪙2,500&金ぶる1個、(金のタマゴ)
-失敗報酬▶︎🪙1,000、金ぶる1、(金のタマゴ)
-
-【ボス討伐で活躍するスキル】
-ドクルト、シオルト、ブレルト
-ステータスが足りなくてもこれらのスキルが上手く噛み合えば攻略可能。
-
-【⌛️制限ターン】
-各ボスおおよそ40ターンの制限があります。
-残り9ターンから左上に表示されます。
-ターン数は各キャラが行動するたびに減ります。
-残り1ターンの表示が出た時点で終了か。
-
-【ボスステータス詳細】
-※ダメージ計算や素早さの比較で使用するのがおすすめです
-※狙いは弱者狙いですがあまり参考にはなりません
-⚪️ボス
-ボス・アチャガラ 180/77/57/47
-ボス・アトラン 170/93/57/65
-ボス・オーク 200/81/53/29
-ボス・ガーゴイ 130/105/69/57
-ボス・ガーディアン 140/81/97/37
-ボス・Cpt.ワル太 160/85/57/53
-ボス・グラゴン 250/129/37/27
-ボス・ゴーレム 110/89/77/31
-ボス・スノードロップ 130/45/53/51
-ボス・スラポン 140/97/41/45
-ボス・チューヘイさん 120/81/49/51
-ボス・ドラニャン 160/89/65/41
-ボス・ぶる太ライダー 150/73/57/59
-ボス・プルドッグ 150/77/29/57
-ボス・フレクー 140/65/65/39
-ボス・ベルチャ 120/77/61/41
-ボス・マホビット 150/69/53/41
-ボス・ミミロット 120/81/53/91
-ボス・ミラナイト 110/77/53/35
-ボス・モケマル 170/65/53/45
-ボス・ヤミクマ 200/89/73/39
-ボス・ユーベェ 90/81/61/55
-ボス・ライアード 150/81/61/49
-ボス・ルトペン 170/89/41/31
-ボス・ワルビット 140/73/49/43
-🟣メガ
-メガ・アチャガラ 270/102/82/84
-メガ・アトラン 255/118/82/120
-メガ・オーク -/-/-/-
-メガ・ガーゴイ 195/106/78/104
-メガ・ガーディアン 210/106/122/64
-メガ・Cpt.ワル太 240/110/82/96
-メガ・グラゴン 375/154/62/44
-メガ・ゴーレム -/-/-/-
-メガ・スノードロップ 195/70/78/92
-メガ・スラポン 210/98/74/80
-メガ・チューヘイさん 180/106/74/92
-メガ・ドラニャン 240/114/90/72
-メガ・ぶる太ライダー 225/102/78/108
-メガ・プルドッグ 225/102/54/104
-メガ・フレクー 210/90/90/68
-メガ・ベルチャ 180/102/86/72
-メガ・マホビット 225/94/78/72
-メガ・ミミロット -/-/-/-
-メガ・ミラナイト 165/130/94/60
-メガ・モケマル 255/90/78/80
-メガ・ヤミクマ 300/114/98/68
-メガ・ユーベェ 135/106/86/100
-メガ・ライアード 225/106/86/88
-メガ・ルトペン 255/114/66/52
-メガ・ワルビット 210/98/82/76
-🟡ギガ
-ギガ・アチャガラ -/-/-/-
-ギガ・アトラン 510/270/180/210
-ギガ・オーク -/-/-/-
-ギガ・ガーゴイ -/-/-/-
-ギガ・ガーディアン -/-/-/-
-ギガ・Cpt.ワル太 -/-/-/-
-ギガ・グラゴン 750/360/130/77
-ギガ・ゴーレム 330/260/230/91
-ギガ・スノードロップ 390/150/170/161
-ギガ・スラポン -/-/-/-
-ギガ・チューヘイさん 360/240/160/161
-ギガ・ドラニャン 480/260/200/126
-ギガ・ぶる太ライダー -/-/-/-
-ギガ・プルドッグ 450/230/110/182
-ギガ・フレクー 420/200/200/110
-ギガ・ベルチャ -/-/-/-
-ギガ・マホビット -/-/-/-
-ギガ・ミミロット 360/240/170/301
-ギガ・ミラナイト -/-/-/-
-ギガ・モケマル -/-/-/-
-ギガ・ヤミクマ -/-/-/-
-ギガ・ユーベェ -/-/-/-
-ギガ・ライアード 450/240/190/154
-ギガ・ルトペン 510/260/140/91
-ギガ・ワルビット 420/220/180/133
-👑キング
-キング・アチャガラ -/-/-/-
-キング・アトラン 1320/470/380/300
-キング・オーク -/-/-/-
-キング・ガーゴイ -/-/-/-
-キング・ガーディアン -/-/-/-
-キング・Cpt.ワル太 -/-/-/-
-キング・グラゴン -/-/-/-
-キング・ゴーレム -/-/-/-
-キング・スノードロップ -/-/-/-
-キング・スラポン -/-/-/-
-キング・チューヘイさん -/-/-/-
-キング・ドラニャン 1260/460/400/180
-キング・ぶる太ライダー -/-/-/-
-キング・プルドッグ 1200/430/310/260
-キング・フレクー 1140/400/400/170
-キング・ベルチャ -/-/-/-
-キング・マホビット 1200/410/370/180
-キング・ミミロット -/-/-/-
-キング・ミラナイト 960/500/410/150
-キング・モケマル 1320/400/370/200
-キング・ヤミクマ -/-/-/-
-キング・ユーベェ -/-/-/-
-キング・ライアード -/-/-/-
-キング・ルトペン -/-/-/-
-キング・ワルビット -/-/-/-
-</div>
-
-<div class="tabs__panel" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster" hidden>
-【各モンスターの詳細】
-<ul class="skill-detail-list" id="monsterDetailList"></ul>
-</div>
-
-<div class="tabs__panel" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
-S 250 〜
-A 200 〜 249
-B 160 〜 199
-C 120 〜 159
-D 84 〜 119
-E 28 〜 83
-F 0 〜 27
-</div>
-
-</div>
-
-<footer class="footer">
-  <nav class="footer__links">
-    <a href="privacy.html">プライバシーポリシー</a>
-  </nav>
-  <a class="footer__x" href="https://x.com/yu_cielkun" target="_blank" rel="noopener noreferrer" aria-label="X（旧Twitter）">
-    <img src="images/x-logo-white.png" alt="" width="20" height="20">
-  </a>
-  <p>Created by Ciel'N</p>
-</footer>
-
-<div class="search-bar" id="searchBar">
-  <input type="text" id="searchInput" class="search-bar__input" placeholder="キーワード検索" autocomplete="off">
-  <span class="search-bar__count" id="searchCount">0/0</span>
-  <button type="button" class="search-bar__nav" id="searchPrev" aria-label="前の一致へ" disabled>▲</button>
-  <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
-</div>
-
-<script src="skillData.js?v=0.4.6"></script>
-<script src="trainerData.js?v=0.4.6"></script>
-<script src="monsterData.js?v=0.4.6"></script>
-<script src="script.js?v=0.4.6"></script>
-
-</body>
+  </body>
 </html>

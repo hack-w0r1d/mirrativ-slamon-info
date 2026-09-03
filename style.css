@@ -181,8 +181,19 @@ footer {
   font-weight: bold;
 }
 
-.tabs__panel {
-  white-space: pre-wrap;
+.tabs__panel:not(.tabs__panel--sub) {
+  margin-top: 12px;
+}
+
+.tabs__nav--sub {
+  margin: 10px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #333;
+}
+
+.tabs__nav--sub .tabs__btn {
+  font-size: 12px;
+  padding: 5px 12px;
 }
 
 .skill-detail-list {

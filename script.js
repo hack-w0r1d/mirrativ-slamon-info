@@ -64,8 +64,10 @@
   const nextBtn = document.getElementById('searchNext');
   const searchBar = document.getElementById('searchBar');
   const footer = document.querySelector('footer.footer');
-  const tabButtons = document.querySelectorAll('.tabs__btn');
-  const tabPanels = document.querySelectorAll('.tabs__panel');
+
+  const mainTabButtons = document.querySelectorAll('.tabs__nav--main .tabs__btn');
+  const mainTabPanels = document.querySelectorAll('.tabs__panel:not(.tabs__panel--sub)');
+  const subTabNavs = document.querySelectorAll('.tabs__nav--sub');
 
   const originalHTML = searchScope.innerHTML;
   let matches = [];
@@ -202,26 +204,49 @@
   });
 
   function updateSearchBarVisibility() {
-    const activeTab = document.querySelector('.tabs__btn.is-active')?.dataset.tab;
-    searchBar.classList.toggle('search-bar--hidden', activeTab !== 'event' || isFooterVisible);
+    const isEventVisible = !document.getElementById('tab-panel-event').hidden
+      && !document.getElementById('tab-panel-training-main').hidden;
+    searchBar.classList.toggle('search-bar--hidden', !isEventVisible || isFooterVisible);
   }
 
-  function switchTab(tabName) {
-    tabButtons.forEach((btn) => {
+  function switchMainTab(tabName) {
+    mainTabButtons.forEach((btn) => {
       const isActive = btn.dataset.tab === tabName;
       btn.classList.toggle('is-active', isActive);
       btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
-    tabPanels.forEach((panel) => {
+    mainTabPanels.forEach((panel) => {
       panel.hidden = panel.dataset.tabPanel !== tabName;
     });
     updateSearchBarVisibility();
   }
 
-  tabButtons.forEach((btn) => {
+  function switchSubTab(navEl, subtabName) {
+    const container = navEl.closest('.tabs__panel');
+    navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
+      const isActive = btn.dataset.subtab === subtabName;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    container.querySelectorAll('.tabs__panel--sub').forEach((panel) => {
+      panel.hidden = panel.dataset.tabPanel !== subtabName;
+    });
+    updateSearchBarVisibility();
+  }
+
+  mainTabButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      switchTab(btn.dataset.tab);
+      switchMainTab(btn.dataset.tab);
       history.replaceState(null, '', window.location.pathname);
+    });
+  });
+
+  subTabNavs.forEach((navEl) => {
+    navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        switchSubTab(navEl, btn.dataset.subtab);
+        history.replaceState(null, '', window.location.pathname);
+      });
     });
   });
 
@@ -238,13 +263,26 @@
     observer.observe(footer);
   }
 
+  const TRAINING_SUBTABS = ['event', 'training', 'item', 'exam', 'skill', 'blessing'];
+  const MONSTER_SUBTABS = ['monster', 'rank'];
+
   const deepLinkParams = new URLSearchParams(window.location.search);
   const deepLinkTab = deepLinkParams.get('tab');
   const deepLinkSkill = deepLinkParams.get('skill');
   const deepLinkMonster = deepLinkParams.get('monster');
 
   if (deepLinkTab) {
-    switchTab(deepLinkTab);
+    if (TRAINING_SUBTABS.includes(deepLinkTab)) {
+      switchMainTab('training-main');
+      const nav = document.querySelector('#tab-panel-training-main .tabs__nav--sub');
+      switchSubTab(nav, deepLinkTab);
+    } else if (MONSTER_SUBTABS.includes(deepLinkTab)) {
+      switchMainTab('monster-main');
+      const nav = document.querySelector('#tab-panel-monster-main .tabs__nav--sub');
+      switchSubTab(nav, deepLinkTab);
+    } else {
+      switchMainTab(deepLinkTab);
+    }
   }
 
   if (deepLinkSkill) {
@@ -304,9 +342,9 @@
     statEmojiEl.textContent = shown.map((s) => s.text).join('');
     statRandomEl.textContent = `🔀上記${shown.length}つのうちランダムに1つ`;
     if (statUnchangedEl) {
-      statUnchangedEl.textContent = unchanged.length > 0
-        ? `\n(${unchanged.map((s) => s.text).join('と')}は変化しません)`
-        : '';
+      statUnchangedEl.innerHTML = unchanged.length > 0
+      ? `<br>(${unchanged.map((s) => s.text).join('と')}は変化しません)`
+      : '';
     }
   }
 
