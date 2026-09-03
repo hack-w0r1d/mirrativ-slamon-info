@@ -55,7 +55,7 @@ footer {
   color: orange;
 }
 
-.sub-page__section p a {
+.sub-page__section a {
   color: orange;
 }
 
@@ -191,9 +191,35 @@ footer {
   padding: 0;
 }
 
-/* .skill-detail-list li::before {
-  content: '・';
-} */
+.monster-target-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  background: #f5ba42;
+}
+
+.monster-stats-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.monster-stats-table th,
+.monster-stats-table td {
+  border: 1px solid #444;
+  padding: 6px 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.monster-stats-table th {
+  background: #1a1a1a;
+  color: #fff;
+}
 
 .skill-groups {
   display: flex;

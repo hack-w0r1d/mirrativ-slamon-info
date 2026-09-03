@@ -43,6 +43,20 @@
 })();
 
 (function () {
+  const monsterListEl = document.getElementById('monsterDetailList');
+  if (!monsterListEl || typeof MONSTER_DATA === 'undefined') return;
+
+  MONSTER_DATA.forEach((monster) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `monster.html?name=${encodeURIComponent(monster.name)}`;
+    a.textContent = monster.name;
+    li.appendChild(a);
+    monsterListEl.appendChild(li);
+  });
+})();
+
+(function () {
   const searchScope = document.getElementById('tab-panel-event');
   const searchInput = document.getElementById('searchInput');
   const searchCount = document.getElementById('searchCount');
@@ -227,6 +241,7 @@
   const deepLinkParams = new URLSearchParams(window.location.search);
   const deepLinkTab = deepLinkParams.get('tab');
   const deepLinkSkill = deepLinkParams.get('skill');
+  const deepLinkMonster = deepLinkParams.get('monster');
 
   if (deepLinkTab) {
     switchTab(deepLinkTab);
@@ -237,6 +252,16 @@
     skillLinks.forEach((link) => {
       const linkParams = new URLSearchParams(link.getAttribute('href').split('?')[1]);
       if (linkParams.get('name') === deepLinkSkill) {
+        link.scrollIntoView({ block: 'center' });
+      }
+    });
+  }
+
+  if (deepLinkMonster) {
+    const monsterLinks = document.querySelectorAll('#tab-panel-monster a[href^="monster.html?name="]');
+    monsterLinks.forEach((link) => {
+      const linkParams = new URLSearchParams(link.getAttribute('href').split('?')[1]);
+      if (linkParams.get('name') === deepLinkMonster) {
         link.scrollIntoView({ block: 'center' });
       }
     });
@@ -255,7 +280,7 @@
   const statUnchangedEl = document.getElementById('eventStatUnchangedLine');
   const statInfo = [
     { key: 'hp', text: '🩷HP' },
-    { key: 'atk', text: '⚔️攻撃' },
+    { key: 'atk', text: '🗡️攻撃' },
     { key: 'def', text: '🛡守備' },
     { key: 'spd', text: '💨素早さ' },
   ];

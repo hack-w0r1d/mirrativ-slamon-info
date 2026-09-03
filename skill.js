@@ -1,12 +1,19 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
   const skillName = params.get('name') || '';
+  const fromType = params.get('from');
+  const fromName = params.get('fromName');
 
   const backLink = document.getElementById('backLink');
   if (backLink) {
-    backLink.href = skillName
-      ? `index.html?tab=skill&skill=${encodeURIComponent(skillName)}`
-      : 'index.html?tab=skill';
+    if (fromType === 'monster' && fromName) {
+      backLink.href = `monster.html?name=${encodeURIComponent(fromName)}`;
+      backLink.textContent = `← ${fromName}の詳細に戻る`;
+    } else {
+      backLink.href = skillName
+        ? `index.html?tab=skill&skill=${encodeURIComponent(skillName)}`
+        : 'index.html?tab=skill';
+    }
   }
 
   const nameEl = document.getElementById('skillName');
@@ -41,7 +48,10 @@
 
   learners.forEach((m) => {
     const li = document.createElement('li');
-    li.textContent = m.name;
+    const a = document.createElement('a');
+    a.href = `monster.html?name=${encodeURIComponent(m.name)}&from=skill&fromName=${encodeURIComponent(skill.name)}`;
+    a.textContent = m.name;
+    li.appendChild(a);
     listEl.appendChild(li);
   });
 })();

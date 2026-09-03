@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css?v=0.4.4">
+  <title>モンスター詳細 | スラモン攻略メモ</title>
+</head>
+
+<body>
+<div class="sub-page">
+	<a class="back-link" id="backLink" href="index.html">← モンスター一覧に戻る</a>
+	<h1 id="monsterName"></h1>
+
+	<div class="sub-page__section">
+		<div class="skill-title-row">
+			<h2>初期ステータス</h2>
+			<p id="monsterTarget" class="monster-target-badge"></p>
+		</div>
+		<table class="monster-stats-table">
+			<thead>
+				<tr>
+					<th>🩷HP</th>
+					<th>🗡️攻撃</th>
+					<th>🛡守備</th>
+					<th>💨素早さ</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="monsterStatValues"></tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="sub-page__section">
+		<h2>習得可能なスキル</h2>
+		<div class="skill-groups" id="monsterSkillGroups"></div>
+	</div>
+</div>
+
+<script src="monsterData.js?v=0.4.4"></script>
+<script src="skillData.js?v=0.4.4"></script>
+<script src="monster.js?v=0.4.4"></script>
+</body>
+</html>

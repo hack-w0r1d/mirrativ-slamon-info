@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css?v=0.4.4">
+  <link rel="stylesheet" href="style.css?v=0.4.5">
   <title>スラモン攻略メモ</title>
 </head>
 
@@ -28,6 +28,7 @@
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-skill" aria-controls="tab-panel-skill" aria-selected="false" data-tab="skill">スキル</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-tab="blessing">加護</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-boss" aria-controls="tab-panel-boss" aria-selected="false" data-tab="boss">ボス討伐</button>
+  <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster" aria-controls="tab-panel-monster" aria-selected="false" data-tab="monster">モンスター</button>
   <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-tab="rank">ステータスランク</button>
 </div>
 
@@ -41,7 +42,7 @@
 </div>
 【各絵文字の意味】
 ♥️ハート🍪メタボ
-<span id="eventStatEmojiLine">🩷HP⚔️攻撃🛡守備💨素早さ</span>
+<span id="eventStatEmojiLine">🩷HP🗡️攻撃🛡守備💨素早さ</span>
 <span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span>
 
 【選択イベント一覧】
@@ -103,7 +104,7 @@
 特訓終了時に🩷-5
 
 【キャラクターイベント】
-レント → よろしく⚔️+1 / アイテム⚔️+1
+レント → よろしく🗡️+1 / アイテム🗡️+1
 レント → お礼を言う♥️+4 / 中身を聞く🔀+2
 レント → 探す♥️+3 / 探させる🔀+3
 レント → すぐ飲ませる🔀+3 / あとで飲ませる♥️+3
@@ -196,7 +197,7 @@ DXいちごパフェは育成開始後の初回トレーニング後と各試験
       <select id="blessingHp"></select>
     </div>
     <div class="exam-calc__field">
-      <label for="blessingAtk">⚔️力の加護</label>
+      <label for="blessingAtk">🗡️力の加護</label>
       <select id="blessingAtk"></select>
     </div>
   </div>
@@ -392,7 +393,7 @@ Lv.MAX
 メガ・ベルチャ 180/102/86/72
 メガ・マホビット 225/94/78/72
 メガ・ミミロット -/-/-/-
-メガ・ミラナイト -/-/-/-
+メガ・ミラナイト 165/130/94/60
 メガ・モケマル 255/90/78/80
 メガ・ヤミクマ 300/114/98/68
 メガ・ユーベェ 135/106/86/100
@@ -406,7 +407,7 @@ Lv.MAX
 ギガ・ガーゴイ -/-/-/-
 ギガ・ガーディアン -/-/-/-
 ギガ・Cpt.ワル太 -/-/-/-
-ギガ・グラゴン -/-/-/-
+ギガ・グラゴン 750/360/130/77
 ギガ・ゴーレム 330/260/230/91
 ギガ・スノードロップ 390/150/170/161
 ギガ・スラポン -/-/-/-
@@ -414,7 +415,7 @@ Lv.MAX
 ギガ・ドラニャン 480/260/200/126
 ギガ・ぶる太ライダー -/-/-/-
 ギガ・プルドッグ 450/230/110/182
-ギガ・フレクー -/-/-/-
+ギガ・フレクー 420/200/200/110
 ギガ・ベルチャ -/-/-/-
 ギガ・マホビット -/-/-/-
 ギガ・ミミロット 360/240/170/301
@@ -439,18 +440,23 @@ Lv.MAX
 キング・チューヘイさん -/-/-/-
 キング・ドラニャン 1260/460/400/180
 キング・ぶる太ライダー -/-/-/-
-キング・プルドッグ -/-/-/-
+キング・プルドッグ 1200/430/310/260
 キング・フレクー 1140/400/400/170
 キング・ベルチャ -/-/-/-
 キング・マホビット 1200/410/370/180
 キング・ミミロット -/-/-/-
-キング・ミラナイト -/-/-/-
+キング・ミラナイト 960/500/410/150
 キング・モケマル 1320/400/370/200
 キング・ヤミクマ -/-/-/-
 キング・ユーベェ -/-/-/-
 キング・ライアード -/-/-/-
 キング・ルトペン -/-/-/-
 キング・ワルビット -/-/-/-
+</div>
+
+<div class="tabs__panel" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster" hidden>
+【各モンスターの詳細】
+<ul class="skill-detail-list" id="monsterDetailList"></ul>
 </div>
 
 <div class="tabs__panel" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
@@ -482,10 +488,10 @@ F 0 〜 27
   <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
 </div>
 
-<script src="skillData.js?v=0.4.4"></script>
-<script src="trainerData.js?v=0.4.4"></script>
-<script src="monsterData.js?v=0.4.4"></script>
-<script src="script.js?v=0.4.4"></script>
+<script src="skillData.js?v=0.4.5"></script>
+<script src="trainerData.js?v=0.4.5"></script>
+<script src="monsterData.js?v=0.4.5"></script>
+<script src="script.js?v=0.4.5"></script>
 
 </body>
 </html>
