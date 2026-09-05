@@ -1,3 +1,43 @@
+const EVENT_STAT_INFO = [
+  { key: 'hp', text: '🩷HP', emoji: '🩷' },
+  { key: 'atk', text: '🗡️攻撃', emoji: '🗡️' },
+  { key: 'def', text: '🛡守備', emoji: '🛡' },
+  { key: 'spd', text: '💨素早さ', emoji: '💨' },
+];
+
+function getShownEventStats(monsterName) {
+  if (typeof TRAINER_DATA === 'undefined') return EVENT_STAT_INFO;
+  const trainer = TRAINER_DATA.find((t) => t.name === monsterName);
+  const growth = trainer ? trainer.growth : null;
+  return growth ? EVENT_STAT_INFO.filter((s) => growth[s.key] !== 0) : EVENT_STAT_INFO;
+}
+
+function hideDiceTooltip() {
+  const existing = document.querySelector('.dice-tap__tooltip');
+  if (existing) existing.remove();
+}
+
+function showDiceTooltip(target) {
+  hideDiceTooltip();
+  const monsterName = document.getElementById('eventTrainingTargetMonster')?.value;
+  const tooltip = document.createElement('span');
+  tooltip.className = 'dice-tap__tooltip';
+  tooltip.textContent = getShownEventStats(monsterName).map((s) => s.emoji).join('or');
+  target.appendChild(tooltip);
+
+  const margin = 8;
+  const rect = tooltip.getBoundingClientRect();
+  let shift = 0;
+  if (rect.left < margin) {
+    shift = margin - rect.left;
+  } else if (rect.right > window.innerWidth - margin) {
+    shift = window.innerWidth - margin - rect.right;
+  }
+  if (shift !== 0) {
+    tooltip.style.transform = `translateX(calc(-50% + ${shift}px))`;
+  }
+}
+
 (function () {
   const groupsEl = document.getElementById('skillGroups');
   if (!groupsEl || typeof SKILL_DATA === 'undefined') return;
@@ -53,6 +93,48 @@
     a.textContent = monster.name;
     li.appendChild(a);
     monsterListEl.appendChild(li);
+  });
+})();
+
+(function () {
+  const containers = ['eventChoiceList', 'eventCharacterList']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if (containers.length === 0) return;
+
+  containers.forEach((container) => {
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    const targets = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.textContent.includes('🔀')) targets.push(node);
+    }
+    targets.forEach((textNode) => {
+      const frag = document.createDocumentFragment();
+      textNode.textContent.split('🔀').forEach((part, i) => {
+        if (i > 0) {
+          const dice = document.createElement('span');
+          dice.className = 'dice-tap';
+          dice.textContent = '🔀';
+          frag.appendChild(dice);
+        }
+        if (part) frag.appendChild(document.createTextNode(part));
+      });
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  });
+})();
+
+(function () {
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('.dice-tap');
+    if (!target) {
+      hideDiceTooltip();
+      return;
+    }
+    const alreadyOpen = target.querySelector('.dice-tap__tooltip');
+    hideDiceTooltip();
+    if (!alreadyOpen) showDiceTooltip(target);
   });
 })();
 
@@ -316,12 +398,6 @@
   const statEmojiEl = document.getElementById('eventStatEmojiLine');
   const statRandomEl = document.getElementById('eventStatRandomLine');
   const statUnchangedEl = document.getElementById('eventStatUnchangedLine');
-  const statInfo = [
-    { key: 'hp', text: '🩷HP' },
-    { key: 'atk', text: '🗡️攻撃' },
-    { key: 'def', text: '🛡守備' },
-    { key: 'spd', text: '💨素早さ' },
-  ];
   const TRAINING_TARGET_MONSTER_STORAGE_KEY = 'trainingTargetMonster';
 
   trainingTargetMonsterSelects.forEach((select) => {
@@ -334,11 +410,9 @@
   });
 
   function updateLegend(value) {
-    if (!statEmojiEl || !statRandomEl || typeof TRAINER_DATA === 'undefined') return;
-    const trainer = TRAINER_DATA.find((t) => t.name === value);
-    const growth = trainer ? trainer.growth : null;
-    const shown = growth ? statInfo.filter((s) => growth[s.key] !== 0) : statInfo;
-    const unchanged = growth ? statInfo.filter((s) => growth[s.key] === 0) : [];
+    if (!statEmojiEl || !statRandomEl) return;
+    const shown = getShownEventStats(value);
+    const unchanged = EVENT_STAT_INFO.filter((s) => !shown.includes(s));
     statEmojiEl.textContent = shown.map((s) => s.text).join('');
     statRandomEl.textContent = `🔀上記${shown.length}つのうちランダムに1つ`;
     if (statUnchangedEl) {
@@ -353,6 +427,7 @@
       if (select.value !== value) select.value = value;
     });
     updateLegend(value);
+    hideDiceTooltip();
     if (save) {
       localStorage.setItem(TRAINING_TARGET_MONSTER_STORAGE_KEY, value);
     }
