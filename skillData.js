@@ -147,13 +147,13 @@ const SKILL_DATA = [
     name: 'リフレシュ',
     heartCost: 10,
     type: '回復・カウンター',
-    description: '自分のHPを150回復か。「チョーリフレシュ」に進化可能。',
+    description: '自分のHPを150回復。「チョーリフレシュ」に進化可能。',
   },
   {
     name: 'チョーリフレシュ',
     heartCost: 30,
     type: '回復・カウンター',
-    description: '「リフレシュ」から進化。自分のHPを209~?回復。',
+    description: '「リフレシュ」から進化。自分のHPを300回復。',
   },
   {
     name: 'ピヨルト',
