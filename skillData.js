@@ -33,7 +33,7 @@ const SKILL_DATA = [
     name: 'だいちのいかり',
     heartCost: 20,
     type: '物理攻撃',
-    description: 'モンスター1体に攻撃力を約1.5倍にして攻撃。(検証中)',
+    description: 'モンスター1体に攻撃力を約1.5倍にして攻撃。',
   },
   {
     name: 'ユルミノウタ',
@@ -129,7 +129,7 @@ const SKILL_DATA = [
     name: 'ドリルスピン',
     heartCost: 15,
     type: '物理攻撃',
-    description: '通常攻撃の約1.5倍',
+    description: '相手1体に攻撃力を1.23~1.36倍にして攻撃。(検証中)',
   },
   {
     name: 'おしつぶし',
