@@ -57,7 +57,7 @@ const SKILL_DATA = [
     name: 'ナイトメーア',
     heartCost: 20,
     type: '物理攻撃',
-    description: '敵全体に通常攻撃分のダメージ、素早さを下げる',
+    description: '敵全体に通常攻撃分のダメージを与え、さらに素早さを半分(検証中)にする',
   },
   {
     name: 'ニャンニャンドレイン',
