@@ -189,7 +189,7 @@ const SKILL_DATA = [
     name: 'ガチガチン',
     heartCost: 30,
     type: 'バフスキル',
-    description: '「カチコチン」から進化。自分の守備力を大きく上げる。',
+    description: '「カチコチン」から進化。自分の守備力を1.5倍上げる。',
   },
   {
     name: 'キビキビン',
