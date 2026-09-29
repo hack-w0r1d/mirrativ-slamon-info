@@ -33,7 +33,7 @@ const SKILL_DATA = [
     name: 'だいちのいかり',
     heartCost: 20,
     type: '物理攻撃',
-    description: 'モンスター1体に攻撃力を約1.5倍にして攻撃。',
+    description: 'モンスター1体に攻撃力を1.5倍にして攻撃。',
   },
   {
     name: 'ユルミノウタ',
@@ -135,7 +135,7 @@ const SKILL_DATA = [
     name: 'おしつぶし',
     heartCost: 15,
     type: '物理攻撃',
-    description: '相手1体に元々の攻撃力を約1.7倍にして攻撃。HPが低い時発動確率が上がる。',
+    description: '相手1体に元々の攻撃力を1.7倍にして攻撃。HPが低い時発動確率が上がる。',
   },
   {
     name: 'シビルト',
