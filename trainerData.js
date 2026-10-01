@@ -1,5 +1,9 @@
 const TRAINER_DATA = [
   {
+    name: 'アチポッチ',
+    growth: { hp: 3, atk: 3, def: 0, spd: 0 },
+  },
+  {
     name: 'アチャガラ',
     growth: { hp: 1, atk: 1, def: 0, spd: 4 },
   },
