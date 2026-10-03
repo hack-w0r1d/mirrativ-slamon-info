@@ -29,6 +29,10 @@ footer {
   margin-top: 50px;
 }
 
+nav.footer__links {
+  margin-bottom: 25px;
+}
+
 .footer__links a {
   color: white;
 }
