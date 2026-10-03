@@ -27,7 +27,7 @@ const SKILL_DATA = [
     name: 'おやつのじかん',
     heartCost: 20,
     type: '回復・カウンター',
-    description: '自分のHPを45回復し、攻撃力を少し上げる。',
+    description: '自分のHPを45回復し、攻撃力を1.2倍上げる。',
   },
   {
     name: 'だいちのいかり',
