@@ -87,12 +87,8 @@ function showDiceTooltip(target) {
   if (!monsterListEl || typeof MONSTER_DATA === 'undefined') return;
 
   MONSTER_DATA.forEach((monster) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = `monster.html?name=${encodeURIComponent(monster.name)}`;
-    a.textContent = monster.name;
-    li.appendChild(a);
-    monsterListEl.appendChild(li);
+    const href = `monster.html?id=${monster.id}`;
+    monsterListEl.appendChild(createMonsterCard(monster, href));
   });
 })();
 
@@ -378,10 +374,10 @@ function showDiceTooltip(target) {
   }
 
   if (deepLinkMonster) {
-    const monsterLinks = document.querySelectorAll('#tab-panel-monster a[href^="monster.html?name="]');
+    const monsterLinks = document.querySelectorAll('#tab-panel-monster a[href^="monster.html?id="]');
     monsterLinks.forEach((link) => {
       const linkParams = new URLSearchParams(link.getAttribute('href').split('?')[1]);
-      if (linkParams.get('name') === deepLinkMonster) {
+      if (linkParams.get('id') === deepLinkMonster) {
         link.scrollIntoView({ block: 'center' });
       }
     });

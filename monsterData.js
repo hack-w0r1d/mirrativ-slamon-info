@@ -1,12 +1,12 @@
 const MONSTER_DATA = [
   {
+    id: 'm01',
     name: 'スラポン',
     stats: { hp: 14, atk: 12, def: 6, spd: 10 },
     target: '強者狙い',
     skills: [
       'フニャリズム',
       'アイース',
-      'ギガアイース',
       'ギガアイース',
       'おしつぶし',
       'リフレシュ',
@@ -23,7 +23,7 @@ const MONSTER_DATA = [
       'ズバズバン',
       'ズドズドン',
       'ポヨポヨン',
-      'プヨプヨン',
+      'ブヨブヨン',
       'カシコイン',
       'インテリン',
       'フニャルト',
@@ -39,6 +39,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm02',
     name: 'オーク',
     stats: { hp: 20, atk: 18, def: 4, spd: 2 },
     target: '弱者狙い',
@@ -75,6 +76,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm03',
     name: 'ガーゴイ',
     stats: { hp: 13, atk: 14, def: 7, spd: 16 },
     target: '元気狙い',
@@ -110,6 +112,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm04',
     name: 'ミラナイト',
     stats: { hp: 11, atk: 20, def: 11, spd: 5 },
     target: 'とどめ狙い',
@@ -145,6 +148,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm05',
     name: 'ぶる太ライダー',
     stats: { hp: 15, atk: 13, def: 7, spd: 17 },
     target: '弱者狙い',
@@ -182,6 +186,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm06',
     name: 'ワルビット',
     stats: { hp: 14, atk: 12, def: 8, spd: 9 },
     target: '弱者狙い',
@@ -218,6 +223,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm07',
     name: 'マホビット',
     stats: { hp: 15, atk: 11, def: 7, spd: 8 },
     target: '鉄壁狙い',
@@ -257,6 +263,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm08',
     name: 'Cpt.ワル太',
     stats: { hp: 16, atk: 15, def: 8, spd: 14 },
     target: '弱者狙い',
@@ -293,6 +300,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm09',
     name: 'ゴーレム',
     stats: { hp: 11, atk: 16, def: 13, spd: 3 },
     target: '力自慢狙い',
@@ -328,6 +336,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm10',
     name: 'グラゴン',
     stats: { hp: 25, atk: 26, def: 3, spd: 1 },
     target: '韋駄天狙い',
@@ -363,6 +372,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm11',
     name: 'スノードロップ',
     stats: { hp: 13, atk: 5, def: 7, spd: 13 },
     target: '鉄壁狙い',
@@ -401,6 +411,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm12',
     name: 'ベルチャ',
     stats: { hp: 12, atk: 13, def: 9, spd: 8 },
     target: '力自慢狙い',
@@ -436,6 +447,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm13',
     name: 'ユーベェ',
     stats: { hp: 9, atk: 14, def: 9, spd: 15 },
     target: '強者狙い',
@@ -473,6 +485,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm14',
     name: 'ガーディアン',
     stats: { hp: 14, atk: 14, def: 18, spd: 6 },
     target: '力自慢狙い',
@@ -509,6 +522,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm15',
     name: 'アチャガラ',
     stats: { hp: 18, atk: 13, def: 8, spd: 11 },
     target: '鉄壁狙い',
@@ -544,6 +558,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm16',
     name: 'フレクー',
     stats: { hp: 14, atk: 10, def: 10, spd: 7 },
     target: '元気狙い',
@@ -580,6 +595,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm17',
     name: 'ライアード',
     stats: { hp: 15, atk: 14, def: 9, spd: 12 },
     target: 'とどめ狙い',
@@ -618,6 +634,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm18',
     name: 'ルトペン',
     stats: { hp: 17, atk: 16, def: 4, spd: 3 },
     target: '魔導師狙い',
@@ -654,6 +671,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm19',
     name: 'チューヘイさん',
     stats: { hp: 12, atk: 14, def: 6, spd: 13 },
     target: '力自慢狙い',
@@ -691,6 +709,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm20',
     name: 'アトラン',
     stats: { hp: 17, atk: 17, def: 8, spd: 20 },
     target: '強者狙い',
@@ -725,6 +744,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm21',
     name: 'ヤミクマ',
     stats: { hp: 20, atk: 16, def: 12, spd: 7 },
     target: '均等狙い',
@@ -762,6 +782,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm22',
     name: 'ドラニャン',
     stats: { hp: 16, atk: 16, def: 10, spd: 8 },
     target: 'とどめ狙い',
@@ -796,13 +817,13 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm23',
     name: 'プルドッグ',
     stats: { hp: 15, atk: 13, def: 1, spd: 16 },
     target: '韋駄天狙い',
     skills: [
       'ぷるぷるカウンター',
       'アイース',
-      'ギガアイース',
       'ギガアイース',
       'おしつぶし',
       'リフレシュ',
@@ -837,6 +858,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm24',
     name: 'モケマル',
     stats: { hp: 17, atk: 10, def: 7, spd: 10 },
     target: '力自慢狙い',
@@ -874,6 +896,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm25',
     name: 'ミミロット',
     stats: { hp: 12, atk:14, def: 7, spd: 33 },
     target: '均等狙い',
@@ -881,9 +904,7 @@ const MONSTER_DATA = [
       'ダウナースロット',
       'ファイーア',
       'ギガファイーア',
-      'ギガファイーア',
       'アイース',
-      'ギガアイース',
       'ギガアイース',
       'シビルト',
       'ムキムキン',
@@ -911,6 +932,7 @@ const MONSTER_DATA = [
     ],
   },
   {
+    id: 'm26',
     name: 'アチポッチ',
     stats: { hp: 15, atk:18, def: 10, spd: 21 },
     target: '魔道士狙い',

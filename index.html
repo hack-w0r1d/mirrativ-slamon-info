@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=0.7.1">
+    <link rel="stylesheet" href="style.css?v=0.8.0">
     <title>スラモン攻略メモ</title>
   </head>
 
@@ -330,7 +330,7 @@
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster">
           【各モンスターの詳細】<br>
-          <ul class="skill-detail-list" id="monsterDetailList"></ul>
+          <div class="monster-card-grid" id="monsterDetailList"></div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
           S 250 〜<br>
@@ -507,10 +507,11 @@
       <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
     </div>
 
-    <script src="skillData.js?v=0.7.1"></script>
-    <script src="trainerData.js?v=0.7.1"></script>
-    <script src="monsterData.js?v=0.7.1"></script>
-    <script src="script.js?v=0.7.1"></script>
+    <script src="skillData.js?v=0.8.0"></script>
+    <script src="trainerData.js?v=0.8.0"></script>
+    <script src="monsterData.js?v=0.8.0"></script>
+    <script src="monsterCard.js?v=0.8.0"></script>
+    <script src="script.js?v=0.8.0"></script>
 
   </body>
 </html>

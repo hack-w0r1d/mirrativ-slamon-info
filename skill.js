@@ -3,12 +3,14 @@
   const skillName = params.get('name') || '';
   const fromType = params.get('from');
   const fromName = params.get('fromName');
+  const fromId = params.get('fromId');
 
   const backLink = document.getElementById('backLink');
   if (backLink) {
-    if (fromType === 'monster' && fromName) {
-      backLink.href = `monster.html?name=${encodeURIComponent(fromName)}`;
-      backLink.textContent = `← ${fromName}の詳細に戻る`;
+    if (fromType === 'monster' && fromId) {
+      const fromMonster = MONSTER_DATA.find((m) => m.id === fromId);
+      backLink.href = `monster.html?id=${encodeURIComponent(fromId)}`;
+      backLink.textContent = `← ${fromMonster ? fromMonster.name : 'モンスター'}の詳細に戻る`;
     } else if (fromType === 'skill' && fromName) {
       backLink.href = `skill.html?name=${encodeURIComponent(fromName)}`;
       backLink.textContent = `← ${fromName}の詳細に戻る`;
@@ -60,18 +62,15 @@
   const learners = MONSTER_DATA.filter((m) => m.skills.includes(skill.name));
 
   if (learners.length === 0) {
-    const li = document.createElement('li');
-    li.textContent = '習得可能なモンスターは未登録です';
-    listEl.appendChild(li);
+    const p = document.createElement('p');
+    p.className = 'monster-card-grid__empty';
+    p.textContent = '習得可能なモンスターは未登録です';
+    listEl.appendChild(p);
     return;
   }
 
   learners.forEach((m) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = `monster.html?name=${encodeURIComponent(m.name)}&from=skill&fromName=${encodeURIComponent(skill.name)}`;
-    a.textContent = m.name;
-    li.appendChild(a);
-    listEl.appendChild(li);
+    const href = `monster.html?id=${m.id}&from=skill&fromName=${encodeURIComponent(skill.name)}`;
+    listEl.appendChild(createMonsterCard(m, href));
   });
 })();
