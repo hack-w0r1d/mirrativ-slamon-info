@@ -93,6 +93,71 @@ function showDiceTooltip(target) {
 })();
 
 (function () {
+  const toggle = document.getElementById('heartOnlyToggle');
+  const containers = ['eventChoiceList', 'eventCharacterList']
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  if (!toggle || containers.length === 0) return;
+
+  const HEART_REGEX = /♥/u;
+  const LINE_REGEX = /^(\s*[^→\n]+→\s*)(.+?)(\s+\/\s+)(.+?)(\s*)$/u;
+
+  function createChoice(text, isHideable) {
+    const span = document.createElement('span');
+    span.className = 'event-choice';
+    span.textContent = text;
+    if (isHideable) span.dataset.heartHide = '1';
+    return span;
+  }
+
+  // 「名前 → 選択肢A / 選択肢B」の行を、選択肢ごとのspanに分割する
+  // (🔀のダイス化より前に実行する必要がある)
+  containers.forEach((container) => {
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    const targets = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (LINE_REGEX.test(node.textContent)) targets.push(node);
+    }
+    targets.forEach((textNode) => {
+      const [, head, a, sep, b, tail] = textNode.textContent.match(LINE_REGEX);
+      const aHasHeart = HEART_REGEX.test(a);
+      const bHasHeart = HEART_REGEX.test(b);
+      const frag = document.createDocumentFragment();
+      frag.appendChild(document.createTextNode(head));
+      frag.appendChild(createChoice(a, !aHasHeart && bHasHeart));
+      frag.appendChild(document.createTextNode(sep));
+      frag.appendChild(createChoice(b, aHasHeart && !bHasHeart));
+      if (tail) frag.appendChild(document.createTextNode(tail));
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  });
+
+  toggle.addEventListener('click', () => {
+    const isOn = toggle.getAttribute('aria-pressed') !== 'true';
+    toggle.setAttribute('aria-pressed', String(isOn));
+    toggle.textContent = isOn ? '♥️のみ表示中' : '♥️のみ表示する';
+    hideDiceTooltip();
+    document.querySelectorAll('.event-choice[data-heart-hide]').forEach((el) => {
+      if (isOn) {
+        if (!el._origNodes) {
+          el._origNodes = Array.from(el.childNodes);
+          el.replaceChildren('-');
+        }
+      } else if (el._origNodes) {
+        el.replaceChildren(...el._origNodes);
+        el._origNodes = null;
+      }
+    });
+    // 検索中なら検索結果(ハイライト数)を再計算する
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput && searchInput.value.trim()) {
+      searchInput.dispatchEvent(new Event('input'));
+    }
+  });
+})();
+
+(function () {
   const containers = ['eventChoiceList', 'eventCharacterList']
     .map((id) => document.getElementById(id))
     .filter(Boolean);
@@ -147,7 +212,6 @@ function showDiceTooltip(target) {
   const mainTabPanels = document.querySelectorAll('.tabs__panel:not(.tabs__panel--sub)');
   const subTabNavs = document.querySelectorAll('.tabs__nav--sub');
 
-  const originalHTML = searchScope.innerHTML;
   let matches = [];
   let currentIndex = -1;
   let isFooterVisible = false;
@@ -157,7 +221,10 @@ function showDiceTooltip(target) {
   }
 
   function clearHighlights() {
-    searchScope.innerHTML = originalHTML;
+    searchScope.querySelectorAll('mark.search-highlight').forEach((mark) => {
+      mark.replaceWith(document.createTextNode(mark.textContent));
+    });
+    searchScope.normalize();
     matches = [];
     currentIndex = -1;
   }
@@ -170,7 +237,9 @@ function showDiceTooltip(target) {
     }
 
     const regex = new RegExp(escapeRegExp(query), 'gu');
-    const walker = document.createTreeWalker(searchScope, NodeFilter.SHOW_TEXT, null);
+    const walker = document.createTreeWalker(searchScope, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => (n.parentNode.closest('.heart-filter') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+    });
     const textNodes = [];
     let node;
     while ((node = walker.nextNode())) {

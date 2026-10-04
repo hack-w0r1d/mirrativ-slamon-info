@@ -555,3 +555,28 @@ nav.footer__links {
   width: 80px;
   flex: none;
 }
+
+.event-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heart-filter {
+  background: transparent;
+  color: orange;
+  border: 1px solid orange;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.heart-filter[aria-pressed="true"] {
+  background: orange;
+  color: #000;
+  font-weight: bold;
+}

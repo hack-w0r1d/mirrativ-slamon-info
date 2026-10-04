@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=0.8.3">
+    <link rel="stylesheet" href="style.css?v=0.8.4">
     <title>スラモン攻略メモ</title>
   </head>
 
@@ -55,7 +55,10 @@
           <span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span><br>
           <br>
           <div id="eventChoiceList">
-            【選択イベント一覧】<br>
+            <div class="event-list-header">
+              <span>【選択イベント一覧】</span>
+              <button type="button" class="heart-filter" id="heartOnlyToggle" aria-pressed="false">♥️のみ表示する</button>
+            </div>
             青空 → 外🍪-3 / 日向ぼっこ♥️+3<br>
             遊びたそう → 遊ぶ♥️+2 / トレーニング🔀+1<br>
             新しい動き → 難しい技🔀+3 or 🔀-3 / 固め直す🔀+2<br>
@@ -102,7 +105,7 @@
             光 → 日光浴♥️+3 / 高ぶり🔀+3<br>
             拾ってきた → 確認🔀+1 / 戻す×<br>
             ファン → 手を振る🔥+10 / 照れる♥️+3<br>
-            変なものを口に → あわてて❤️+2 or 🔥-5 / 落ち着いて♥️+2 or 🔀+2<br>
+            変なものを口に → あわてて♥️+2 or 🔥-5 / 落ち着いて♥️+2 or 🔀+2<br>
             ぽかぽか陽気 → お花見♥️+3 / 特訓🔥+10<br>
             真似 → 大げさに🔥+10 / 逃げる🔀+3 or 🔥-6<br>
             やけに冴えている → 集中特訓🔀+3 or 🔥-10 / 寝かせる♥️+4<br>
@@ -138,7 +141,7 @@
           成功 → *️⃣+12 / 失敗 → 🔥-2<br>
           <br>
           【スキン限定イベント】<br>
-          マイク → いいよ!*️⃣+10❤️+5🔥+50 / しょうがない*️⃣+10❤️+5🔥+50<br>
+          マイク → いいよ!*️⃣+10♥️+5🔥+50 / しょうがない*️⃣+10♥️+5🔥+50<br>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
           〜 まとめ 〜<br>
@@ -506,11 +509,11 @@
       <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
     </div>
 
-    <script src="skillData.js?v=0.8.3"></script>
-    <script src="trainerData.js?v=0.8.3"></script>
-    <script src="monsterData.js?v=0.8.3"></script>
-    <script src="monsterCard.js?v=0.8.3"></script>
-    <script src="script.js?v=0.8.3"></script>
+    <script src="skillData.js?v=0.8.4"></script>
+    <script src="trainerData.js?v=0.8.4"></script>
+    <script src="monsterData.js?v=0.8.4"></script>
+    <script src="monsterCard.js?v=0.8.4"></script>
+    <script src="script.js?v=0.8.4"></script>
 
   </body>
 </html>
