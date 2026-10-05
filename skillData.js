@@ -141,7 +141,7 @@ const SKILL_DATA = [
     name: 'ドリルスピン',
     heartCost: 15,
     type: '物理攻撃',
-    description: '相手1体に攻撃力を約1.3倍(検証中)にして攻撃。HPが高い時に発動確率が上がる。',
+    description: '相手1体に攻撃力を1.3倍にして攻撃。HPが高い時に発動確率が上がる。',
   },
   {
     name: 'おしつぶし',
