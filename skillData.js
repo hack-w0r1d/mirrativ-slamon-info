@@ -33,7 +33,7 @@ const SKILL_DATA = [
     name: 'だいちのいかり',
     heartCost: 20,
     type: '物理攻撃',
-    description: 'モンスター1体に攻撃力を1.5倍にして攻撃。',
+    description: 'モンスター1体に攻撃力を1.50~1.55倍にして攻撃。',
   },
   {
     name: 'ユルミノウタ',
