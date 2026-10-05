@@ -9,7 +9,7 @@ const SKILL_DATA = [
     name: 'カチムキン',
     heartCost: 20,
     type: 'バフスキル',
-    description: '自分の攻撃力と守備力を少し上げる。',
+    description: '自分の攻撃力と守備力を1.25倍(攻撃力は検証中)上げる。',
   },
   {
     name: 'カナシバルト',
@@ -147,7 +147,7 @@ const SKILL_DATA = [
     name: 'おしつぶし',
     heartCost: 15,
     type: '物理攻撃',
-    description: '相手1体に元々の攻撃力を1.7倍にして攻撃。HPが低い時発動確率が上がる。',
+    description: '相手1体に元々の攻撃力を1.70~1.73倍にして攻撃。HPが低い時発動確率が上がる。',
   },
   {
     name: 'シビルト',
