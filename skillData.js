@@ -63,7 +63,7 @@ const SKILL_DATA = [
     name: 'ニャンニャンドレイン',
     heartCost: 20,
     type: '物理攻撃',
-    description: 'モンスター1体にダメージを与え、自分のHPを少し回復する。',
+    description: 'モンスター1体にダメージを与え、自分のHPを43~?回復する。',
   },
   {
     name: 'ぷるぷるカウンター',
