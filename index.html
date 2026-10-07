@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=0.8.8">
+    <link rel="stylesheet" href="style.css?v=1.0.0">
     <title>スラモン攻略メモ</title>
   </head>
 
@@ -24,10 +24,23 @@
     <div class="memo">
       <h1>スラモン攻略メモ</h1>
 
+      <div class="sticky-settings" id="stickySettings">
+        <button type="button" class="player-settings" id="playerSettingsBtn" aria-haspopup="dialog" data-open-settings>
+          <span class="player-settings__image" id="settingsMonsterImage"></span>
+          <span class="player-settings__body">
+            <span class="player-settings__row">現在の育成モンスター: <span id="settingsMonsterLabel"></span></span>
+            <span class="player-settings__row">加護: <span id="settingsBlessingLabel"></span></span>
+          </span>
+          <span class="player-settings__edit">⚙️設定</span>
+        </button>
+      </div>
+
       <div class="tabs__nav tabs__nav--main" role="tablist">
         <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-training-main" aria-controls="tab-panel-training-main" aria-selected="true" data-tab="training-main">育成</button>
         <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-main" aria-controls="tab-panel-monster-main" aria-selected="false" data-tab="monster-main">モンスター</button>
         <button type="button" class="tabs__btn" role="tab" id="tab-btn-boss" aria-controls="tab-panel-boss" aria-selected="false" data-tab="boss">ボス討伐</button>
+        <span class="tabs__current" id="tabsCurrent"></span>
+        <button type="button" class="tabs__toggle" id="tabsToggle" aria-expanded="true" aria-label="タブ欄を閉じる">▲</button>
       </div>
 
       <div class="tabs__panel" id="tab-panel-training-main" role="tabpanel" aria-labelledby="tab-btn-training-main" data-tab-panel="training-main">
@@ -40,13 +53,7 @@
           <button type="button" class="tabs__btn" role="tab" id="tab-btn-blessing" aria-controls="tab-panel-blessing" aria-selected="false" data-subtab="blessing">加護</button>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-event" role="tabpanel" aria-labelledby="tab-btn-event" data-tab-panel="event">
-          〜 まとめ 〜<br>
-          ・基本的には♥️を獲得できる選択肢を選んだほうが育成の選択肢が広がります<br>
-          <br>
-          <div class="exam-calc__field exam-calc__field--plain">
-            <label for="eventTrainingTargetMonster">現在の育成モンスター</label>
-            <select id="eventTrainingTargetMonster"></select>
-          </div>
+          <button type="button" class="summary-btn" data-summary="event">💡攻略のまとめ</button><br>
           <br>
           【各絵文字の意味】<br>
           ♥️ハート🍪メタボ<br>
@@ -144,10 +151,7 @@
           マイク → いいよ!*️⃣+10♥️+5🔥+50 / しょうがない*️⃣+10♥️+5🔥+50<br>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
-          〜 まとめ 〜<br>
-          ・加護Lv.とレアリティボーナスが安定した育成に重要<br>
-          ・出現トレーナーや大成功ボーナスなど運要素がかなり絡んでくる<br>
-          ・モチベが高いと大成功確率がUp<br>
+          <button type="button" class="summary-btn" data-summary="training">💡攻略のまとめ</button><br>
           <br>
           【トレーニング】<br>
           各トレーナーの基礎ボーナス値に、育成モンスターのレアリティボーナスと加護Lv.ボーナスが+される<br>
@@ -163,11 +167,7 @@
           集中強化合宿期間 🔥+10~30♥️+6~14<br>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
-          〜 まとめ 〜<br>
-          ・強化したいキャラには必ず ツヨクナールZ を使用すること！<br>
-          ⚠️流れ作業でやるとたまに出現した時に見逃します<br>
-          ・メタボはなるべく避ける<br>
-          ・ホネビスケットは効果が低いのであまりおすすめしません<br>
+          <button type="button" class="summary-btn" data-summary="item">💡攻略のまとめ</button><br>
           <br>
           ホネビスケット→🔥+10🍪+20<br>
           しっとりたいやき→🔥+25🍪+40♥️+1<br>
@@ -182,18 +182,10 @@
           メタボになると通常のイベントが高確率でメタボ専用イベントに。
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-exam" role="tabpanel" aria-labelledby="tab-btn-exam" data-tab-panel="exam" hidden>
-          〜 まとめ 〜<br>
-          ・試験報酬は最終>二次>一次の順で多い<br>
-          ・悪魔像のごほうびは最終>二次>一次の順で高い<br>
-          ・悪魔像のごほうびはモンスターごとに特定のステータスの中からランダムな1つに与えられる<br>
-          ・安定した育成には加護Lv.が必要<br>
+          <button type="button" class="summary-btn" data-summary="exam">💡攻略のまとめ</button><br>
           <br>
           <div class="exam-calc">
             <h2 class="exam-calc__title">試験報酬ボーナス計算</h2>
-            <div class="exam-calc__field">
-              <label for="trainingTargetMonster">育成モンスター</label>
-              <select id="trainingTargetMonster"></select>
-            </div>
             <div class="exam-calc__field">
               <label for="examType">試験の種類</label>
               <select id="examType">
@@ -202,32 +194,11 @@
                 <option value="3">最終試験</option>
               </select>
             </div>
-            <div class="exam-calc__row">
-              <div class="exam-calc__field">
-                <label for="blessingHp">🩷体力の加護</label>
-                <select id="blessingHp"></select>
-              </div>
-              <div class="exam-calc__field">
-                <label for="blessingAtk">🗡️力の加護</label>
-                <select id="blessingAtk"></select>
-              </div>
-            </div>
-            <div class="exam-calc__row">
-              <div class="exam-calc__field">
-                <label for="blessingDef">🛡️守りの加護</label>
-                <select id="blessingDef"></select>
-              </div>
-              <div class="exam-calc__field">
-                <label for="blessingSpd">💨速さの加護</label>
-                <select id="blessingSpd"></select>
-              </div>
-            </div>
             <div class="exam-calc__field">
               <label for="rewardLv">😈ごほうびLv.</label>
               <select id="rewardLv"></select>
             </div>
-            <button type="button" id="examCalcBtn" class="exam-calc__btn">計算する</button>
-            <div class="exam-calc__result" id="examCalcResult" hidden>
+            <div class="exam-calc__result" id="examCalcResult">
               <table class="exam-calc__table">
                 <thead>
                   <tr><th>ごほうび対象</th><th>HP</th><th>攻撃</th><th>守備</th><th>素早さ</th></tr>
@@ -287,14 +258,16 @@
           <div class="skill-groups" id="skillGroups"></div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-blessing" role="tabpanel" aria-labelledby="tab-btn-blessing" data-tab-panel="blessing" hidden>
-          〜 まとめ 〜<br>
-          ・Lv.1強化するごとに試験報酬の対応するステータスが+1される<br>
-          ・Lv.8とLv.9ではトレーニング効果に差があるため可能ならLv.9に強化する<br>
-          ・Lv.9とLv.10ではトレーニング効果に差があるため可能ならLv.10に強化する<br>
-          ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する<br>
+          <button type="button" class="summary-btn" data-summary="blessing">💡攻略のまとめ</button><br>
           <br>
           💡加護Lv.はトレーニングと試験報酬に追加ボーナス<br>
           ⚠️毎シーズンリセットされます<br>
+          <br>
+          <div class="exam-calc">
+            <h2 class="exam-calc__title">加護Lv.UP必要量計算</h2>
+            <div class="bless-calc__grid" id="blessCalcGrid"></div>
+            <div class="bless-calc__total" id="blessCalcTotal"></div>
+          </div>
           <br>
           【加護Lv.Upに必要な条件】<br>
           Lv.1 🪙100<br>
@@ -341,7 +314,7 @@
         </div>
       </div>
 
-      <div class="tabs__panel" id="tab-panel-boss" role="tabpanel" aria-labelledby="tab-btn-boss" data-tab-panel="boss" hidden>
+      <div class="tabs__panel tabs__panel--no-sub" id="tab-panel-boss" role="tabpanel" aria-labelledby="tab-btn-boss" data-tab-panel="boss" hidden>
         ⚔️<a href="https://dmg-calc.cieln.com/" target="_blank" rel="noopener noreferrer">ダメージ計算ツールはこちら</a><br>
         <br>
         受注料は受注する度に、無料→🪙100→🪙200→...→🪙1,000(MAX)<br>
@@ -505,11 +478,87 @@
       <button type="button" class="search-bar__nav" id="searchNext" aria-label="次の一致へ" disabled>▼</button>
     </div>
 
-    <script src="skillData.js?v=0.8.8"></script>
-    <script src="trainerData.js?v=0.8.8"></script>
-    <script src="monsterData.js?v=0.8.8"></script>
-    <script src="monsterCard.js?v=0.8.8"></script>
-    <script src="script.js?v=0.8.8"></script>
+    <dialog class="modal" id="summaryDialog" aria-labelledby="summaryDialogTitle">
+      <div class="modal__inner">
+        <div class="modal__header">
+          <h2 class="modal__title" id="summaryDialogTitle">💡攻略のまとめ</h2>
+          <button type="button" class="modal__close" data-modal-close aria-label="閉じる">✕</button>
+        </div>
+        <div class="modal__body" id="summaryDialogBody"></div>
+      </div>
+    </dialog>
+
+    <dialog class="modal" id="settingsDialog" aria-labelledby="settingsDialogTitle">
+      <div class="modal__inner">
+        <div class="modal__header">
+          <h2 class="modal__title" id="settingsDialogTitle">⚙️育成設定</h2>
+          <button type="button" class="modal__close" data-modal-close aria-label="閉じる">✕</button>
+        </div>
+        <div class="modal__body modal__body--form">
+          <div class="exam-calc__row">
+            <div class="exam-calc__field">
+              <label for="settingsBlessingHp">🩷体力の加護</label>
+              <select id="settingsBlessingHp" data-blessing-stat="hp"></select>
+            </div>
+            <div class="exam-calc__field">
+              <label for="settingsBlessingAtk">🗡️力の加護</label>
+              <select id="settingsBlessingAtk" data-blessing-stat="atk"></select>
+            </div>
+          </div>
+          <div class="exam-calc__row">
+            <div class="exam-calc__field">
+              <label for="settingsBlessingDef">🛡️守りの加護</label>
+              <select id="settingsBlessingDef" data-blessing-stat="def"></select>
+            </div>
+            <div class="exam-calc__field">
+              <label for="settingsBlessingSpd">💨速さの加護</label>
+              <select id="settingsBlessingSpd" data-blessing-stat="spd"></select>
+            </div>
+          </div>
+          <p class="modal__label">育成モンスター</p>
+          <div class="monster-card-grid" id="settingsMonsterGrid" role="group" aria-label="育成モンスター"></div>
+          <p class="modal__note">設定はこのブラウザに保存され、各タブに反映されます。</p>
+          <button type="button" class="exam-calc__btn" data-modal-close>閉じる</button>
+        </div>
+      </div>
+    </dialog>
+
+    <template id="summary-event">
+      ・基本的には♥️を獲得できる選択肢を選んだほうが育成の選択肢が広がります
+    </template>
+
+    <template id="summary-training">
+      ・加護Lv.とレアリティボーナスが安定した育成に重要<br>
+      ・出現トレーナーや大成功ボーナスなど運要素がかなり絡んでくる<br>
+      ・モチベが高いと大成功確率がUp
+    </template>
+
+    <template id="summary-item">
+      ・強化したいキャラには必ず ツヨクナールZ を使用すること！<br>
+      ⚠️流れ作業でやるとたまに出現した時に見逃します<br>
+      ・メタボはなるべく避ける<br>
+      ・ホネビスケットは効果が低いのであまりおすすめしません
+    </template>
+
+    <template id="summary-exam">
+      ・試験報酬は最終>二次>一次の順で多い<br>
+      ・悪魔像のごほうびは最終>二次>一次の順で高い<br>
+      ・悪魔像のごほうびはモンスターごとに特定のステータスの中からランダムな1つに与えられる<br>
+      ・安定した育成には加護Lv.が必要
+    </template>
+
+    <template id="summary-blessing">
+      ・Lv.1強化するごとに試験報酬の対応するステータスが+1される<br>
+      ・Lv.8とLv.9ではトレーニング効果に差があるため可能ならLv.9に強化する<br>
+      ・Lv.9とLv.10ではトレーニング効果に差があるため可能ならLv.10に強化する<br>
+      ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
+    </template>
+
+    <script src="skillData.js?v=1.0.0"></script>
+    <script src="trainerData.js?v=1.0.0"></script>
+    <script src="monsterData.js?v=1.0.0"></script>
+    <script src="monsterCard.js?v=1.0.0"></script>
+    <script src="script.js?v=1.0.0"></script>
 
   </body>
 </html>

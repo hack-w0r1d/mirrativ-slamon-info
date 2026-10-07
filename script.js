@@ -12,6 +12,85 @@ function getShownEventStats(monsterName) {
   return growth ? EVENT_STAT_INFO.filter((s) => growth[s.key] !== 0) : EVENT_STAT_INFO;
 }
 
+const BLESSING_STAT_INFO = [
+  { key: 'hp', emoji: '🩷', label: '体力の加護', storageKey: 'examCalc:blessingHp' },
+  { key: 'atk', emoji: '🗡️', label: '力の加護', storageKey: 'examCalc:blessingAtk' },
+  { key: 'def', emoji: '🛡️', label: '守りの加護', storageKey: 'examCalc:blessingDef' },
+  { key: 'spd', emoji: '💨', label: '速さの加護', storageKey: 'examCalc:blessingSpd' },
+];
+
+// 育成モンスターと加護Lv.の共通設定。各タブはsubscribeで変更を受け取る
+const PlayerSettings = (function () {
+  const MONSTER_STORAGE_KEY = 'trainingTargetMonster';
+  const BLESSING_MAX = 18;
+  const listeners = [];
+  const state = { monster: '', blessing: {} };
+
+  function load(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function save(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      // 保存できない環境ではページを開いている間のみ有効
+    }
+  }
+
+  function notify() {
+    listeners.forEach((fn) => fn());
+  }
+
+  function levelLabel(lv) {
+    return lv === BLESSING_MAX ? 'Lv.MAX' : `Lv.${lv}`;
+  }
+
+  const monsterNames = typeof MONSTER_DATA === 'undefined' ? [] : MONSTER_DATA.map((m) => m.name);
+  const savedMonster = load(MONSTER_STORAGE_KEY);
+  state.monster = monsterNames.includes(savedMonster) ? savedMonster : (monsterNames[0] || '');
+
+  BLESSING_STAT_INFO.forEach((stat) => {
+    const lv = Number(load(stat.storageKey));
+    state.blessing[stat.key] = Number.isInteger(lv) && lv >= 1 && lv <= BLESSING_MAX ? lv : 1;
+  });
+
+  return {
+    BLESSING_MAX,
+    levelLabel,
+    get monster() {
+      return state.monster;
+    },
+    getBlessing(key) {
+      return state.blessing[key];
+    },
+    blessingText() {
+      return BLESSING_STAT_INFO.map((stat) => `${stat.emoji}${levelLabel(state.blessing[stat.key])}`).join(' ');
+    },
+    setMonster(name) {
+      state.monster = name;
+      save(MONSTER_STORAGE_KEY, name);
+      notify();
+    },
+    setBlessing(key, lv) {
+      const stat = BLESSING_STAT_INFO.find((s) => s.key === key);
+      if (!stat) return;
+      state.blessing[key] = lv;
+      save(stat.storageKey, String(lv));
+      notify();
+    },
+    // 登録時に1回呼ばれ、以降は設定が変わるたびに呼ばれる
+    subscribe(fn) {
+      listeners.push(fn);
+      fn();
+    },
+  };
+})();
+
 function hideDiceTooltip() {
   const existing = document.querySelector('.dice-tap__tooltip');
   if (existing) existing.remove();
@@ -19,7 +98,7 @@ function hideDiceTooltip() {
 
 function showDiceTooltip(target) {
   hideDiceTooltip();
-  const monsterName = document.getElementById('eventTrainingTargetMonster')?.value;
+  const monsterName = PlayerSettings.monster;
   const tooltip = document.createElement('span');
   tooltip.className = 'dice-tap__tooltip';
   tooltip.textContent = getShownEventStats(monsterName).map((s) => s.emoji).join('or');
@@ -238,7 +317,7 @@ function showDiceTooltip(target) {
 
     const regex = new RegExp(escapeRegExp(query), 'gu');
     const walker = document.createTreeWalker(searchScope, NodeFilter.SHOW_TEXT, {
-      acceptNode: (n) => (n.parentNode.closest('.heart-filter') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+      acceptNode: (n) => (n.parentNode.closest('.heart-filter, .summary-btn') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
     });
     const textNodes = [];
     let node;
@@ -356,6 +435,21 @@ function showDiceTooltip(target) {
     searchBar.classList.toggle('search-bar--hidden', !isEventVisible || isFooterVisible);
   }
 
+  const currentTabEl = document.getElementById('tabsCurrent');
+
+  // 現在開いているタブ名（例: 育成 › 選択イベント）。タブ欄を閉じている間の表示に使う
+  function updateCurrentTabLabel() {
+    if (!currentTabEl) return;
+    const mainBtn = document.querySelector('.tabs__nav--main .tabs__btn.is-active');
+    const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
+    const subBtn = mainPanel ? mainPanel.querySelector('.tabs__nav--sub .tabs__btn.is-active') : null;
+    currentTabEl.textContent = [mainBtn, subBtn]
+      .filter(Boolean)
+      .map((btn) => btn.textContent)
+      .filter((text, i, texts) => text !== texts[i - 1])
+      .join(' › ');
+  }
+
   function switchMainTab(tabName) {
     mainTabButtons.forEach((btn) => {
       const isActive = btn.dataset.tab === tabName;
@@ -365,6 +459,7 @@ function showDiceTooltip(target) {
     mainTabPanels.forEach((panel) => {
       panel.hidden = panel.dataset.tabPanel !== tabName;
     });
+    updateCurrentTabLabel();
     updateSearchBarVisibility();
   }
 
@@ -378,12 +473,15 @@ function showDiceTooltip(target) {
     container.querySelectorAll('.tabs__panel--sub').forEach((panel) => {
       panel.hidden = panel.dataset.tabPanel !== subtabName;
     });
+    updateCurrentTabLabel();
     updateSearchBarVisibility();
   }
 
   mainTabButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      const changed = !btn.classList.contains('is-active');
       switchMainTab(btn.dataset.tab);
+      if (changed) window.scrollTo(0, 0);
       history.replaceState(null, '', window.location.pathname);
     });
   });
@@ -391,7 +489,9 @@ function showDiceTooltip(target) {
   subTabNavs.forEach((navEl) => {
     navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
       btn.addEventListener('click', () => {
+        const changed = !btn.classList.contains('is-active');
         switchSubTab(navEl, btn.dataset.subtab);
+        if (changed) window.scrollTo(0, 0);
         history.replaceState(null, '', window.location.pathname);
       });
     });
@@ -451,31 +551,17 @@ function showDiceTooltip(target) {
       }
     });
   }
+
+  updateCurrentTabLabel();
 })();
 
 (function () {
-  const trainingTargetMonsterSelects = [
-    document.getElementById('trainingTargetMonster'),
-    document.getElementById('eventTrainingTargetMonster'),
-  ].filter(Boolean);
-  if (trainingTargetMonsterSelects.length === 0 || typeof MONSTER_DATA === 'undefined') return;
-
   const statEmojiEl = document.getElementById('eventStatEmojiLine');
   const statRandomEl = document.getElementById('eventStatRandomLine');
   const statUnchangedEl = document.getElementById('eventStatUnchangedLine');
-  const TRAINING_TARGET_MONSTER_STORAGE_KEY = 'trainingTargetMonster';
-
-  trainingTargetMonsterSelects.forEach((select) => {
-    MONSTER_DATA.forEach((monster) => {
-      const opt = document.createElement('option');
-      opt.value = monster.name;
-      opt.textContent = monster.name;
-      select.appendChild(opt);
-    });
-  });
+  if (!statEmojiEl || !statRandomEl) return;
 
   function updateLegend(value) {
-    if (!statEmojiEl || !statRandomEl) return;
     const shown = getShownEventStats(value);
     const unchanged = EVENT_STAT_INFO.filter((s) => !shown.includes(s));
     statEmojiEl.textContent = shown.map((s) => s.text).join('');
@@ -487,34 +573,97 @@ function showDiceTooltip(target) {
     }
   }
 
-  function applyTrainingTargetMonster(value, save) {
-    trainingTargetMonsterSelects.forEach((select) => {
-      if (select.value !== value) select.value = value;
-    });
-    updateLegend(value);
+  PlayerSettings.subscribe(() => {
+    updateLegend(PlayerSettings.monster);
     hideDiceTooltip();
-    if (save) {
-      localStorage.setItem(TRAINING_TARGET_MONSTER_STORAGE_KEY, value);
+  });
+})();
+
+(function () {
+  const monsterGrid = document.getElementById('settingsMonsterGrid');
+  const monsterImage = document.getElementById('settingsMonsterImage');
+  const monsterLabel = document.getElementById('settingsMonsterLabel');
+  const blessingLabel = document.getElementById('settingsBlessingLabel');
+  const blessingSelects = document.querySelectorAll('[data-blessing-stat]');
+  if (!monsterGrid || typeof MONSTER_DATA === 'undefined') return;
+
+  const monsterButtons = MONSTER_DATA.map((monster) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'monster-card monster-card--select';
+
+    const name = document.createElement('span');
+    name.className = 'monster-card__name';
+    name.textContent = monster.name;
+
+    btn.append(createMonsterImage(monster), name);
+    btn.addEventListener('click', () => PlayerSettings.setMonster(monster.name));
+    monsterGrid.appendChild(btn);
+    return { monster, btn };
+  });
+
+  blessingSelects.forEach((select) => {
+    for (let i = 1; i <= PlayerSettings.BLESSING_MAX; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = PlayerSettings.levelLabel(i);
+      select.appendChild(opt);
     }
-  }
+    select.addEventListener('change', () => {
+      PlayerSettings.setBlessing(select.dataset.blessingStat, Number(select.value));
+    });
+  });
 
-  const savedTrainingTargetMonster = localStorage.getItem(TRAINING_TARGET_MONSTER_STORAGE_KEY);
-  applyTrainingTargetMonster(savedTrainingTargetMonster || trainingTargetMonsterSelects[0].value, false);
+  PlayerSettings.subscribe(() => {
+    monsterButtons.forEach(({ monster, btn }) => {
+      btn.setAttribute('aria-pressed', String(monster.name === PlayerSettings.monster));
+    });
+    blessingSelects.forEach((select) => {
+      select.value = PlayerSettings.getBlessing(select.dataset.blessingStat);
+    });
+    if (monsterImage) {
+      const current = MONSTER_DATA.find((m) => m.name === PlayerSettings.monster);
+      monsterImage.replaceChildren(...(current ? [createMonsterImage(current)] : []));
+    }
+    if (monsterLabel) monsterLabel.textContent = PlayerSettings.monster;
+    if (blessingLabel) blessingLabel.textContent = PlayerSettings.blessingText();
+  });
 
-  trainingTargetMonsterSelects.forEach((select) => {
-    select.addEventListener('change', () => applyTrainingTargetMonster(select.value, true));
+  const dialog = document.getElementById('settingsDialog');
+  if (!dialog) return;
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('[data-open-settings]')) dialog.showModal();
+  });
+})();
+
+(function () {
+  const summaryDialog = document.getElementById('summaryDialog');
+  const summaryBody = document.getElementById('summaryDialogBody');
+
+  document.querySelectorAll('dialog.modal').forEach((dialog) => {
+    dialog.addEventListener('click', (e) => {
+      // 背景(dialog自身)か閉じるボタンを押したら閉じる
+      if (e.target === dialog || e.target.closest('[data-modal-close]')) dialog.close();
+    });
+  });
+
+  if (!summaryDialog || !summaryBody) return;
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-summary]');
+    if (!btn) return;
+    const template = document.getElementById(`summary-${btn.dataset.summary}`);
+    if (!template) return;
+    summaryBody.replaceChildren(template.content.cloneNode(true));
+    summaryDialog.showModal();
+    summaryBody.scrollTop = 0;
   });
 })();
 
 (function () {
   const examType = document.getElementById('examType');
-  const trainingTargetMonster = document.getElementById('trainingTargetMonster');
-  const calcBtn = document.getElementById('examCalcBtn');
-  if (!examType || !trainingTargetMonster || !calcBtn) return;
-
-  const blessingIds = ['blessingHp', 'blessingAtk', 'blessingDef', 'blessingSpd'];
   const rewardLv = document.getElementById('rewardLv');
-  const resultBox = document.getElementById('examCalcResult');
+  if (!examType || !rewardLv) return;
+
   const tableBody = document.getElementById('examCalcTableBody');
   const statLabels = ['HP', '攻撃', '守備', '素早さ'];
   const statKeys = ['hp', 'atk', 'def', 'spd'];
@@ -525,15 +674,6 @@ function showDiceTooltip(target) {
     3: { base: 15, multiplier: 3 },
   };
 
-  function fillLevelOptions(select, max) {
-    for (let i = 1; i <= max; i++) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = i === max ? 'Lv.MAX' : `Lv.${i}`;
-      select.appendChild(opt);
-    }
-  }
-
   function fillRewardOptions(select, max) {
     for (let i = 0; i <= max; i++) {
       const opt = document.createElement('option');
@@ -543,31 +683,17 @@ function showDiceTooltip(target) {
     }
   }
 
-  blessingIds.forEach((id) => fillLevelOptions(document.getElementById(id), 18));
   fillRewardOptions(rewardLv, 30);
-
-  const BLESSING_STORAGE_PREFIX = 'examCalc:';
-
-  blessingIds.forEach((id) => {
-    const select = document.getElementById(id);
-    const saved = localStorage.getItem(BLESSING_STORAGE_PREFIX + id);
-    if (saved !== null) {
-      select.value = saved;
-    }
-    select.addEventListener('change', () => {
-      localStorage.setItem(BLESSING_STORAGE_PREFIX + id, select.value);
-    });
-  });
 
   function getTrainerGrowth() {
     if (typeof TRAINER_DATA === 'undefined') return null;
-    const trainer = TRAINER_DATA.find((t) => t.name === trainingTargetMonster.value);
+    const trainer = TRAINER_DATA.find((t) => t.name === PlayerSettings.monster);
     return trainer ? trainer.growth : null;
   }
 
   function calculate() {
     const config = examConfig[examType.value];
-    const blessingBonuses = blessingIds.map((id) => Number(document.getElementById(id).value) - 1);
+    const blessingBonuses = statKeys.map((key) => PlayerSettings.getBlessing(key) - 1);
     const rewardBonus = Number(rewardLv.value) * config.multiplier;
     const growth = getTrainerGrowth();
 
@@ -592,9 +718,138 @@ function showDiceTooltip(target) {
 
       tableBody.appendChild(row);
     });
-
-    resultBox.hidden = false;
   }
 
-  calcBtn.addEventListener('click', calculate);
+  examType.addEventListener('change', calculate);
+  rewardLv.addEventListener('change', calculate);
+  // 登録時に1回計算され、育成モンスターや加護Lv.が変わるたびに再計算される
+  PlayerSettings.subscribe(calculate);
+})();
+
+// 設定バーとタブ欄の固定表示、タブ欄の開閉
+(function () {
+  const root = document.querySelector('.memo');
+  const toggle = document.getElementById('tabsToggle');
+  const settingsEl = document.getElementById('stickySettings');
+  const mainNav = document.querySelector('.tabs__nav--main');
+  if (!root || !toggle) return;
+
+  toggle.addEventListener('click', () => {
+    const collapsed = root.classList.toggle('is-tabs-collapsed');
+    toggle.textContent = collapsed ? '▼' : '▲';
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+    toggle.setAttribute('aria-label', collapsed ? 'タブ欄を開く' : 'タブ欄を閉じる');
+  });
+
+  // 上に固定される要素の高さに合わせて、下に重なる要素の固定位置を決める
+  // 小数点以下は切り捨てて、要素の間に隙間ができないようにする
+  function updateStickyOffsets() {
+    const settingsH = settingsEl ? Math.floor(settingsEl.getBoundingClientRect().height) : 0;
+    const mainH = mainNav ? Math.floor(mainNav.getBoundingClientRect().height) : 0;
+    const style = document.documentElement.style;
+    style.setProperty('--sticky-settings-h', `${settingsH}px`);
+    style.setProperty('--sticky-main-h', `${mainH}px`);
+  }
+
+  if (window.ResizeObserver) {
+    const observer = new ResizeObserver(updateStickyOffsets);
+    [settingsEl, mainNav].filter(Boolean).forEach((el) => observer.observe(el));
+  }
+  window.addEventListener('resize', updateStickyOffsets);
+  updateStickyOffsets();
+})();
+
+// 加護Lv.UP必要量計算
+(function () {
+  const grid = document.getElementById('blessCalcGrid');
+  const totalEl = document.getElementById('blessCalcTotal');
+  if (!grid || !totalEl) return;
+
+  // 【加護Lv.Upに必要な条件】と同じ内容（ゴルはLv.1〜8、以降はLv.9から順に金ぶる1,2,3…）
+  const GOLD_COSTS = [100, 500, 1000, 1500, 2000, 3000, 4000, 5000];
+
+  // 現在のLv.から次のLv.に上げるために必要な量
+  function getUpCost(lv) {
+    if (lv <= GOLD_COSTS.length) return { gold: GOLD_COSTS[lv - 1], statue: 0 };
+    return { gold: 0, statue: lv - GOLD_COSTS.length };
+  }
+
+  function calcCost(from, to) {
+    const total = { gold: 0, statue: 0 };
+    for (let lv = from; lv < to; lv++) {
+      const cost = getUpCost(lv);
+      total.gold += cost.gold;
+      total.statue += cost.statue;
+    }
+    return total;
+  }
+
+  function formatCost(cost) {
+    return `🪙${cost.gold.toLocaleString()}　金ぶる${cost.statue}個`;
+  }
+
+  const targets = {};
+
+  const cards = BLESSING_STAT_INFO.map((stat) => {
+    const card = document.createElement('div');
+    card.className = 'bless-card';
+
+    const title = document.createElement('div');
+    title.className = 'bless-card__title';
+    title.textContent = `${stat.emoji}${stat.label}`;
+
+    const levels = document.createElement('div');
+    levels.className = 'bless-card__levels';
+    const currentEl = document.createElement('span');
+    currentEl.className = 'bless-card__current';
+    const arrow = document.createElement('span');
+    arrow.className = 'bless-card__arrow';
+    arrow.textContent = '▶';
+    const select = document.createElement('select');
+    select.setAttribute('aria-label', `${stat.label}の目標Lv.`);
+    levels.append(currentEl, arrow, select);
+
+    const costEl = document.createElement('div');
+    costEl.className = 'bless-card__cost';
+
+    card.append(title, levels, costEl);
+    grid.appendChild(card);
+
+    select.addEventListener('change', () => {
+      targets[stat.key] = Number(select.value);
+      render();
+    });
+
+    return { stat, currentEl, select, costEl };
+  });
+
+  function render() {
+    const total = { gold: 0, statue: 0 };
+
+    cards.forEach(({ stat, currentEl, select, costEl }) => {
+      const current = PlayerSettings.getBlessing(stat.key);
+      // 現在のLv.より低い目標は選べないので、現在のLv.まで引き上げる
+      if (!(targets[stat.key] >= current)) targets[stat.key] = current;
+      const target = targets[stat.key];
+
+      currentEl.textContent = PlayerSettings.levelLabel(current);
+      select.innerHTML = '';
+      for (let lv = current; lv <= PlayerSettings.BLESSING_MAX; lv++) {
+        const opt = document.createElement('option');
+        opt.value = lv;
+        opt.textContent = PlayerSettings.levelLabel(lv);
+        select.appendChild(opt);
+      }
+      select.value = target;
+
+      const cost = calcCost(current, target);
+      costEl.textContent = formatCost(cost);
+      total.gold += cost.gold;
+      total.statue += cost.statue;
+    });
+
+    totalEl.textContent = `合計　${formatCost(total)}`;
+  }
+
+  PlayerSettings.subscribe(render);
 })();
