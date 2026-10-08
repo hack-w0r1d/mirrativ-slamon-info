@@ -477,11 +477,30 @@ function showDiceTooltip(target) {
     updateSearchBarVisibility();
   }
 
+  // 固定表示のバー（設定・メインタブ・サブタブ）の直下にタブ内のコンテンツの先頭が来る位置まで戻す
+  // すでに先頭が見えている位置にいるときは動かさない
+  function scrollToTabContent() {
+    const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
+    if (!mainPanel) return;
+    const content = mainPanel.querySelector('.tabs__panel--sub:not([hidden])') || mainPanel;
+    const subNav = mainPanel.querySelector('.tabs__nav--sub');
+    const heightOf = (el) => (el ? Math.ceil(el.getBoundingClientRect().height) : 0);
+
+    let barsHeight = heightOf(document.getElementById('stickySettings'))
+      + heightOf(document.querySelector('.tabs__nav--main'));
+    if (subNav && subNav.offsetParent !== null) {
+      barsHeight += heightOf(subNav) + parseFloat(getComputedStyle(subNav).marginBottom);
+    }
+
+    const top = content.getBoundingClientRect().top + window.scrollY - barsHeight;
+    if (window.scrollY > top) window.scrollTo(0, Math.max(0, top));
+  }
+
   mainTabButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const changed = !btn.classList.contains('is-active');
       switchMainTab(btn.dataset.tab);
-      if (changed) window.scrollTo(0, 0);
+      if (changed) scrollToTabContent();
       history.replaceState(null, '', window.location.pathname);
     });
   });
@@ -491,7 +510,7 @@ function showDiceTooltip(target) {
       btn.addEventListener('click', () => {
         const changed = !btn.classList.contains('is-active');
         switchSubTab(navEl, btn.dataset.subtab);
-        if (changed) window.scrollTo(0, 0);
+        if (changed) scrollToTabContent();
         history.replaceState(null, '', window.location.pathname);
       });
     });
