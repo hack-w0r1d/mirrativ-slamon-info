@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="style.css?v=1.0.2">
     <title>スラモン攻略メモ</title>
   </head>
 
@@ -239,10 +239,10 @@
           スキルと攻撃力が全くない場合のみ検討。それ以外で利用するメリットはあまりありません。<br>
           <br>
           【⌛️制限ターン】<br>
-          各試験おおよそ40ターンの制限があります。<br>
+          各試験40ターンの制限があります。<br>
           残り9ターンから左上に表示されます。<br>
-          ターン数は各キャラが行動するたびに減ります。<br>
-          残り1ターンの表示が出た時点で終了か。<br>
+          ターン数は各キャラが行動するたびに減ります。(状態異常による行動不能ターンも含みます)<br>
+          残り1ターンの表示が出た時点で終了です。<br>
           <br>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-skill" role="tabpanel" aria-labelledby="tab-btn-skill" data-tab-panel="skill" hidden>
@@ -323,9 +323,11 @@
         <br>
         ⚪️ボス<br>
         勝利報酬▶︎🪙100、タマゴor銀のタマゴor金のタマゴ<br>
+        失敗報酬▶︎🪙10、(タマゴ)<br>
         <br>
         🟣メガ<br>
         勝利報酬▶︎🪙200、タマゴor銀のタマゴor金のタマゴ<br>
+        失敗報酬▶︎🪙20<br>
         <br>
         🟡ギガ<br>
         勝利報酬▶︎🪙500、金ぶる1、銀のタマゴor金のタマゴ<br>
@@ -340,12 +342,12 @@
         ステータスが足りなくてもこれらのスキルが上手く噛み合えば攻略可能。<br>
         <br>
         【⌛️制限ターン】<br>
-        各ボスおおよそ40ターンの制限があります。<br>
+        各試験40ターンの制限があります。<br>
         残り9ターンから左上に表示されます。<br>
-        ターン数は各キャラが行動するたびに減ります。<br>
-        残り1ターンの表示が出た時点で終了か。<br>
+        ターン数は各キャラが行動するたびに減ります。(状態異常による行動不能ターンも含みます)<br>
+        残り1ターンの表示が出た時点で終了です。<br>
         <br>
-        【ボスステータス詳細】<br>
+      【ボスステータス詳細】<br>
         ※ダメージ計算や素早さの比較で使用するのがおすすめです<br>
         ※狙いは弱者狙いですがあまり参考にはなりません<br>
         ⚪️ボス<br>
@@ -554,11 +556,11 @@
       ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
     </template>
 
-    <script src="skillData.js?v=1.0.1"></script>
-    <script src="trainerData.js?v=1.0.1"></script>
-    <script src="monsterData.js?v=1.0.1"></script>
-    <script src="monsterCard.js?v=1.0.1"></script>
-    <script src="script.js?v=1.0.1"></script>
+    <script src="skillData.js?v=1.0.2"></script>
+    <script src="trainerData.js?v=1.0.2"></script>
+    <script src="monsterData.js?v=1.0.2"></script>
+    <script src="monsterCard.js?v=1.0.2"></script>
+    <script src="script.js?v=1.0.2"></script>
 
   </body>
 </html>
