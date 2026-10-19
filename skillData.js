@@ -191,7 +191,7 @@ const SKILL_DATA = [
     name: 'バキバキン',
     heartCost: 30,
     type: 'バフスキル',
-    description: '「ムキムキン」から進化。自分の攻撃力を約2倍(検証中)にする。',
+    description: '「ムキムキン」から進化。自分の攻撃力を2倍にする。',
   },
   {
     name: 'カチコチン',
