@@ -245,7 +245,7 @@ const SKILL_DATA = [
     name: 'フニャムキン',
     heartCost: 10,
     type: 'バフスキル',
-    description: '自分の守備力が大きく下がる代わりに攻撃力を2倍(検証中)にする。',
+    description: '自分の守備力が半分になる代わりに攻撃力を2倍にする。',
   },
   {
     name: 'ポヨポヨン',
