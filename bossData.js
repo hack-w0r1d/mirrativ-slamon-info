@@ -103,7 +103,7 @@ const BOSS_DATA = [
       ['アトラン', 1320, 470, 380, 300],
       ['オーク', null, null, null, null],
       ['ガーゴイ', null, null, null, null],
-      ['ガーディアン', null, null, null, null],
+      ['ガーディアン', null, 440, 480, null],
       ['Cpt.ワル太', 1260, 450, 380, 240],
       ['グラゴン', 1800, null, null, null],
       ['ゴーレム', 960, 460, 430, 130],
