@@ -3,7 +3,7 @@ const SKILL_DATA = [
     name: 'フニャリズム',
     heartCost: 20,
     type: 'デバフスキル',
-    description: '相手全員の守備力を0.42~0.49倍にする。',
+    description: '相手全員の守備力を0.45倍にする。',
   },
   {
     name: 'カチムキン',
