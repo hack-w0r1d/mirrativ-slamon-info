@@ -117,11 +117,47 @@ function showDiceTooltip(target) {
   }
 }
 
+// 画面上部に固定表示されているバー(設定・メインタブ・サブタブ)の合計の高さ
+function getStickyBarsHeight() {
+  const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
+  const subNav = mainPanel ? mainPanel.querySelector('.tabs__nav--sub') : null;
+  const heightOf = (el) => (el ? Math.ceil(el.getBoundingClientRect().height) : 0);
+
+  let barsHeight = heightOf(document.getElementById('stickySettings'))
+    + heightOf(document.querySelector('.tabs__nav--main'));
+  if (subNav && subNav.offsetParent !== null) {
+    barsHeight += heightOf(subNav) + parseFloat(getComputedStyle(subNav).marginBottom);
+  }
+  return barsHeight;
+}
+
 (function () {
   const groupsEl = document.getElementById('skillGroups');
   if (!groupsEl || typeof SKILL_DATA === 'undefined') return;
 
   const SKILL_TYPE_ORDER = ['物理攻撃', '魔法攻撃', 'バフスキル', 'デバフスキル', '状態異常', '回復・カウンター'];
+
+  // スキル詳細ページから戻ってきたときも開いたままにするため、開いている種類を保存する
+  const OPEN_STORAGE_KEY = 'skillGroups:open';
+
+  function loadOpenTypes() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(OPEN_STORAGE_KEY));
+      return Array.isArray(saved) ? saved : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveOpenTypes(types) {
+    try {
+      sessionStorage.setItem(OPEN_STORAGE_KEY, JSON.stringify(types));
+    } catch (e) {
+      // 保存できない環境ではページを開いている間のみ有効
+    }
+  }
+
+  const openTypes = new Set(loadOpenTypes());
 
   SKILL_TYPE_ORDER.forEach((type) => {
     const skills = SKILL_DATA.filter((skill) => skill.type === type);
@@ -149,10 +185,21 @@ function showDiceTooltip(target) {
       list.appendChild(li);
     });
 
+    if (openTypes.has(type)) {
+      header.setAttribute('aria-expanded', 'true');
+      list.classList.add('is-open');
+    }
+
     header.addEventListener('click', () => {
       const isOpen = header.getAttribute('aria-expanded') === 'true';
       header.setAttribute('aria-expanded', String(!isOpen));
       list.classList.toggle('is-open', !isOpen);
+      if (isOpen) {
+        openTypes.delete(type);
+      } else {
+        openTypes.add(type);
+      }
+      saveOpenTypes([...openTypes]);
     });
 
     section.appendChild(header);
@@ -294,6 +341,7 @@ function showDiceTooltip(target) {
   let matches = [];
   let currentIndex = -1;
   let isFooterVisible = false;
+  let isSearchFocused = false;
 
   function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -424,15 +472,23 @@ function showDiceTooltip(target) {
     window.visualViewport.addEventListener('scroll', updateSearchBarPosition);
   }
 
-  searchInput.addEventListener('focus', updateSearchBarPosition);
+  searchInput.addEventListener('focus', () => {
+    isSearchFocused = true;
+    updateSearchBarPosition();
+    updateSearchBarVisibility();
+  });
   searchInput.addEventListener('blur', () => {
+    isSearchFocused = false;
     document.documentElement.style.setProperty('--search-bar-offset', '16px');
+    updateSearchBarVisibility();
   });
 
   function updateSearchBarVisibility() {
     const isEventVisible = !document.getElementById('tab-panel-event').hidden
       && !document.getElementById('tab-panel-training-main').hidden;
-    searchBar.classList.toggle('search-bar--hidden', !isEventVisible || isFooterVisible);
+    // 入力中(フォーカス中)にフッターが見えても隠さない。隠すとvisibility:hiddenでフォーカスが外れ、入力できなくなるため
+    const hideByFooter = isFooterVisible && !isSearchFocused;
+    searchBar.classList.toggle('search-bar--hidden', !isEventVisible || hideByFooter);
   }
 
   const currentTabEl = document.getElementById('tabsCurrent');
@@ -483,16 +539,8 @@ function showDiceTooltip(target) {
     const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
     if (!mainPanel) return;
     const content = mainPanel.querySelector('.tabs__panel--sub:not([hidden])') || mainPanel;
-    const subNav = mainPanel.querySelector('.tabs__nav--sub');
-    const heightOf = (el) => (el ? Math.ceil(el.getBoundingClientRect().height) : 0);
 
-    let barsHeight = heightOf(document.getElementById('stickySettings'))
-      + heightOf(document.querySelector('.tabs__nav--main'));
-    if (subNav && subNav.offsetParent !== null) {
-      barsHeight += heightOf(subNav) + parseFloat(getComputedStyle(subNav).marginBottom);
-    }
-
-    const top = content.getBoundingClientRect().top + window.scrollY - barsHeight;
+    const top = content.getBoundingClientRect().top + window.scrollY - getStickyBarsHeight();
     if (window.scrollY > top) window.scrollTo(0, Math.max(0, top));
   }
 
@@ -531,6 +579,7 @@ function showDiceTooltip(target) {
 
   const TRAINING_SUBTABS = ['event', 'training', 'item', 'exam', 'skill', 'blessing'];
   const MONSTER_SUBTABS = ['monster', 'rank'];
+  const BOSS_SUBTABS = ['boss-info', 'boss-status'];
 
   const deepLinkParams = new URLSearchParams(window.location.search);
   const deepLinkTab = deepLinkParams.get('tab');
@@ -545,6 +594,10 @@ function showDiceTooltip(target) {
     } else if (MONSTER_SUBTABS.includes(deepLinkTab)) {
       switchMainTab('monster-main');
       const nav = document.querySelector('#tab-panel-monster-main .tabs__nav--sub');
+      switchSubTab(nav, deepLinkTab);
+    } else if (BOSS_SUBTABS.includes(deepLinkTab)) {
+      switchMainTab('boss');
+      const nav = document.querySelector('#tab-panel-boss .tabs__nav--sub');
       switchSubTab(nav, deepLinkTab);
     } else {
       switchMainTab(deepLinkTab);
@@ -751,6 +804,7 @@ function showDiceTooltip(target) {
   const toggle = document.getElementById('tabsToggle');
   const settingsEl = document.getElementById('stickySettings');
   const mainNav = document.querySelector('.tabs__nav--main');
+  const subNavs = Array.from(document.querySelectorAll('.tabs__nav--sub'));
   if (!root || !toggle) return;
 
   toggle.addEventListener('click', () => {
@@ -765,14 +819,18 @@ function showDiceTooltip(target) {
   function updateStickyOffsets() {
     const settingsH = settingsEl ? Math.floor(settingsEl.getBoundingClientRect().height) : 0;
     const mainH = mainNav ? Math.floor(mainNav.getBoundingClientRect().height) : 0;
+    // いま表示されているサブタブ(タブ欄を閉じている間や、サブタブのないタブでは0)
+    const activeSubNav = subNavs.find((nav) => nav.offsetParent !== null);
+    const subH = activeSubNav ? Math.floor(activeSubNav.getBoundingClientRect().height) : 0;
     const style = document.documentElement.style;
     style.setProperty('--sticky-settings-h', `${settingsH}px`);
     style.setProperty('--sticky-main-h', `${mainH}px`);
+    style.setProperty('--sticky-sub-h', `${subH}px`);
   }
 
   if (window.ResizeObserver) {
     const observer = new ResizeObserver(updateStickyOffsets);
-    [settingsEl, mainNav].filter(Boolean).forEach((el) => observer.observe(el));
+    [settingsEl, mainNav, ...subNavs].filter(Boolean).forEach((el) => observer.observe(el));
   }
   window.addEventListener('resize', updateStickyOffsets);
   updateStickyOffsets();
@@ -871,4 +929,146 @@ function showDiceTooltip(target) {
   }
 
   PlayerSettings.subscribe(render);
+})();
+
+// ボスステータス表（ボスモンスター名以外の列をタップするごとに 降順→昇順→デフォルト）
+(function () {
+  const container = document.getElementById('bossStatTables');
+  if (!container || typeof BOSS_DATA === 'undefined') return;
+
+  // 見出しは4列を均等な幅に収めるため絵文字のみ(項目名はaria-labelで補う)
+  const COLUMNS = [
+    { emoji: '🩷', label: 'HP' },
+    { emoji: '🗡️', label: '攻撃' },
+    { emoji: '🛡️', label: '守備' },
+    { emoji: '💨', label: '素早さ' },
+  ];
+  const NEXT_ORDER = { none: 'descending', descending: 'ascending', ascending: 'none' };
+
+  // onRender: 行を描画し直すたびに呼ばれる(最後の行の高さを見出しの固定範囲に反映するため)
+  function createTable(group, onRender) {
+    // column: 並び替え中の列(0〜3)、-1はデフォルト
+    const state = { column: -1, order: 'none' };
+
+    const table = document.createElement('table');
+    table.className = 'monster-stats-table boss-stats-table';
+
+    const headRow = document.createElement('tr');
+    const nameTh = document.createElement('th');
+    nameTh.textContent = 'ボスモンスター名';
+    headRow.appendChild(nameTh);
+
+    const sortHeaders = COLUMNS.map(({ emoji, label }, i) => {
+      const th = document.createElement('th');
+      th.setAttribute('aria-sort', 'none');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'boss-sort-btn';
+      btn.textContent = emoji;
+      btn.setAttribute('aria-label', `${label}で並び替え`);
+      btn.addEventListener('click', () => {
+        state.order = state.column === i ? NEXT_ORDER[state.order] : 'descending';
+        state.column = state.order === 'none' ? -1 : i;
+        render();
+      });
+      th.appendChild(btn);
+      headRow.appendChild(th);
+      return th;
+    });
+
+    const thead = document.createElement('thead');
+    thead.appendChild(headRow);
+    const tbody = document.createElement('tbody');
+    table.append(thead, tbody);
+
+    function render() {
+      const rows = group.bosses.slice();
+      if (state.order !== 'none') {
+        const dir = state.order === 'descending' ? -1 : 1;
+        const col = state.column + 1;
+        rows.sort((a, b) => {
+          // 判明していない値(null)は降順・昇順どちらでも最後に並べる
+          if (a[col] === null || b[col] === null) {
+            return (a[col] === null) - (b[col] === null);
+          }
+          return (a[col] - b[col]) * dir;
+        });
+      }
+
+      tbody.replaceChildren(...rows.map((boss) => {
+        const tr = document.createElement('tr');
+        boss.forEach((value) => {
+          const td = document.createElement('td');
+          td.textContent = value === null ? '-' : value;
+          tr.appendChild(td);
+        });
+        return tr;
+      }));
+
+      sortHeaders.forEach((th, i) => {
+        th.setAttribute('aria-sort', i === state.column ? state.order : 'none');
+      });
+
+      if (onRender) onRender();
+    }
+
+    render();
+    return table;
+  }
+
+  // 見出しは表の最後の行の直前まで固定し、最後の行が見出しの下に来たら行と一緒に流れる。
+  // そのための固定範囲の計算に最後の行の高さ(CSS変数 --boss-last-row-h)を使う
+  function syncLastRowHeight(section) {
+    const table = section.querySelector('table');
+    const lastRow = section.querySelector('tbody tr:last-child');
+    if (!table || !lastRow) return;
+    // 行の高さそのものではなく「最後の行の上端から表の下端まで」を測る(罫線を含めるため)
+    const height = table.getBoundingClientRect().bottom - lastRow.getBoundingClientRect().top;
+    if (height > 0) section.style.setProperty('--boss-last-row-h', `${height}px`);
+  }
+
+  BOSS_DATA.forEach((group) => {
+    const section = document.createElement('div');
+    section.className = 'boss-stats-section';
+
+    const table = createTable(group, () => syncLastRowHeight(section));
+
+    // 種類名の横の▼で表を開閉する(初期状態は閉じている)
+    const heading = document.createElement('button');
+    heading.type = 'button';
+    heading.className = 'boss-stats-heading';
+    heading.textContent = group.label;
+    heading.setAttribute('aria-expanded', 'false');
+    table.hidden = true;
+
+    // 見出しが固定される位置(サブタブの直下)。見出しをここに合わせてスクロールする
+    function getScrollTarget(behavior) {
+      const stickyTop = parseFloat(getComputedStyle(heading).top) || 0;
+      const top = heading.getBoundingClientRect().top + window.scrollY - stickyTop;
+      return { top: Math.max(0, top), behavior };
+    }
+
+    heading.addEventListener('click', () => {
+      const isOpen = heading.getAttribute('aria-expanded') === 'true';
+      heading.setAttribute('aria-expanded', String(!isOpen));
+      table.hidden = isOpen;
+      if (!isOpen) {
+        syncLastRowHeight(section);
+        // 開いたときは、種類名ごとコンテンツの先頭までスクロールして一覧を見渡しやすくする
+        window.scrollTo(getScrollTarget('smooth'));
+      } else {
+        // 表の途中で閉じたときは、見出しが画面外に出て別の場所に飛ばされないよう見出しの位置に戻る
+        const target = getScrollTarget('auto');
+        if (window.scrollY > target.top) window.scrollTo(target);
+      }
+    });
+
+    // 画面幅が変わって行の高さが変わったときも固定範囲を合わせる
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => syncLastRowHeight(section)).observe(table);
+    }
+
+    section.append(heading, table);
+    container.appendChild(section);
+  });
 })();

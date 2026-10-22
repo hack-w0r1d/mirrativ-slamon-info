@@ -3,7 +3,7 @@ const SKILL_DATA = [
     name: 'フニャリズム',
     heartCost: 20,
     type: 'デバフスキル',
-    description: '相手全員の守備力を半分(検証中)にする。',
+    description: '相手全員の守備力を0.42~0.49倍にする。',
   },
   {
     name: 'カチムキン',
@@ -275,7 +275,7 @@ const SKILL_DATA = [
     name: 'フニャルト',
     heartCost: 10,
     type: 'デバフスキル',
-    description: '相手1体の守備力を下げる。「フニャフニャルト」に進化可能。',
+    description: '相手1体の守備力を0.43~0.50倍にする。「フニャフニャルト」に進化可能。',
   },
   {
     name: 'フニャフニャルト',

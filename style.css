@@ -850,3 +850,104 @@ nav.footer__links {
   font-size: 15px;
   font-weight: bold;
 }
+
+/* 種類ごとの行。開閉どちらの状態でも余白が変わらないよう、仕切り線で区切った行にする */
+#bossStatTables {
+  margin-top: 8px;
+  border-top: 1px solid #333;
+}
+
+.boss-stats-section {
+  --boss-last-row-h: 31px; /* 表の最後の行の高さ。script.jsが実測値に更新する */
+  --boss-table-gap: 12px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #333;
+}
+
+.boss-stats-heading {
+  position: sticky;
+  top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px) + var(--sticky-sub-h, 0px));
+  z-index: 20;
+  flex: none;
+  background: #000;
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* 見出しは表の最後の行の直前まで固定される。
+   固定の範囲は「見出しのmargin-bottom」で決まるため、最後の行の高さ分だけ範囲を広げ、
+   表側のmargin-topで同じ分だけ引き戻して見た目の位置は変えない(flexなのでmarginは相殺されない) */
+.boss-stats-heading[aria-expanded="true"] {
+  margin-bottom: calc(var(--boss-last-row-h) + var(--boss-table-gap));
+}
+
+.boss-stats-heading[aria-expanded="true"] + .boss-stats-table {
+  margin-top: calc(-1 * (var(--boss-last-row-h) + var(--boss-table-gap)));
+}
+
+.boss-stats-heading::after {
+  content: '▼';
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+
+.boss-stats-heading[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+/* 名前列以外の4列は残りの幅を均等に分ける */
+.boss-stats-table {
+  table-layout: fixed;
+  margin: 0 0 var(--boss-table-gap);
+  font-size: 13px;
+}
+
+.boss-stats-table th,
+.boss-stats-table td {
+  padding: 6px 4px;
+}
+
+.boss-stats-table th:first-child,
+.boss-stats-table td:first-child {
+  width: 36%;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.boss-sort-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.boss-stats-table th[aria-sort="descending"] .boss-sort-btn::after {
+  content: '▼';
+  margin-left: 2px;
+  font-size: 9px;
+  color: orange;
+}
+
+.boss-stats-table th[aria-sort="ascending"] .boss-sort-btn::after {
+  content: '▲';
+  margin-left: 2px;
+  font-size: 9px;
+  color: orange;
+}

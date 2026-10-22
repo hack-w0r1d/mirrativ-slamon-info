@@ -41,6 +41,28 @@
 
   const SKILL_TYPE_ORDER = ['物理攻撃', '魔法攻撃', 'バフスキル', 'デバフスキル', '状態異常', '回復・カウンター'];
 
+  // スキル詳細ページから戻ってきたときも開いたままにするため、開いている種類をモンスターごとに保存する
+  const OPEN_STORAGE_KEY = `monsterSkillGroups:open:${monster.id}`;
+
+  function loadOpenTypes() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(OPEN_STORAGE_KEY));
+      return Array.isArray(saved) ? saved : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveOpenTypes(types) {
+    try {
+      sessionStorage.setItem(OPEN_STORAGE_KEY, JSON.stringify(types));
+    } catch (e) {
+      // 保存できない環境ではページを開いている間のみ有効
+    }
+  }
+
+  const openTypes = new Set(loadOpenTypes());
+
   SKILL_TYPE_ORDER.forEach((type) => {
     const skills = SKILL_DATA.filter((skill) => monster.skills.includes(skill.name) && skill.type === type);
     if (skills.length === 0) return;
@@ -67,10 +89,21 @@
       list.appendChild(li);
     });
 
+    if (openTypes.has(type)) {
+      header.setAttribute('aria-expanded', 'true');
+      list.classList.add('is-open');
+    }
+
     header.addEventListener('click', () => {
       const isOpen = header.getAttribute('aria-expanded') === 'true';
       header.setAttribute('aria-expanded', String(!isOpen));
       list.classList.toggle('is-open', !isOpen);
+      if (isOpen) {
+        openTypes.delete(type);
+      } else {
+        openTypes.add(type);
+      }
+      saveOpenTypes([...openTypes]);
     });
 
     section.appendChild(header);
