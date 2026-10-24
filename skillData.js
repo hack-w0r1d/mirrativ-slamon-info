@@ -287,7 +287,7 @@ const SKILL_DATA = [
     name: 'シオルト',
     heartCost: 10,
     type: 'デバフスキル',
-    description: '相手1体の攻撃力を0.7倍(検証中)にする。「シオシオルト」に進化可能。',
+    description: '相手1体の攻撃力を0.7倍にする。「シオシオルト」に進化可能。',
   },
   {
     name: 'シオシオルト',
