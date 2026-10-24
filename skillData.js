@@ -281,7 +281,7 @@ const SKILL_DATA = [
     name: 'フニャフニャルト',
     heartCost: 30,
     type: 'デバフスキル',
-    description: '「フニャルト」から進化。相手1体の守備力を約1/4(検証中)にする。',
+    description: '「フニャルト」から進化。相手1体の守備力を1/4にする。',
   },
   {
     name: 'シオルト',
