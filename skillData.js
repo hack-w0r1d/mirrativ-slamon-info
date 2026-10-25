@@ -9,7 +9,7 @@ const SKILL_DATA = [
     name: 'カチムキン',
     heartCost: 20,
     type: 'バフスキル',
-    description: '自分の攻撃力と守備力を1.25倍(攻撃力は検証中)にする。',
+    description: '自分の攻撃力と守備力を1.25倍にする。',
   },
   {
     name: 'カナシバルト',
