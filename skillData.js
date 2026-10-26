@@ -39,7 +39,7 @@ const SKILL_DATA = [
     name: 'ユルミノウタ',
     heartCost: 20,
     type: 'デバフスキル',
-    description: '相手全員の攻撃力を約3/4倍にする。',
+    description: '相手全員の攻撃力を3/4にする。',
   },
   {
     name: 'つきくずし',
