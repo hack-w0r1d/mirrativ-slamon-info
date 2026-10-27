@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.2.1">
+    <link rel="stylesheet" href="style.css?v=1.2.2">
     <title>スラモン攻略メモ</title>
   </head>
 
@@ -55,100 +55,394 @@
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-event" role="tabpanel" aria-labelledby="tab-btn-event" data-tab-panel="event">
           <button type="button" class="summary-btn" data-summary="event">💡攻略のまとめ</button><br>
           <br>
-          【各絵文字の意味】<br>
-          ♥️ハート🍪メタボ<br>
-          *️⃣全ステータス<br>
-          <span id="eventStatEmojiLine">🩷HP🗡️攻撃🛡守備💨素早さ</span><br>
-          <span id="eventStatRandomLine">🔀上記4つのうちランダムに1つ</span><span id="eventStatUnchangedLine"></span><br>
-          <br>
           <div id="eventChoiceList">
             <div class="event-list-header">
               <span>【選択イベント一覧】</span>
               <button type="button" class="heart-filter" id="heartOnlyToggle" aria-pressed="false">♥️のみ表示する</button>
             </div>
-            青空 → 外🍪-3 / 日向ぼっこ♥️+3<br>
-            遊びたそう → 遊ぶ♥️+2 / トレーニング🔀+1<br>
-            新しい動き → 難しい技🔀+3 or 🔀-3 / 固め直す🔀+2<br>
-            暑さ → 水分補給♥️+3 / 鍛える🔀+3 or 🔀-3<br>
-            アドバイス → スバッ🔀+3 or × / 20度🔀+1 or ×<br>
-            甘いもの → ご褒美♥️+5🍪+5 / フルーツ♥️+2<br>
-            甘えてきた → よしよし♥️+4 / 無視♥️+6 or ×<br>
-            一点 → 集中🔀+3 / 休憩♥️+3<br>
-            イメトレ → 勝つ姿🔥+10 / 技のイメージ🔀+3 or 🔥-5<br>
-            うたたね → そっとする♥️+2 / 起こす🔀+2 or ×<br>
-            訴えている → オヤツ♥️+4🍪+5 / トイレ♥️+2<br>
-            おかわり → あげる♥️+4🍪+5 / 我慢🔥+5🍪-10 or 🔥-5<br>
-            落ち込んでいる → 励ます♥️+2 or × / 改善点🔀+2<br>
-            落ち葉 → キャッチ🔀+2 / 掃除♥️+3 or 🔥-5<br>
-            お腹押さえてる → 温め♥️+3 / 消化♥️+3<br>
-            お昼寝の時間 → 寝かしつけ♥️+4 / 自主練🔀+3 or 🔀-3<br>
-            おもちゃ → 叱る♥️+2 or × / しょうがない♥️+2 or ×<br>
-            おやつ → こらっ🔀+1 or × / 見て見ぬフリ♥️+4🍪+5<br>
-            ガチガチ → ほぐす♥️+4 / ツボ押し🔀+2 or 🔥-6<br>
-            決めポーズ → 褒める🔥+10 / 一緒にポーズ♥️+3<br>
-            休息日 → のんびり♥️+4 / 気分転換🔥+10<br>
-            強風 → 踏ん張る🔀+3 / 室内へ♥️+2<br>
-            気力体力 → 全身全霊🔀+3 or 🔥-6 / バランス🔀+2<br>
-            くしゃみ → 鼻を拭く♥️+3 / 温める♥️+3<br>
-            元気がない → 休ませる♥️+2 / 散歩♥️+2<br>
-            自主トレ → 応援🔥+6 / アドバイス🔀+3 or 🔥-10<br>
-            しゃっくり → 驚かす🔥+6 or 🔥-6 / 水♥️+3<br>
-            食欲旺盛 → たっぷり♥️+4🍪+5 / 適量♥️+2<br>
-            空模様 → 切り上げ♥️+2 / 追い込み🔀+3 or 🔥-10<br>
-            体力測定 → 全力🔀+3 or 🔀-2 / 無理のない範囲♥️+2<br>
-            ちらちら → 学ばせる🔀+2 or 🔥-10 / マイペース🔥+6<br>
-            伝えたそう → 遊ぶ♥️+4 / なでる♥️+4<br>
-            手抜き → 追い込む🔀+2 or × / 注意♥️+2 or ×<br>
-            独自トレ → やらせる🔀+3 or × / 矯正🔀+1<br>
-            トレーニング → 褒める♥️+3 or × / 気合い🔀+1 or ×<br>
-            トレーニング方法 → 数🔀+3 or × / 重心🔀+1 or ×<br>
-            謎の踊り → 一緒に🔥+10 / 真似する🔀+3 or 🔀-2<br>
-            夏バテ → 冷たいもの♥️+3 / 休息♥️+4<br>
-            なまけている → 喝♥️+2 or × / なまける♥️+2 or ×<br>
-            苦手な食べ物 → 工夫🔀+3 or 🔥-6 / 別の物に替える♥️+3<br>
-            肉体 → マッスル♥️+2 / 見せつける♥️+3 or ×<br>
-            喉が渇く → 水♥️+3 / スポドリ🔀+2<br>
-            走りたそう → ジョギング🔀+3 / かけっこ♥️+3 or 🔥-5<br>
-            光 → 日光浴♥️+3 / 高ぶり🔀+3<br>
-            拾ってきた → 確認🔀+1 / 戻す×<br>
-            ファン → 手を振る🔥+10 / 照れる♥️+3<br>
-            変なものを口に → あわてて♥️+2 or 🔥-5 / 落ち着いて♥️+2 or 🔀+2<br>
-            ぽかぽか陽気 → お花見♥️+3 / 特訓🔥+10 or 🔥-5<br>
-            真似 → 大げさに🔥+10 / 逃げる🔀+3 or 🔥-6<br>
-            やけに冴えている → 集中特訓🔀+3 or 🔥-10 / 寝かせる♥️+4<br>
-            やる気 → 追加トレ🔀+2 / 休ませる♥️+3<br>
+            <table class="event-table">
+              <thead>
+                <tr><th>イベント</th><th>選択肢1</th><th>選択肢2</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">青空</th>
+                  <td class="event-choice"><span class="event-choice__name">外</span><span class="event-choice__effect">🍪-3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">日向ぼっこ</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">遊びたそう</th>
+                  <td class="event-choice"><span class="event-choice__name">遊ぶ</span><span class="event-choice__effect">♥️+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">トレーニング</span><span class="event-choice__effect">🔀+1</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">新しい動き</th>
+                  <td class="event-choice"><span class="event-choice__name">難しい技</span><span class="event-choice__effect">🔀+3 or 🔀-3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">固め直す</span><span class="event-choice__effect">🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">暑さ</th>
+                  <td class="event-choice"><span class="event-choice__name">水分補給</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">鍛える</span><span class="event-choice__effect">🔀+3 or 🔀-3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">アドバイス</th>
+                  <td class="event-choice"><span class="event-choice__name">スバッ</span><span class="event-choice__effect">🔀+3 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">20度</span><span class="event-choice__effect">🔀+1 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">甘いもの</th>
+                  <td class="event-choice"><span class="event-choice__name">ご褒美</span><span class="event-choice__effect">♥️+5🍪+5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">フルーツ</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">甘えてきた</th>
+                  <td class="event-choice"><span class="event-choice__name">よしよし</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">無視</span><span class="event-choice__effect">♥️+6 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">一点</th>
+                  <td class="event-choice"><span class="event-choice__name">集中</span><span class="event-choice__effect">🔀+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">休憩</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">イメトレ</th>
+                  <td class="event-choice"><span class="event-choice__name">勝つ姿</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">技のイメージ</span><span class="event-choice__effect">🔀+3 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">うたたね</th>
+                  <td class="event-choice"><span class="event-choice__name">そっとする</span><span class="event-choice__effect">♥️+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">起こす</span><span class="event-choice__effect">🔀+2 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">訴えている</th>
+                  <td class="event-choice"><span class="event-choice__name">オヤツ</span><span class="event-choice__effect">♥️+4🍪+5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">トイレ</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">おかわり</th>
+                  <td class="event-choice"><span class="event-choice__name">あげる</span><span class="event-choice__effect">♥️+4🍪+5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">我慢</span><span class="event-choice__effect">🔥+5🍪-10 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">落ち込んでいる</th>
+                  <td class="event-choice"><span class="event-choice__name">励ます</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">改善点</span><span class="event-choice__effect">🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">落ち葉</th>
+                  <td class="event-choice"><span class="event-choice__name">キャッチ</span><span class="event-choice__effect">🔀+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">掃除</span><span class="event-choice__effect">♥️+3 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">お腹押さえてる</th>
+                  <td class="event-choice"><span class="event-choice__name">温め</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">消化</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">お昼寝の時間</th>
+                  <td class="event-choice"><span class="event-choice__name">寝かしつけ</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">自主練</span><span class="event-choice__effect">🔀+3 or 🔀-3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">おもちゃ</th>
+                  <td class="event-choice"><span class="event-choice__name">叱る</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">しょうがない</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">おやつ</th>
+                  <td class="event-choice"><span class="event-choice__name">こらっ</span><span class="event-choice__effect">🔀+1 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">見て見ぬフリ</span><span class="event-choice__effect">♥️+4🍪+5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">ガチガチ</th>
+                  <td class="event-choice"><span class="event-choice__name">ほぐす</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">ツボ押し</span><span class="event-choice__effect">🔀+2 or 🔥-6</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">決めポーズ</th>
+                  <td class="event-choice"><span class="event-choice__name">褒める</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">一緒にポーズ</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">休息日</th>
+                  <td class="event-choice"><span class="event-choice__name">のんびり</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">気分転換</span><span class="event-choice__effect">🔥+10</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">強風</th>
+                  <td class="event-choice"><span class="event-choice__name">踏ん張る</span><span class="event-choice__effect">🔀+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">室内へ</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">気力体力</th>
+                  <td class="event-choice"><span class="event-choice__name">全身全霊</span><span class="event-choice__effect">🔀+3 or 🔥-6</span></td>
+                  <td class="event-choice"><span class="event-choice__name">バランス</span><span class="event-choice__effect">🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">くしゃみ</th>
+                  <td class="event-choice"><span class="event-choice__name">鼻を拭く</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">温める</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">元気がない</th>
+                  <td class="event-choice"><span class="event-choice__name">休ませる</span><span class="event-choice__effect">♥️+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">散歩</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">自主トレ</th>
+                  <td class="event-choice"><span class="event-choice__name">応援</span><span class="event-choice__effect">🔥+6</span></td>
+                  <td class="event-choice"><span class="event-choice__name">アドバイス</span><span class="event-choice__effect">🔀+3 or 🔥-10</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">しゃっくり</th>
+                  <td class="event-choice"><span class="event-choice__name">驚かす</span><span class="event-choice__effect">🔥+6 or 🔥-6</span></td>
+                  <td class="event-choice"><span class="event-choice__name">水</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">食欲旺盛</th>
+                  <td class="event-choice"><span class="event-choice__name">たっぷり</span><span class="event-choice__effect">♥️+4🍪+5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">適量</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">空模様</th>
+                  <td class="event-choice"><span class="event-choice__name">切り上げ</span><span class="event-choice__effect">♥️+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">追い込み</span><span class="event-choice__effect">🔀+3 or 🔥-10</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">体力測定</th>
+                  <td class="event-choice"><span class="event-choice__name">全力</span><span class="event-choice__effect">🔀+3 or 🔀-2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">無理のない範囲</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">ちらちら</th>
+                  <td class="event-choice"><span class="event-choice__name">学ばせる</span><span class="event-choice__effect">🔀+2 or 🔥-10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">マイペース</span><span class="event-choice__effect">🔥+6</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">伝えたそう</th>
+                  <td class="event-choice"><span class="event-choice__name">遊ぶ</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">なでる</span><span class="event-choice__effect">♥️+4</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">手抜き</th>
+                  <td class="event-choice"><span class="event-choice__name">追い込む</span><span class="event-choice__effect">🔀+2 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">注意</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">独自トレ</th>
+                  <td class="event-choice"><span class="event-choice__name">やらせる</span><span class="event-choice__effect">🔀+3 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">矯正</span><span class="event-choice__effect">🔀+1</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">トレーニング</th>
+                  <td class="event-choice"><span class="event-choice__name">褒める</span><span class="event-choice__effect">♥️+3 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">気合い</span><span class="event-choice__effect">🔀+1 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">トレーニング方法</th>
+                  <td class="event-choice"><span class="event-choice__name">数</span><span class="event-choice__effect">🔀+3 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">重心</span><span class="event-choice__effect">🔀+1 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">謎の踊り</th>
+                  <td class="event-choice"><span class="event-choice__name">一緒に</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">真似する</span><span class="event-choice__effect">🔀+3 or 🔀-2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">夏バテ</th>
+                  <td class="event-choice"><span class="event-choice__name">冷たいもの</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">休息</span><span class="event-choice__effect">♥️+4</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">なまけている</th>
+                  <td class="event-choice"><span class="event-choice__name">喝</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                  <td class="event-choice"><span class="event-choice__name">なまける</span><span class="event-choice__effect">♥️+2 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">苦手な食べ物</th>
+                  <td class="event-choice"><span class="event-choice__name">工夫</span><span class="event-choice__effect">🔀+3 or 🔥-6</span></td>
+                  <td class="event-choice"><span class="event-choice__name">別の物に替える</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">肉体</th>
+                  <td class="event-choice"><span class="event-choice__name">マッスル</span><span class="event-choice__effect">♥️+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">見せつける</span><span class="event-choice__effect">♥️+3 or ×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">喉が渇く</th>
+                  <td class="event-choice"><span class="event-choice__name">水</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">スポドリ</span><span class="event-choice__effect">🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">走りたそう</th>
+                  <td class="event-choice"><span class="event-choice__name">ジョギング</span><span class="event-choice__effect">🔀+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">かけっこ</span><span class="event-choice__effect">♥️+3 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">光</th>
+                  <td class="event-choice"><span class="event-choice__name">日光浴</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">高ぶり</span><span class="event-choice__effect">🔀+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">拾ってきた</th>
+                  <td class="event-choice"><span class="event-choice__name">確認</span><span class="event-choice__effect">🔀+1</span></td>
+                  <td class="event-choice"><span class="event-choice__name">戻す</span><span class="event-choice__effect">×</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">ファン</th>
+                  <td class="event-choice"><span class="event-choice__name">手を振る</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">照れる</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">変なものを口に</th>
+                  <td class="event-choice"><span class="event-choice__name">あわてて</span><span class="event-choice__effect">♥️+2 or 🔥-5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">落ち着いて</span><span class="event-choice__effect">♥️+2 or 🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">ぽかぽか陽気</th>
+                  <td class="event-choice"><span class="event-choice__name">お花見</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">特訓</span><span class="event-choice__effect">🔥+10 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">真似</th>
+                  <td class="event-choice"><span class="event-choice__name">大げさに</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">逃げる</span><span class="event-choice__effect">🔀+3 or 🔥-6</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">やけに冴えている</th>
+                  <td class="event-choice"><span class="event-choice__name">集中特訓</span><span class="event-choice__effect">🔀+3 or 🔥-10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">寝かせる</span><span class="event-choice__effect">♥️+4</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">やる気</th>
+                  <td class="event-choice"><span class="event-choice__name">追加トレ</span><span class="event-choice__effect">🔀+2</span></td>
+                  <td class="event-choice"><span class="event-choice__name">休ませる</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <br>
           【メタボ専用イベント】<br>
-          おやつに飽きた → ご飯少なく🔥-3 / 種類変える🔥+3🍪+8<br>
-          特訓終了時に🩷-5<br>
+          <table class="event-table">
+            <thead>
+              <tr><th>イベント</th><th>選択肢1</th><th>選択肢2</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">おやつに飽きた</th>
+                <td class="event-choice"><span class="event-choice__name">ご飯少なく</span><span class="event-choice__effect">🔥-3</span></td>
+                <td class="event-choice"><span class="event-choice__name">種類変える</span><span class="event-choice__effect">🔥+3🍪+8</span></td>
+              </tr>
+            </tbody>
+          </table>
+          メタボ状態の特訓終了時🩷-5<br>
           <br>
           <div id="eventCharacterList">
-          【キャラクターイベント】<br>
-            レント → よろしく🗡️+1 / アイテム🗡️+1<br>
-            レント → お礼を言う♥️+4 / 中身を聞く🔀+2<br>
-            レント → 探す♥️+3 / 探させる🔀+3 or 🔥-5<br>
-            レント → すぐ飲ませる🔀+3 / あとで飲ませる♥️+3<br>
-            レント → 挑戦🔀+3 or 🔀-3  / 様子を見る♥️+2<br>
-            レント → 引き受け🔥+10 / 練習を優先🔀+2 or 🔥-5<br>
-            レント → みんなで食べる♥️+4🍪+5 / ほどほどに♥️+2🍪+5<br>
-            レント → メモ🔀+3 / 実演🔀+3 or 🔥-10<br>
-            支配人 → 決意🔥+10 / プレッシャー♥️+3 or 🔥-5<br>
-            ササモト博士 → 成功*️⃣+35🔥+30 / 失敗*️⃣-15🔥-30<br>
-            成功確率は50%だと思われます。<br>
+            【キャラクターイベント】<br>
+            <table class="event-table">
+              <thead>
+                <tr><th>イベント</th><th>選択肢1</th><th>選択肢2</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">よろしく</span><span class="event-choice__effect">🗡️+1</span></td>
+                  <td class="event-choice"><span class="event-choice__name">アイテム</span><span class="event-choice__effect">🗡️+1</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">お礼を言う</span><span class="event-choice__effect">♥️+4</span></td>
+                  <td class="event-choice"><span class="event-choice__name">中身を聞く</span><span class="event-choice__effect">🔀+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">探す</span><span class="event-choice__effect">♥️+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">探させる</span><span class="event-choice__effect">🔀+3 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">すぐ飲ませる</span><span class="event-choice__effect">🔀+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">あとで飲ませる</span><span class="event-choice__effect">♥️+3</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">挑戦</span><span class="event-choice__effect">🔀+3 or 🔀-3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">様子を見る</span><span class="event-choice__effect">♥️+2</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">引き受け</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">練習を優先</span><span class="event-choice__effect">🔀+2 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">みんなで食べる</span><span class="event-choice__effect">♥️+4🍪+5</span></td>
+                  <td class="event-choice"><span class="event-choice__name">ほどほどに</span><span class="event-choice__effect">♥️+2🍪+5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">レント</th>
+                  <td class="event-choice"><span class="event-choice__name">メモ</span><span class="event-choice__effect">🔀+3</span></td>
+                  <td class="event-choice"><span class="event-choice__name">実演</span><span class="event-choice__effect">🔀+3 or 🔥-10</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">支配人</th>
+                  <td class="event-choice"><span class="event-choice__name">決意</span><span class="event-choice__effect">🔥+10</span></td>
+                  <td class="event-choice"><span class="event-choice__name">プレッシャー</span><span class="event-choice__effect">♥️+3 or 🔥-5</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">ササモト博士*</th>
+                  <td class="event-choice"><span class="event-choice__name">成功</span><span class="event-choice__effect">*️⃣+35🔥+30</span></td>
+                  <td class="event-choice"><span class="event-choice__name">失敗</span><span class="event-choice__effect">*️⃣-15🔥-30</span></td>
+                </tr>
+              </tbody>
+            </table>
+            *成功確率1/2程度。<br>
           </div>
           <br>
           【絆チャレンジ】<br>
           ジョン → こっち向いてホイ or トス&アタック<br>
-          ・こっち向いてホイ<br>
-          1回でも失敗したらアウト<br>
-          成功 → *️⃣+12 / 失敗 → 🔥-2<br>
-          ・トス&アタック<br>
-          25本中13本以上打ち返せば成功<br>
-          成功 → *️⃣+12 / 失敗 → 🔥-2<br>
+          <table class="event-table">
+            <thead>
+              <tr><th>チャレンジ</th><th>結果1</th><th>結果2</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">こっち向いてホイ*</th>
+                <td class="event-choice"><span class="event-choice__name">成功</span><span class="event-choice__effect">*️⃣+12</span></td>
+                <td class="event-choice"><span class="event-choice__name">失敗</span><span class="event-choice__effect">🔥-2</span></td>
+              </tr>
+            </tbody>
+          </table>
+          *1回でも失敗したらアウト<br>
+          <table class="event-table">
+            <thead>
+              <tr><th>チャレンジ</th><th>結果1</th><th>結果2</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">トス&amp;アタック*</th>
+                <td class="event-choice"><span class="event-choice__name">成功</span><span class="event-choice__effect">*️⃣+12</span></td>
+                <td class="event-choice"><span class="event-choice__name">失敗</span><span class="event-choice__effect">🔥-2</span></td>
+              </tr>
+            </tbody>
+          </table>
+          *25本中13本以上打ち返せば成功<br>
           <br>
           【スキン限定イベント】<br>
-          マイク → いいよ!*️⃣+10♥️+5🔥+50 / しょうがない*️⃣+10♥️+5🔥+50<br>
+          <table class="event-table">
+            <thead>
+              <tr><th>イベント</th><th>選択肢1</th><th>選択肢2</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">マイク</th>
+                <td class="event-choice"><span class="event-choice__name">いいよ!</span><span class="event-choice__effect">*️⃣+10♥️+5🔥+50</span></td>
+                <td class="event-choice"><span class="event-choice__name">しょうがない</span><span class="event-choice__effect">*️⃣+10♥️+5🔥+50</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
           <button type="button" class="summary-btn" data-summary="training">💡攻略のまとめ</button><br>
@@ -442,7 +736,14 @@
     </dialog>
 
     <template id="summary-event">
-      ・基本的には♥️を獲得できる選択肢を選んだほうが育成の選択肢が広がります
+      ・基本的に♥️を獲得できる選択肢を選んだほうが育成の選択肢が広がるのでおすすめです<br>
+      <br>
+      【各絵文字の意味】<br>
+      ♥️ハート🍪メタボ<br>
+      *️⃣全ステータス<br><br>
+      <span data-event-legend="stats">🩷HP🗡️攻撃🛡守備💨素早さ</span><br>
+      <span data-event-legend="random">🔀上記4つのうちランダムに1つ</span><span data-event-legend="unchanged"></span><br>
+      (タップで確認可能)
     </template>
 
     <template id="summary-training">
@@ -472,12 +773,12 @@
       ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
     </template>
 
-    <script src="skillData.js?v=1.2.1"></script>
-    <script src="trainerData.js?v=1.2.1"></script>
-    <script src="monsterData.js?v=1.2.1"></script>
-    <script src="monsterCard.js?v=1.2.1"></script>
-    <script src="bossData.js?v=1.2.1"></script>
-    <script src="script.js?v=1.2.1"></script>
+    <script src="skillData.js?v=1.2.2"></script>
+    <script src="trainerData.js?v=1.2.2"></script>
+    <script src="monsterData.js?v=1.2.2"></script>
+    <script src="monsterCard.js?v=1.2.2"></script>
+    <script src="bossData.js?v=1.2.2"></script>
+    <script src="script.js?v=1.2.2"></script>
 
   </body>
 </html>

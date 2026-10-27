@@ -567,6 +567,64 @@ nav.footer__links {
   gap: 12px;
 }
 
+/* 選択イベント一覧の表。1行 = イベント / 選択肢1 / 選択肢2 */
+.event-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 13px;
+}
+
+.event-table th,
+.event-table td {
+  border: 1px solid #444;
+  padding: 6px 4px;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.event-table thead th {
+  background: #1a1a1a;
+  color: orange;
+}
+
+.event-table thead th:first-child {
+  width: 28%;
+}
+
+.event-table tbody th {
+  background: #141414;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 選択肢名(上)と変動値(下)を縦に並べる */
+.event-choice__name,
+.event-choice__effect {
+  display: block;
+}
+
+.event-choice__name {
+  font-weight: bold;
+}
+
+.event-choice__effect {
+  margin-top: 2px;
+  color: #ccc;
+}
+
+/* 変動値の色分け。良い変化は赤、悪い変化は水色 */
+.event-effect--good {
+  color: #7cfc00;
+}
+
+.event-effect--bad {
+  color: #ff6b6b;
+}
+
 .heart-filter {
   background: transparent;
   color: orange;

@@ -117,6 +117,28 @@ function showDiceTooltip(target) {
   }
 }
 
+// 攻略のまとめ(選択イベント)の【各絵文字の意味】を、育成モンスターに合わせて更新する
+// テンプレートの複製を表示したあとに呼ぶ(対象の要素がなければ何もしない)
+function renderEventLegend(root) {
+  const statsEl = root.querySelector('[data-event-legend="stats"]');
+  const randomEl = root.querySelector('[data-event-legend="random"]');
+  const unchangedEl = root.querySelector('[data-event-legend="unchanged"]');
+  if (!statsEl || !randomEl) return;
+
+  const shown = getShownEventStats(PlayerSettings.monster);
+  const unchanged = EVENT_STAT_INFO.filter((s) => !shown.includes(s));
+  statsEl.textContent = shown.map((s) => s.text).join('');
+  randomEl.textContent = `🔀上記${shown.length}つのうちランダムに1つ`;
+  if (unchangedEl) {
+    unchangedEl.innerHTML = unchanged.length > 0
+      ? `<br>(${unchanged.map((s) => s.text).join('と')}は変化しません)`
+      : '';
+  }
+}
+
+// 育成モンスターが変わったらサイコロのツールチップは閉じる(中身が変わるため)
+PlayerSettings.subscribe(hideDiceTooltip);
+
 // 画面上部に固定表示されているバー(設定・メインタブ・サブタブ)の合計の高さ
 function getStickyBarsHeight() {
   const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
@@ -226,36 +248,16 @@ function getStickyBarsHeight() {
   if (!toggle || containers.length === 0) return;
 
   const HEART_REGEX = /♥/u;
-  const LINE_REGEX = /^(\s*[^→\n]+→\s*)(.+?)(\s+\/\s+)(.+?)(\s*)$/u;
 
-  function createChoice(text, isHideable) {
-    const span = document.createElement('span');
-    span.className = 'event-choice';
-    span.textContent = text;
-    if (isHideable) span.dataset.heartHide = '1';
-    return span;
-  }
-
-  // 「名前 → 選択肢A / 選択肢B」の行を、選択肢ごとのspanに分割する
-  // (🔀のダイス化より前に実行する必要がある)
+  // 表の各行で、片方の選択肢にだけ♥がある場合は♥がない側を「♥のみ表示」で隠す対象にする
   containers.forEach((container) => {
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
-    const targets = [];
-    let node;
-    while ((node = walker.nextNode())) {
-      if (LINE_REGEX.test(node.textContent)) targets.push(node);
-    }
-    targets.forEach((textNode) => {
-      const [, head, a, sep, b, tail] = textNode.textContent.match(LINE_REGEX);
-      const aHasHeart = HEART_REGEX.test(a);
-      const bHasHeart = HEART_REGEX.test(b);
-      const frag = document.createDocumentFragment();
-      frag.appendChild(document.createTextNode(head));
-      frag.appendChild(createChoice(a, !aHasHeart && bHasHeart));
-      frag.appendChild(document.createTextNode(sep));
-      frag.appendChild(createChoice(b, aHasHeart && !bHasHeart));
-      if (tail) frag.appendChild(document.createTextNode(tail));
-      textNode.parentNode.replaceChild(frag, textNode);
+    container.querySelectorAll('tbody tr').forEach((row) => {
+      const [a, b] = row.querySelectorAll('.event-choice');
+      if (!a || !b) return;
+      const aHasHeart = HEART_REGEX.test(a.textContent);
+      const bHasHeart = HEART_REGEX.test(b.textContent);
+      if (aHasHeart && !bHasHeart) b.dataset.heartHide = '1';
+      if (bHasHeart && !aHasHeart) a.dataset.heartHide = '1';
     });
   });
 
@@ -275,11 +277,38 @@ function getStickyBarsHeight() {
         el._origNodes = null;
       }
     });
-    // 検索中なら検索結果(ハイライト数)を再計算する
+    // 隠した/戻したセルに残った検索ハイライトを消し、検索結果(ハイライト数)を再計算する
     const searchInput = document.getElementById('searchInput');
-    if (searchInput && searchInput.value.trim()) {
-      searchInput.dispatchEvent(new Event('input'));
+    if (searchInput) searchInput.dispatchEvent(new Event('input'));
+  });
+})();
+
+// 変動値(♥️+3 など)を色分けする。🔀のダイス化より前に実行する必要がある
+// 良い変化(🍪は-、それ以外は+)は赤、悪い変化(🍪は+、それ以外は-)は水色
+(function () {
+  const VALUE_REGEX = /(♥\uFE0F?|🍪|🔀|🔥|\*\uFE0F?\u20E3|🗡\uFE0F?)([+-])\d+/gu;
+
+  document.querySelectorAll('#tab-panel-event .event-choice__effect').forEach((el) => {
+    const text = el.textContent;
+    const frag = document.createDocumentFragment();
+    let lastIndex = 0;
+
+    for (const match of text.matchAll(VALUE_REGEX)) {
+      const [value, icon, sign] = match;
+      if (match.index > lastIndex) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+      const isGood = icon.startsWith('🍪') === (sign === '-');
+      const span = document.createElement('span');
+      span.className = isGood ? 'event-effect--good' : 'event-effect--bad';
+      span.textContent = value;
+      frag.appendChild(span);
+      lastIndex = match.index + value.length;
     }
+
+    if (lastIndex === 0) return;
+    if (lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+    el.replaceChildren(frag);
   });
 })();
 
@@ -343,8 +372,9 @@ function getStickyBarsHeight() {
   let isFooterVisible = false;
   let isSearchFocused = false;
 
-  function escapeRegExp(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // カタカナをひらがなに揃えて比較する(1文字ずつの置き換えなので、文字位置は元の文字列と同じ)
+  function foldKana(str) {
+    return str.replace(/[\u30A1-\u30F6\u30FD\u30FE]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0x60));
   }
 
   function clearHighlights() {
@@ -363,7 +393,7 @@ function getStickyBarsHeight() {
       return;
     }
 
-    const regex = new RegExp(escapeRegExp(query), 'gu');
+    const needle = foldKana(query);
     const walker = document.createTreeWalker(searchScope, NodeFilter.SHOW_TEXT, {
       acceptNode: (n) => (n.parentNode.closest('.heart-filter, .summary-btn') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
     });
@@ -375,26 +405,24 @@ function getStickyBarsHeight() {
 
     textNodes.forEach((textNode) => {
       const text = textNode.textContent;
-      regex.lastIndex = 0;
-      let match;
+      const folded = foldKana(text);
+      let index = folded.indexOf(needle);
       let lastIndex = 0;
       let found = false;
       const frag = document.createDocumentFragment();
 
-      while ((match = regex.exec(text))) {
+      while (index !== -1) {
         found = true;
-        if (match.index > lastIndex) {
-          frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        if (index > lastIndex) {
+          frag.appendChild(document.createTextNode(text.slice(lastIndex, index)));
         }
         const mark = document.createElement('mark');
         mark.className = 'search-highlight';
-        mark.textContent = match[0];
+        mark.textContent = text.slice(index, index + needle.length);
         frag.appendChild(mark);
         matches.push(mark);
-        lastIndex = match.index + match[0].length;
-        if (match.index === regex.lastIndex) {
-          regex.lastIndex += 1;
-        }
+        lastIndex = index + needle.length;
+        index = folded.indexOf(needle, lastIndex);
       }
 
       if (found) {
@@ -412,12 +440,30 @@ function getStickyBarsHeight() {
     updateCount();
   }
 
+  // 一致箇所を、固定バー・検索バー・キーボードに隠れない範囲の中央までスクロールする
+  // (scrollIntoViewのcenterは画面全体の中央に合わせるため、キーボード表示中は検索バーやキーボードの裏に入ってしまう)
+  function scrollToMatch(mark) {
+    const vv = window.visualViewport;
+    const vvTop = vv ? vv.offsetTop : 0;
+    const vvBottom = vv ? vv.offsetTop + vv.height : window.innerHeight;
+
+    const viewTop = Math.max(getStickyBarsHeight(), vvTop);
+    let viewBottom = vvBottom;
+    if (!searchBar.classList.contains('search-bar--hidden')) {
+      viewBottom = Math.min(viewBottom, searchBar.getBoundingClientRect().top);
+    }
+
+    const rect = mark.getBoundingClientRect();
+    const delta = rect.top + rect.height / 2 - (viewTop + viewBottom) / 2;
+    window.scrollTo({ top: Math.max(0, window.scrollY + delta), behavior: 'smooth' });
+  }
+
   function setActive() {
     matches.forEach((m) => m.classList.remove('search-highlight--active'));
     const current = matches[currentIndex];
     if (current) {
       current.classList.add('search-highlight--active');
-      current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      scrollToMatch(current);
     }
   }
 
@@ -628,30 +674,6 @@ function getStickyBarsHeight() {
 })();
 
 (function () {
-  const statEmojiEl = document.getElementById('eventStatEmojiLine');
-  const statRandomEl = document.getElementById('eventStatRandomLine');
-  const statUnchangedEl = document.getElementById('eventStatUnchangedLine');
-  if (!statEmojiEl || !statRandomEl) return;
-
-  function updateLegend(value) {
-    const shown = getShownEventStats(value);
-    const unchanged = EVENT_STAT_INFO.filter((s) => !shown.includes(s));
-    statEmojiEl.textContent = shown.map((s) => s.text).join('');
-    statRandomEl.textContent = `🔀上記${shown.length}つのうちランダムに1つ`;
-    if (statUnchangedEl) {
-      statUnchangedEl.innerHTML = unchanged.length > 0
-      ? `<br>(${unchanged.map((s) => s.text).join('と')}は変化しません)`
-      : '';
-    }
-  }
-
-  PlayerSettings.subscribe(() => {
-    updateLegend(PlayerSettings.monster);
-    hideDiceTooltip();
-  });
-})();
-
-(function () {
   const monsterGrid = document.getElementById('settingsMonsterGrid');
   const monsterImage = document.getElementById('settingsMonsterImage');
   const monsterLabel = document.getElementById('settingsMonsterLabel');
@@ -726,6 +748,7 @@ function getStickyBarsHeight() {
     const template = document.getElementById(`summary-${btn.dataset.summary}`);
     if (!template) return;
     summaryBody.replaceChildren(template.content.cloneNode(true));
+    renderEventLegend(summaryBody);
     summaryDialog.showModal();
     summaryBody.scrollTop = 0;
   });
