@@ -209,7 +209,7 @@ const SKILL_DATA = [
     name: 'キビキビン',
     heartCost: 10,
     type: 'バフスキル',
-    description: '自分の素早さを上げる。「シュビシュビン」に進化可能。',
+    description: '自分の素早さを1.5倍にする。「シュビシュビン」に進化可能。',
   },
   {
     name: 'シュビシュビン',
