@@ -61,7 +61,7 @@ const TRAINER_DATA = [
   },
   {
     name: 'フレクー',
-    growth: { hp: 3, atk: 1, def: 1, spd: 2 },
+    growth: { hp: 3, atk: 1, def: 1, spd: 1 },
   },
   {
     name: 'ベルチャ',

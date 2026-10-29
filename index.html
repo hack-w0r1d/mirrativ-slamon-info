@@ -16,12 +16,15 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.2.4">
+    <link rel="stylesheet" href="style.css?v=1.2.5">
     <title>スラモン攻略メモ</title>
   </head>
 
   <body>
     <div class="memo">
+      <div class="ticker" role="region" aria-label="お知らせ">
+        <div class="ticker__track">シーズン2は10/31(土)21:59に終了します。ゴルの使い忘れにご注意ください。</div>
+      </div>
       <h1>スラモン攻略メモ</h1>
 
       <div class="sticky-settings" id="stickySettings">
@@ -445,20 +448,32 @@
           </table>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
-          <button type="button" class="summary-btn" data-summary="training">💡攻略のまとめ</button><br>
-          <br>
-          【トレーニング】<br>
-          各トレーナーの基礎ボーナス値に、育成モンスターのレアリティボーナスと加護Lv.ボーナスが+される<br>
-          ※レアリティボーナスは育成前のモンスター詳細画面で確認できます(例: ↑+1/↑↑+2)<br>
-          ※加護Lv.ボーナスはLv.9で+1、Lv.10〜17で+2、Lv.MAXで+3<br>
-          <br>
-          大成功は基礎ボーナス値×2+レアリティボーナス+加護ボーナス<br>
-          🟡ゴールデントレーナーは基礎ボーナス値×2<br>
-          集中強化合宿期間は各トレーナーの基礎ボーナス値×2<br>
-          <br>
-          【あそぶ】<br>
-          通常期間&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔥+10~30♥️+3~7<br>
-          集中強化合宿期間 🔥+10~30♥️+6~14<br>
+          <div class="tabs__nav tabs__nav--third" role="tablist">
+            <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-training-info" aria-controls="tab-panel-training-info" aria-selected="true" data-thirdtab="training-info">攻略情報</button>
+            <button type="button" class="tabs__btn" role="tab" id="tab-btn-training-trainer" aria-controls="tab-panel-training-trainer" aria-selected="false" data-thirdtab="training-trainer">トレーナー</button>
+          </div>
+          <div class="tabs__third-panel" id="tab-panel-training-info" role="tabpanel" aria-labelledby="tab-btn-training-info" data-tab-panel="training-info">
+            <button type="button" class="summary-btn" data-summary="training">💡攻略のまとめ</button><br>
+            <br>
+            【トレーニング】<br>
+            各トレーナーの基礎ボーナス値に、育成モンスターのレアリティボーナスと加護Lv.ボーナスが+される<br>
+            ※レアリティボーナスは育成前のモンスター詳細画面で確認できます(例: ↑+1/↑↑+2)<br>
+            ※加護Lv.ボーナスはLv.9で+1、Lv.10〜17で+2、Lv.MAXで+3<br>
+            <br>
+            大成功は基礎ボーナス値×2+レアリティボーナス+加護ボーナス<br>
+            🟡ゴールデントレーナーは基礎ボーナス値×2<br>
+            集中強化合宿期間は各トレーナーの基礎ボーナス値×2<br>
+            <br>
+            【あそぶ】<br>
+            通常期間(1~2周目)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔥+10~30♥️+3~7<br>
+            集中強化合宿期間(3周目) 🔥+10~30♥️+6~14<br>
+          </div>
+          <div class="tabs__third-panel" id="tab-panel-training-trainer" role="tabpanel" aria-labelledby="tab-btn-training-trainer" data-tab-panel="training-trainer" hidden>
+            【トレーナーの基礎ボーナス一覧】<br>
+            ※レアリティボーナスは含みません<br>
+            ※各ステータスの項目をタップするごとに、デフォルト→降順→昇順の順で並び替わります<br>
+            <div id="trainerBonusTable"></div>
+          </div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-item" role="tabpanel" aria-labelledby="tab-btn-item" data-tab-panel="item" hidden>
           <button type="button" class="summary-btn" data-summary="item">💡攻略のまとめ</button><br>
@@ -589,11 +604,24 @@
       <div class="tabs__panel" id="tab-panel-monster-main" role="tabpanel" aria-labelledby="tab-btn-monster-main" data-tab-panel="monster-main" hidden>
         <div class="tabs__nav tabs__nav--sub" role="tablist">
           <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-monster" aria-controls="tab-panel-monster" aria-selected="true" data-subtab="monster">モンスター</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-skill" aria-controls="tab-panel-monster-skill" aria-selected="false" data-subtab="monster-skill">スキル</button>
           <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-subtab="rank">ステータスランク</button>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster">
           【各モンスターの詳細】<br>
           <div class="monster-card-grid" id="monsterDetailList"></div>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster-skill" role="tabpanel" aria-labelledby="tab-btn-monster-skill" data-tab-panel="monster-skill" hidden>
+          【パッシブスキル】<br>
+          ・各ステータスの心得の♥️消費数<br>
+          ▶︎Lv.1 ♥️-5 / Lv.2 ♥️-10 / Lv.3 ♥️-20<br>
+          ・各ステータスの心得の上昇数値*<br>
+          ▶︎Lv.1 +10 / Lv.2 +10 / Lv.3 +10<br>
+          *魔法攻撃/防御の心得のみ<br>
+          ▶︎Lv.1 +20 / Lv.2 +15 / Lv.3 +15<br>
+          <br>
+          【各バトルスキルの詳細】<br>
+          <div class="skill-groups" id="monsterSkillGroups"></div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
           S 250 〜<br>
@@ -665,7 +693,7 @@
           【ボスステータス詳細】<br>
           ※ダメージ計算や素早さの比較で使用するのがおすすめです<br>
           ※狙いは弱者狙いですがあまり参考にはなりません<br>
-          ※ボスモンスター名以外の項目をタップするごとに、デフォルト→降順→昇順の順で並び替わります<br>
+          ※各ステータスの項目をタップするごとに、デフォルト→降順→昇順の順で並び替わります<br>
           <div id="bossStatTables"></div>
         </div>
       </div>
@@ -773,12 +801,12 @@
       ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
     </template>
 
-    <script src="skillData.js?v=1.2.4"></script>
-    <script src="trainerData.js?v=1.2.4"></script>
-    <script src="monsterData.js?v=1.2.4"></script>
-    <script src="monsterCard.js?v=1.2.4"></script>
-    <script src="bossData.js?v=1.2.4"></script>
-    <script src="script.js?v=1.2.4"></script>
+    <script src="skillData.js?v=1.2.5"></script>
+    <script src="trainerData.js?v=1.2.5"></script>
+    <script src="monsterData.js?v=1.2.5"></script>
+    <script src="monsterCard.js?v=1.2.5"></script>
+    <script src="bossData.js?v=1.2.5"></script>
+    <script src="script.js?v=1.2.5"></script>
 
   </body>
 </html>

@@ -50,6 +50,40 @@ nav.footer__links {
   box-sizing: border-box;
 }
 
+/* お知らせのループテロップ。固定表示はせず、スクロールで上に隠れる */
+.ticker {
+  overflow: hidden;
+  padding: 6px 0;
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: orange;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* 文章は右端の外から始まり、左端の外まで流れたら最初に戻る。速さは animation の秒数で調整 */
+.ticker__track {
+  display: inline-block;
+  padding-left: 100%;
+  animation: ticker-scroll 20s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* 動きを減らす設定のときは流さず、そのまま表示する */
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track {
+    padding: 0 12px;
+    white-space: normal;
+    animation: none;
+  }
+}
+
 .skill-title-row {
   display: flex;
   align-items: center;
@@ -202,7 +236,8 @@ nav.footer__links {
   padding-top: 14px;
 }
 
-.tabs__nav--sub {
+.tabs__nav--sub,
+.tabs__nav--third {
   position: sticky;
   top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px));
   z-index: 28;
@@ -212,7 +247,20 @@ nav.footer__links {
   border-bottom: 1px dashed #333;
 }
 
-.tabs__nav--sub .tabs__btn {
+/* 3階層目のタブ(トレーニングの攻略情報/トレーナー)はサブタブの下に続けて固定する */
+.tabs__nav--third {
+  top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px) + var(--sticky-sub-h, 0px));
+  z-index: 27;
+}
+
+/* 3階層目のタブが続くサブタブは、メインタブとの間と同じ実線にして余白もあけない */
+.tabs__nav--sub.has-third {
+  margin-bottom: 0;
+  border-bottom: 1px solid #333;
+}
+
+.tabs__nav--sub .tabs__btn,
+.tabs__nav--third .tabs__btn {
   font-size: 12px;
   padding: 5px 12px;
 }
@@ -821,7 +869,8 @@ nav.footer__links {
 }
 
 .is-tabs-collapsed .tabs__nav--main .tabs__btn,
-.is-tabs-collapsed .tabs__nav--sub {
+.is-tabs-collapsed .tabs__nav--sub,
+.is-tabs-collapsed .tabs__nav--third {
   display: none;
 }
 
@@ -996,16 +1045,257 @@ nav.footer__links {
   touch-action: manipulation;
 }
 
-.boss-stats-table th[aria-sort="descending"] .boss-sort-btn::after {
+th[aria-sort="descending"] .boss-sort-btn::after {
   content: '▼';
   margin-left: 2px;
   font-size: 9px;
   color: orange;
 }
 
-.boss-stats-table th[aria-sort="ascending"] .boss-sort-btn::after {
+th[aria-sort="ascending"] .boss-sort-btn::after {
   content: '▲';
   margin-left: 2px;
   font-size: 9px;
   color: orange;
+}
+
+/* トレーナー基礎ボーナス表の条件切り替えボタン。表の項目行と一緒にスクロールしても固定する */
+.trainer-controls {
+  position: sticky;
+  top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px) + var(--sticky-sub-h, 0px) + var(--sticky-third-h, 0px));
+  z-index: 19;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px 0;
+  background: #000;
+}
+
+/* 基本はOFFの状態(暗い表示)。ボタンごとの飾りは下で data-toggle と aria-pressed の組み合わせごとに付ける。
+   飾りは ::before / ::after で描き、文字(前面)より後ろに置く */
+.trainer-toggle {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  background: #141414;
+  color: #aaa;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 6px 4px;
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.trainer-toggle::before,
+.trainer-toggle::after {
+  content: none;
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 通常期間: 山の特訓場(青空と雪をかぶった山) */
+.trainer-toggle[data-toggle="camp"][aria-pressed="false"] {
+  background: linear-gradient(180deg, #4a7fc0 0%, #a8d6f2 65%);
+  color: #fff;
+  border-color: #6c9bd1;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.trainer-toggle[data-toggle="camp"][aria-pressed="false"]::before,
+.trainer-toggle[data-toggle="camp"][aria-pressed="false"]::after {
+  content: '';
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62%;
+}
+
+.trainer-toggle[data-toggle="camp"][aria-pressed="false"]::before {
+  background: linear-gradient(180deg, #6a9a73, #2f4f3a);
+  clip-path: polygon(0 100%, 0 55%, 18% 20%, 32% 60%, 55% 5%, 78% 65%, 90% 40%, 100% 70%, 100% 100%);
+}
+
+.trainer-toggle[data-toggle="camp"][aria-pressed="false"]::after {
+  background: #fff;
+  clip-path: polygon(49% 24%, 55% 5%, 61% 24%, 57% 19%, 55% 26%, 52% 20%);
+}
+
+/* 集中強化合宿期間: 海沿いの砂浜(空と海、白い波、砂浜と太陽) */
+.trainer-toggle[data-toggle="camp"][aria-pressed="true"] {
+  background: linear-gradient(180deg, #86d8f5 0%, #3aa9da 42%, #f6e2ae 43%, #e6c386 100%);
+  color: #fff;
+  border-color: #e6c386;
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.trainer-toggle[data-toggle="camp"][aria-pressed="true"]::before {
+  content: '';
+  left: 0;
+  right: 0;
+  top: calc(43% - 4px);
+  height: 8px;
+  background: radial-gradient(circle at 50% 100%, #fff 0 4px, transparent 4.5px) 0 0 / 12px 8px repeat-x;
+}
+
+.trainer-toggle[data-toggle="camp"][aria-pressed="true"]::after {
+  content: '';
+  top: 4px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff1a8;
+  box-shadow: 0 0 6px 2px rgba(255, 241, 168, 0.8);
+}
+
+/* 通常トレーナー(#ef7658)とゴールデントレーナー(#ffd84b): グラデーションと上半分のつや */
+.trainer-toggle[data-toggle="golden"][aria-pressed="false"] {
+  background: linear-gradient(135deg, #f6a38a 0%, #ef7658 50%, #d9573a 100%);
+  color: #fff;
+  border-color: #ef7658;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.trainer-toggle[data-toggle="golden"][aria-pressed="true"] {
+  background: linear-gradient(135deg, #fff3b0 0%, #ffd84b 50%, #e6b41a 100%);
+  color: #4a3500;
+  border-color: #ffd84b;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.trainer-toggle[data-toggle="golden"]::before {
+  content: '';
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+}
+
+/* 大成功ON: 夜空のようなグラデーションにキラキラ(小さな光の粒と、またたく✨) */
+.trainer-toggle[data-toggle="great"][aria-pressed="true"] {
+  background:
+    radial-gradient(circle at 20% 30%, #fff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 70% 25%, #fff6a8 0 1.2px, transparent 1.8px),
+    radial-gradient(circle at 85% 70%, #fff 0 1px, transparent 1.5px),
+    radial-gradient(circle at 45% 80%, #fff6a8 0 1px, transparent 1.5px),
+    linear-gradient(135deg, #2b1a5e 0%, #6a35c4 55%, #c45bd6 100%);
+  color: #fff;
+  border-color: #ffe27a;
+  font-weight: bold;
+  text-shadow: 0 0 6px rgba(255, 226, 122, 0.9);
+}
+
+.trainer-toggle[data-toggle="great"][aria-pressed="true"]::before,
+.trainer-toggle[data-toggle="great"][aria-pressed="true"]::after {
+  content: '✨';
+  font-size: 10px;
+  line-height: 1;
+  animation: trainer-twinkle 1.6s ease-in-out infinite;
+}
+
+.trainer-toggle[data-toggle="great"][aria-pressed="true"]::before {
+  top: 3px;
+  left: 6px;
+}
+
+.trainer-toggle[data-toggle="great"][aria-pressed="true"]::after {
+  right: 6px;
+  bottom: 3px;
+  animation-delay: 0.8s;
+}
+
+@keyframes trainer-twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* 加護適用ON: 天使(淡い空色のグラデーション、頭上の輪っか、左右の羽、やさしい光) */
+.trainer-toggle[data-toggle="blessing"][aria-pressed="true"] {
+  background: linear-gradient(180deg, #8ec5fb 0%, #d6ecff 55%, #fff 100%);
+  color: #1f4f8a;
+  border-color: #ffe9a0;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(255, 236, 160, 0.85);
+}
+
+.trainer-toggle[data-toggle="blessing"][aria-pressed="true"]::before {
+  content: '';
+  top: 2px;
+  left: 50%;
+  width: 26px;
+  height: 7px;
+  margin-left: -13px;
+  border: 2px solid #ffd84b;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(255, 216, 75, 0.9);
+  box-sizing: border-box;
+}
+
+.trainer-toggle[data-toggle="blessing"][aria-pressed="true"]::after {
+  content: '';
+  inset: 0;
+  background:
+    radial-gradient(ellipse 15px 8px at 2px 50%, rgba(255, 255, 255, 0.95) 0 65%, transparent 70%),
+    radial-gradient(ellipse 15px 8px at calc(100% - 2px) 50%, rgba(255, 255, 255, 0.95) 0 65%, transparent 70%);
+}
+
+/* 動きを減らす設定のときは、またたかせない */
+@media (prefers-reduced-motion: reduce) {
+  .trainer-toggle[data-toggle][aria-pressed]::before,
+  .trainer-toggle[data-toggle][aria-pressed]::after {
+    animation: none;
+  }
+}
+
+/* トレーナー基礎ボーナス表。名前列以外の5列は残りの幅を均等に分ける。
+   項目行を固定するため、固定しても罫線が残るよう border-collapse を使わずセルごとに罫線を引く */
+.trainer-stats-table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 1px solid #444;
+  border-left: 1px solid #444;
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+
+.trainer-stats-table th,
+.trainer-stats-table td {
+  padding: 6px 2px;
+  border-width: 0 1px 1px 0;
+}
+
+.trainer-stats-table th {
+  position: sticky;
+  top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px) + var(--sticky-sub-h, 0px) + var(--sticky-third-h, 0px) + var(--trainer-controls-h, 0px));
+  z-index: 10;
+}
+
+.trainer-stats-table th:first-child,
+.trainer-stats-table td:first-child {
+  width: 34%;
+  padding: 6px 4px;
+  text-align: left;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }

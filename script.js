@@ -153,14 +153,16 @@ function getStickyBarsHeight() {
   return barsHeight;
 }
 
-(function () {
-  const groupsEl = document.getElementById('skillGroups');
-  if (!groupsEl || typeof SKILL_DATA === 'undefined') return;
+const SKILL_ORIGIN_KEY = 'skillGroups:origin';
+
+// スキルの種類ごとの一覧を描画する(育成とモンスターの両方のスキルタブで使う)
+function renderSkillGroups(groupsEl) {
+  if (typeof SKILL_DATA === 'undefined') return;
 
   const SKILL_TYPE_ORDER = ['物理攻撃', '魔法攻撃', 'バフスキル', 'デバフスキル', '状態異常', '回復・カウンター'];
 
-  // スキル詳細ページから戻ってきたときも開いたままにするため、開いている種類を保存する
-  const OPEN_STORAGE_KEY = 'skillGroups:open';
+  // スキル詳細ページから戻ってきたときも開いたままにするため、開いている種類をタブごとに保存する
+  const OPEN_STORAGE_KEY = `skillGroups:open:${groupsEl.id}`;
 
   function loadOpenTypes() {
     try {
@@ -203,6 +205,14 @@ function getStickyBarsHeight() {
       const a = document.createElement('a');
       a.href = `skill.html?name=${encodeURIComponent(skill.name)}`;
       a.textContent = skill.name;
+      // どのスキルタブから開いたかを覚えておき、詳細ページから戻ったときに同じタブを開く
+      a.addEventListener('click', () => {
+        try {
+          sessionStorage.setItem(SKILL_ORIGIN_KEY, groupsEl.id);
+        } catch (e) {
+          // 保存できない環境では育成のスキルタブに戻る
+        }
+      });
       li.appendChild(a);
       list.appendChild(li);
     });
@@ -228,7 +238,9 @@ function getStickyBarsHeight() {
     section.appendChild(list);
     groupsEl.appendChild(section);
   });
-})();
+}
+
+document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
 
 (function () {
   const monsterListEl = document.getElementById('monsterDetailList');
@@ -545,7 +557,9 @@ function getStickyBarsHeight() {
     const mainBtn = document.querySelector('.tabs__nav--main .tabs__btn.is-active');
     const mainPanel = document.querySelector('.tabs__panel:not(.tabs__panel--sub):not([hidden])');
     const subBtn = mainPanel ? mainPanel.querySelector('.tabs__nav--sub .tabs__btn.is-active') : null;
-    currentTabEl.textContent = [mainBtn, subBtn]
+    const subPanel = mainPanel ? mainPanel.querySelector('.tabs__panel--sub:not([hidden])') : null;
+    const thirdBtn = subPanel ? subPanel.querySelector('.tabs__nav--third .tabs__btn.is-active') : null;
+    currentTabEl.textContent = [mainBtn, subBtn, thirdBtn]
       .filter(Boolean)
       .map((btn) => btn.textContent)
       .filter((text, i, texts) => text !== texts[i - 1])
@@ -575,8 +589,25 @@ function getStickyBarsHeight() {
     container.querySelectorAll('.tabs__panel--sub').forEach((panel) => {
       panel.hidden = panel.dataset.tabPanel !== subtabName;
     });
+    // 3階層目のタブが続くサブタブは、下の線を実線にする
+    const activePanel = container.querySelector('.tabs__panel--sub:not([hidden])');
+    navEl.classList.toggle('has-third', Boolean(activePanel && activePanel.querySelector('.tabs__nav--third')));
     updateCurrentTabLabel();
     updateSearchBarVisibility();
+  }
+
+  // 3階層目のタブ(サブタブのパネル内にあり、固定表示はしない)
+  function switchThirdTab(navEl, thirdTabName) {
+    const container = navEl.closest('.tabs__panel');
+    navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
+      const isActive = btn.dataset.thirdtab === thirdTabName;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    container.querySelectorAll('.tabs__third-panel').forEach((panel) => {
+      panel.hidden = panel.dataset.tabPanel !== thirdTabName;
+    });
+    updateCurrentTabLabel();
   }
 
   // 固定表示のバー（設定・メインタブ・サブタブ）の直下にタブ内のコンテンツの先頭が来る位置まで戻す
@@ -610,6 +641,17 @@ function getStickyBarsHeight() {
     });
   });
 
+  document.querySelectorAll('.tabs__nav--third').forEach((navEl) => {
+    navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const changed = !btn.classList.contains('is-active');
+        switchThirdTab(navEl, btn.dataset.thirdtab);
+        if (changed) scrollToTabContent();
+        history.replaceState(null, '', window.location.pathname);
+      });
+    });
+  });
+
   if (footer) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -624,12 +666,23 @@ function getStickyBarsHeight() {
   }
 
   const TRAINING_SUBTABS = ['event', 'training', 'item', 'exam', 'skill', 'blessing'];
-  const MONSTER_SUBTABS = ['monster', 'rank'];
+  const MONSTER_SUBTABS = ['monster', 'monster-skill', 'rank'];
   const BOSS_SUBTABS = ['boss-info', 'boss-status'];
 
   const deepLinkParams = new URLSearchParams(window.location.search);
-  const deepLinkTab = deepLinkParams.get('tab');
+  let deepLinkTab = deepLinkParams.get('tab');
   const deepLinkSkill = deepLinkParams.get('skill');
+
+  // スキル詳細ページの戻るリンクは育成のスキルタブ(tab=skill)を指すため、
+  // モンスターのスキルタブから開いていた場合はそちらのタブに振り替える
+  let skillOrigin = null;
+  try {
+    skillOrigin = sessionStorage.getItem(SKILL_ORIGIN_KEY);
+    sessionStorage.removeItem(SKILL_ORIGIN_KEY);
+  } catch (e) {
+    // 保存できない環境では育成のスキルタブに戻る
+  }
+  if (deepLinkTab === 'skill' && skillOrigin === 'monsterSkillGroups') deepLinkTab = 'monster-skill';
   const deepLinkMonster = deepLinkParams.get('monster');
 
   if (deepLinkTab) {
@@ -651,7 +704,8 @@ function getStickyBarsHeight() {
   }
 
   if (deepLinkSkill) {
-    const skillLinks = document.querySelectorAll('#tab-panel-skill a[href^="skill.html?name="]');
+    const skillPanelId = deepLinkTab === 'monster-skill' ? 'tab-panel-monster-skill' : 'tab-panel-skill';
+    const skillLinks = document.querySelectorAll(`#${skillPanelId} a[href^="skill.html?name="]`);
     skillLinks.forEach((link) => {
       const linkParams = new URLSearchParams(link.getAttribute('href').split('?')[1]);
       if (linkParams.get('name') === deepLinkSkill) {
@@ -828,6 +882,7 @@ function getStickyBarsHeight() {
   const settingsEl = document.getElementById('stickySettings');
   const mainNav = document.querySelector('.tabs__nav--main');
   const subNavs = Array.from(document.querySelectorAll('.tabs__nav--sub'));
+  const thirdNavs = Array.from(document.querySelectorAll('.tabs__nav--third'));
   if (!root || !toggle) return;
 
   toggle.addEventListener('click', () => {
@@ -845,15 +900,19 @@ function getStickyBarsHeight() {
     // いま表示されているサブタブ(タブ欄を閉じている間や、サブタブのないタブでは0)
     const activeSubNav = subNavs.find((nav) => nav.offsetParent !== null);
     const subH = activeSubNav ? Math.floor(activeSubNav.getBoundingClientRect().height) : 0;
+    // いま表示されている3階層目のタブ(なければ0)
+    const activeThirdNav = thirdNavs.find((nav) => nav.offsetParent !== null);
+    const thirdH = activeThirdNav ? Math.floor(activeThirdNav.getBoundingClientRect().height) : 0;
     const style = document.documentElement.style;
     style.setProperty('--sticky-settings-h', `${settingsH}px`);
     style.setProperty('--sticky-main-h', `${mainH}px`);
     style.setProperty('--sticky-sub-h', `${subH}px`);
+    style.setProperty('--sticky-third-h', `${thirdH}px`);
   }
 
   if (window.ResizeObserver) {
     const observer = new ResizeObserver(updateStickyOffsets);
-    [settingsEl, mainNav, ...subNavs].filter(Boolean).forEach((el) => observer.observe(el));
+    [settingsEl, mainNav, ...subNavs, ...thirdNavs].filter(Boolean).forEach((el) => observer.observe(el));
   }
   window.addEventListener('resize', updateStickyOffsets);
   updateStickyOffsets();
@@ -1094,4 +1153,143 @@ function getStickyBarsHeight() {
     section.append(heading, table);
     container.appendChild(section);
   });
+})();
+
+// トレーナー基礎ボーナス表（トレーナー名以外の列をタップするごとに 降順→昇順→デフォルト）
+// 表の上のボタンで、期間・トレーナーの種類・大成功・加護の適用を切り替える
+(function () {
+  const container = document.getElementById('trainerBonusTable');
+  if (!container || typeof TRAINER_DATA === 'undefined') return;
+
+  // 見出しは列幅を揃えるため絵文字のみ(項目名はaria-labelで補う)。合計だけは文字
+  const COLUMNS = [
+    { text: '🩷', label: 'HP', key: 'hp' },
+    { text: '🗡️', label: '攻撃', key: 'atk' },
+    { text: '🛡️', label: '守備', key: 'def' },
+    { text: '💨', label: '素早さ', key: 'spd' },
+    { text: '合計', label: '合計値' },
+  ];
+  const NEXT_ORDER = { none: 'descending', descending: 'ascending', ascending: 'none' };
+
+  // 条件の切り替えボタン。onの間は強調表示になり、倍率はすべて重なる
+  const TOGGLES = [
+    { key: 'camp', off: '通常期間(1~2周目)', on: '集中強化合宿期間(3周目)' },
+    { key: 'golden', off: '通常トレーナー', on: 'ゴールデントレーナー' },
+    { key: 'great', off: '大成功 OFF', on: '大成功 ON' },
+    { key: 'blessing', off: '加護適用 OFF', on: '加護適用 ON' },
+  ];
+
+  // column: 並び替え中の列(0〜4)、-1はデフォルト
+  const state = { camp: false, golden: false, great: false, blessing: false, column: -1, order: 'none' };
+
+  // 加護ボーナスは倍率とは独立(Lv.9で+1、Lv.10〜17で+2、Lv.MAXで+3)
+  function getBlessingBonus(key) {
+    const lv = PlayerSettings.getBlessing(key);
+    if (lv >= PlayerSettings.BLESSING_MAX) return 3;
+    if (lv >= 10) return 2;
+    return lv >= 9 ? 1 : 0;
+  }
+
+  // HP・攻撃・守備・素早さ・合計の順
+  function getValues(growth) {
+    const multiplier = (state.camp ? 2 : 1) * (state.golden ? 2 : 1) * (state.great ? 2 : 1);
+    const stats = COLUMNS.slice(0, 4).map(({ key }) => {
+      return growth[key] * multiplier + (state.blessing ? getBlessingBonus(key) : 0);
+    });
+    return [...stats, stats.reduce((sum, value) => sum + value, 0)];
+  }
+
+  function formatValue(value) {
+    return value > 0 ? `+${value}` : String(value);
+  }
+
+  const controls = document.createElement('div');
+  controls.className = 'trainer-controls';
+  const toggleButtons = TOGGLES.map((toggle) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'trainer-toggle';
+    btn.dataset.toggle = toggle.key;
+    btn.addEventListener('click', () => {
+      state[toggle.key] = !state[toggle.key];
+      render();
+    });
+    controls.appendChild(btn);
+    return btn;
+  });
+
+  const table = document.createElement('table');
+  table.className = 'monster-stats-table trainer-stats-table';
+
+  const headRow = document.createElement('tr');
+  const nameTh = document.createElement('th');
+  nameTh.textContent = 'トレーナー名';
+  headRow.appendChild(nameTh);
+
+  const sortHeaders = COLUMNS.map(({ text, label }, i) => {
+    const th = document.createElement('th');
+    th.setAttribute('aria-sort', 'none');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'boss-sort-btn';
+    btn.textContent = text;
+    btn.setAttribute('aria-label', `${label}で並び替え`);
+    btn.addEventListener('click', () => {
+      state.order = state.column === i ? NEXT_ORDER[state.order] : 'descending';
+      state.column = state.order === 'none' ? -1 : i;
+      render();
+    });
+    th.appendChild(btn);
+    headRow.appendChild(th);
+    return th;
+  });
+
+  const thead = document.createElement('thead');
+  thead.appendChild(headRow);
+  const tbody = document.createElement('tbody');
+  table.append(thead, tbody);
+
+  // 項目行はボタンの下に固定するため、ボタンの高さをCSS変数に反映する
+  function syncControlsHeight() {
+    container.style.setProperty('--trainer-controls-h', `${Math.floor(controls.getBoundingClientRect().height)}px`);
+  }
+
+  function render() {
+    TOGGLES.forEach((toggle, i) => {
+      toggleButtons[i].textContent = state[toggle.key] ? toggle.on : toggle.off;
+      toggleButtons[i].setAttribute('aria-pressed', String(state[toggle.key]));
+    });
+
+    const rows = TRAINER_DATA.map(({ name, growth }) => ({ name, values: getValues(growth) }));
+    if (state.order !== 'none') {
+      const dir = state.order === 'descending' ? -1 : 1;
+      // 同じ値のときはデフォルトの並びを保つ
+      rows.sort((a, b) => (a.values[state.column] - b.values[state.column]) * dir);
+    }
+
+    tbody.replaceChildren(...rows.map(({ name, values }) => {
+      const tr = document.createElement('tr');
+      const nameTd = document.createElement('td');
+      nameTd.textContent = name;
+      tr.appendChild(nameTd);
+      values.forEach((value) => {
+        const td = document.createElement('td');
+        td.textContent = formatValue(value);
+        tr.appendChild(td);
+      });
+      return tr;
+    }));
+
+    sortHeaders.forEach((th, i) => {
+      th.setAttribute('aria-sort', i === state.column ? state.order : 'none');
+    });
+
+    syncControlsHeight();
+  }
+
+  container.append(controls, table);
+  // ボタンの折り返しなどで高さが変わったときも、タブを開いて表示されたときも固定位置を合わせる
+  if (window.ResizeObserver) new ResizeObserver(syncControlsHeight).observe(controls);
+  // 登録時に1回描画され、加護Lv.が変わるたびに描き直される
+  PlayerSettings.subscribe(render);
 })();
