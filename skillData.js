@@ -173,13 +173,13 @@ const SKILL_DATA = [
     name: 'リフレシュ',
     heartCost: 10,
     type: '回復・カウンター',
-    description: '自分のHPを150回復。「チョーリフレシュ」に進化可能。\n\n調整後▶︎発動上限回数減少、発動率小DOWN',
+    description: '自分のHPを150回復。「チョーリフレシュ」に進化可能。\n\n調整後▶︎発動上限回数3回か、発動率小DOWN',
   },
   {
     name: 'チョーリフレシュ',
     heartCost: 30,
     type: '回復・カウンター',
-    description: '「リフレシュ」から進化。自分のHPを300回復。\n\n調整後▶︎発動上限回数減少、発動率小DOWN',
+    description: '「リフレシュ」から進化。自分のHPを300回復。\n\n調整後▶︎発動上限回数3回か、発動率小DOWN',
   },
   {
     name: 'ピヨルト',
