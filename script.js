@@ -579,6 +579,13 @@ document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
     updateSearchBarVisibility();
   }
 
+  // タブ欄が横にはみ出して横スクロールになっているとき、選択中のタブが見える位置まで動かす
+  function scrollActiveTabIntoView(navEl) {
+    const active = navEl.querySelector('.tabs__btn.is-active');
+    if (!active || navEl.scrollWidth <= navEl.clientWidth) return;
+    navEl.scrollTo({ left: active.offsetLeft - (navEl.clientWidth - active.offsetWidth) / 2, behavior: 'smooth' });
+  }
+
   function switchSubTab(navEl, subtabName) {
     const container = navEl.closest('.tabs__panel');
     navEl.querySelectorAll('.tabs__btn').forEach((btn) => {
@@ -592,6 +599,7 @@ document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
     // 3階層目のタブが続くサブタブは、下の線を実線にする
     const activePanel = container.querySelector('.tabs__panel--sub:not([hidden])');
     navEl.classList.toggle('has-third', Boolean(activePanel && activePanel.querySelector('.tabs__nav--third')));
+    scrollActiveTabIntoView(navEl);
     updateCurrentTabLabel();
     updateSearchBarVisibility();
   }
@@ -607,6 +615,7 @@ document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
     container.querySelectorAll('.tabs__third-panel').forEach((panel) => {
       panel.hidden = panel.dataset.tabPanel !== thirdTabName;
     });
+    scrollActiveTabIntoView(navEl);
     updateCurrentTabLabel();
   }
 
@@ -666,7 +675,7 @@ document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
   }
 
   const TRAINING_SUBTABS = ['event', 'training', 'item', 'exam', 'skill', 'blessing'];
-  const MONSTER_SUBTABS = ['monster', 'monster-skill', 'rank'];
+  const MONSTER_SUBTABS = ['monster', 'monster-skill', 'monster-status', 'rank'];
   const BOSS_SUBTABS = ['boss-info', 'boss-status'];
 
   const deepLinkParams = new URLSearchParams(window.location.search);
@@ -1292,4 +1301,93 @@ document.querySelectorAll('.skill-groups').forEach(renderSkillGroups);
   if (window.ResizeObserver) new ResizeObserver(syncControlsHeight).observe(controls);
   // 登録時に1回描画され、加護Lv.が変わるたびに描き直される
   PlayerSettings.subscribe(render);
+})();
+
+// モンスター初期ステータス表（モンスター名以外の列をタップするごとに 降順→昇順→デフォルト）
+(function () {
+  const container = document.getElementById('monsterStatusTable');
+  if (!container || typeof MONSTER_DATA === 'undefined') return;
+
+  // 見出しは列幅を揃えるため絵文字のみ(項目名はaria-labelで補う)。合計だけは文字
+  const COLUMNS = [
+    { text: '🩷', label: 'HP', key: 'hp' },
+    { text: '🗡️', label: '攻撃', key: 'atk' },
+    { text: '🛡️', label: '守備', key: 'def' },
+    { text: '💨', label: '素早さ', key: 'spd' },
+    { text: '合計', label: '合計値' },
+  ];
+  const NEXT_ORDER = { none: 'descending', descending: 'ascending', ascending: 'none' };
+
+  // column: 並び替え中の列(0〜4)、-1はデフォルト
+  const state = { column: -1, order: 'none' };
+
+  // HP・攻撃・守備・素早さ・合計の順
+  function getValues(stats) {
+    const values = COLUMNS.slice(0, 4).map(({ key }) => (stats && stats[key]) || 0);
+    return [...values, values.reduce((sum, value) => sum + value, 0)];
+  }
+
+  const table = document.createElement('table');
+  table.className = 'monster-stats-table status-stats-table';
+
+  const headRow = document.createElement('tr');
+  const nameTh = document.createElement('th');
+  nameTh.textContent = 'モンスター名';
+  headRow.appendChild(nameTh);
+
+  const sortHeaders = COLUMNS.map(({ text, label }, i) => {
+    const th = document.createElement('th');
+    th.setAttribute('aria-sort', 'none');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'boss-sort-btn';
+    btn.textContent = text;
+    btn.setAttribute('aria-label', `${label}で並び替え`);
+    btn.addEventListener('click', () => {
+      state.order = state.column === i ? NEXT_ORDER[state.order] : 'descending';
+      state.column = state.order === 'none' ? -1 : i;
+      render();
+    });
+    th.appendChild(btn);
+    headRow.appendChild(th);
+    return th;
+  });
+
+  const thead = document.createElement('thead');
+  thead.appendChild(headRow);
+  const tbody = document.createElement('tbody');
+  table.append(thead, tbody);
+
+  function render() {
+    const rows = MONSTER_DATA.map(({ id, name, stats }) => ({ id, name, values: getValues(stats) }));
+    if (state.order !== 'none') {
+      const dir = state.order === 'descending' ? -1 : 1;
+      // 同じ値のときはデフォルトの並びを保つ
+      rows.sort((a, b) => (a.values[state.column] - b.values[state.column]) * dir);
+    }
+
+    tbody.replaceChildren(...rows.map(({ id, name, values }) => {
+      const tr = document.createElement('tr');
+      const nameTd = document.createElement('td');
+      // 詳細ページから戻ったときにこのステータスタブを開けるよう、遷移元を渡す
+      const link = document.createElement('a');
+      link.href = `monster.html?id=${encodeURIComponent(id)}&from=status`;
+      link.textContent = name;
+      nameTd.appendChild(link);
+      tr.appendChild(nameTd);
+      values.forEach((value) => {
+        const td = document.createElement('td');
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+      return tr;
+    }));
+
+    sortHeaders.forEach((th, i) => {
+      th.setAttribute('aria-sort', i === state.column ? state.order : 'none');
+    });
+  }
+
+  container.appendChild(table);
+  render();
 })();

@@ -245,6 +245,16 @@ nav.footer__links {
   padding: 8px 0;
   background: #000;
   border-bottom: 1px dashed #333;
+  /* タブが画面の横幅をはみ出すときは折り返さず、横スクロールで選べるようにする */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.tabs__nav--sub::-webkit-scrollbar,
+.tabs__nav--third::-webkit-scrollbar {
+  display: none;
 }
 
 /* 3階層目のタブ(トレーニングの攻略情報/トレーナー)はサブタブの下に続けて固定する */
@@ -261,8 +271,10 @@ nav.footer__links {
 
 .tabs__nav--sub .tabs__btn,
 .tabs__nav--third .tabs__btn {
+  flex: none;
   font-size: 12px;
   padding: 5px 12px;
+  white-space: nowrap;
 }
 
 .skill-detail-list {
@@ -714,12 +726,6 @@ nav.footer__links {
   border-radius: 8px;
   font-size: 13px;
   text-align: left;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.player-settings:hover {
-  border-color: orange;
 }
 
 .player-settings__image {
@@ -735,10 +741,17 @@ nav.footer__links {
   gap: 4px;
 }
 
+/* バー全体ではなく「⚙️設定」の文字だけを押せるようにする(誤タップ防止) */
 .player-settings__edit {
+  padding: 0;
+  background: none;
+  border: none;
   color: orange;
+  font: inherit;
   font-size: 12px;
   white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .summary-btn {
@@ -1269,7 +1282,8 @@ th[aria-sort="ascending"] .boss-sort-btn::after {
 
 /* トレーナー基礎ボーナス表。名前列以外の5列は残りの幅を均等に分ける。
    項目行を固定するため、固定しても罫線が残るよう border-collapse を使わずセルごとに罫線を引く */
-.trainer-stats-table {
+.trainer-stats-table,
+.status-stats-table {
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
@@ -1280,22 +1294,141 @@ th[aria-sort="ascending"] .boss-sort-btn::after {
 }
 
 .trainer-stats-table th,
-.trainer-stats-table td {
+.trainer-stats-table td,
+.status-stats-table th,
+.status-stats-table td {
   padding: 6px 2px;
   border-width: 0 1px 1px 0;
 }
 
-.trainer-stats-table th {
+.trainer-stats-table th,
+.status-stats-table th {
   position: sticky;
   top: calc(var(--sticky-settings-h, 0px) + var(--sticky-main-h, 0px) + var(--sticky-sub-h, 0px) + var(--sticky-third-h, 0px) + var(--trainer-controls-h, 0px));
   z-index: 10;
 }
 
 .trainer-stats-table th:first-child,
-.trainer-stats-table td:first-child {
+.trainer-stats-table td:first-child,
+.status-stats-table th:first-child,
+.status-stats-table td:first-child {
   width: 34%;
   padding: 6px 4px;
   text-align: left;
   white-space: normal;
   overflow-wrap: anywhere;
+}
+
+/* モンスターのステータス一覧: 名前のリンクに下線はつけない(色はオレンジのまま) */
+.status-stats-table a {
+  text-decoration: none;
+}
+
+/* モンスター詳細の初期ステータス表。4項目を同じ幅(25%ずつ)にし、見出し・数値とも中央揃えにする。
+   矢印のある見出しは、項目名と矢印を合わせたものが中央に来る */
+.monster-detail-stats {
+  table-layout: fixed;
+}
+
+.monster-detail-stats th,
+.monster-detail-stats td {
+  width: 25%;
+  padding: 6px 2px;
+}
+
+.monster-detail-stats th {
+  position: relative;
+  overflow: hidden; /* 矢印はセルの下端から現れ、上端から消える */
+  font-size: clamp(11px, 3.5vw, 14px);
+}
+
+/* 上昇矢印: 同名トレーナーで+1以上強化されるステータスの見出しの右に付ける。
+   矢印(1〜3個)は同じ縦軸に細かくずらして重ね、下から上へ連続して流す。
+   何個あっても幅は矢印1つ分で済む。個数ごとに色が変わる(data-count: 1〜3)。
+   --arrow-base: 矢印の底の色、--arrow-tip: 矢印の先の色、--arrow-glow: 発光の色 */
+.stat-up {
+  --arrow-base: #ff9e9e;
+  --arrow-tip: #ff2d2d;
+  --arrow-glow: rgba(255, 70, 70, 0.55);
+  position: relative;
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin-left: 3px;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
+/* 矢印1個は上の初期値(薄い赤→赤) */
+.stat-up[data-count="2"] {
+  --arrow-base: #ff3d3d;
+  --arrow-tip: #ff7ac8;
+  --arrow-glow: rgba(255, 90, 170, 0.55);
+}
+
+.stat-up[data-count="3"] {
+  --arrow-base: #ff7ac8;
+  --arrow-tip: #9b4dff;
+  --arrow-glow: rgba(155, 85, 255, 0.6);
+}
+
+/* 発光(drop-shadow)は clip-path で切り取られるため、外側の要素に付けて形は ::before で作る。
+   --i は何番目の矢印か。1周は2.4秒: 矢印は0.3秒ずつずらして出発し、それぞれ1.2秒かけて昇る。
+   全部昇りきったあとに少し間(ブレイクタイム)があき、また最初から流れる。
+   (1周の長さを変えたら、下の @keyframes の%も合わせる) */
+.stat-up__arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 3px var(--arrow-glow));
+  opacity: 0;
+  animation: stat-up-rise 2.4s linear infinite;
+  animation-delay: calc(var(--i, 0) * 0.3s);
+}
+
+/* 先の尖った、後ろに切れ込みのあるダーツ型。底から先に向かって色が変わる */
+.stat-up__arrow::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, var(--arrow-base) 0%, var(--arrow-tip) 85%);
+  clip-path: polygon(50% 0, 100% 100%, 50% 70%, 0 100%);
+}
+
+/* 0〜50%(1.2秒)で下から上へ昇る。50〜100%はブレイクタイム待ちで見えない */
+@keyframes stat-up-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  12% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(-9px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-9px);
+  }
+}
+
+/* 動きを減らす設定のときは、動かさずに矢印を1つだけ表示する */
+@media (prefers-reduced-motion: reduce) {
+  .stat-up__arrow {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .stat-up__arrow:nth-child(n + 2) {
+    display: none;
+  }
 }

@@ -9,6 +9,9 @@
     if (fromType === 'skill' && fromName) {
       backLink.href = `skill.html?name=${encodeURIComponent(fromName)}`;
       backLink.textContent = `← ${fromName}の詳細に戻る`;
+    } else if (fromType === 'status') {
+      backLink.href = 'index.html?tab=monster-status';
+      backLink.textContent = '← モンスターのステータス一覧に戻る';
     } else {
       backLink.href = monsterId
         ? `index.html?tab=monster&monster=${encodeURIComponent(monsterId)}`
@@ -33,10 +36,34 @@
   document.getElementById('monsterImage').appendChild(createMonsterImage(monster));
 
   const stats = monster.stats || {};
-  [stats.hp, stats.atk, stats.def, stats.spd].forEach((value) => {
+  // 同名のトレーナーでステータスが+1以上強化されるものは、見出しに強化されやすいことを示す上昇矢印をつける
+  // 矢印の数は上昇値に合わせる(+1:1個、+2:2個、+3以上:3個)
+  const trainer = typeof TRAINER_DATA === 'undefined' ? null : TRAINER_DATA.find((t) => t.name === monster.name);
+  const growth = trainer ? trainer.growth : {};
+  const headers = document.querySelectorAll('.monster-detail-stats thead th');
+
+  ['hp', 'atk', 'def', 'spd'].forEach((key, index) => {
     const td = document.createElement('td');
-    td.textContent = value ?? '-';
+    td.textContent = stats[key] ?? '-';
     statValuesRow.appendChild(td);
+
+    const count = Math.min(growth[key] || 0, 3);
+    const header = headers[index];
+    if (count < 1 || !header) return;
+
+    // 矢印は同じ縦軸に重ね、CSS側で時間差をつけて上下にずらして流す(--i: 何番目か)
+    const up = document.createElement('span');
+    up.className = 'stat-up';
+    up.dataset.count = count; // 矢印の数。CSS側で個数ごとの色を切り替える
+    up.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < count; i++) {
+      const arrow = document.createElement('span');
+      arrow.className = 'stat-up__arrow';
+      arrow.style.setProperty('--i', i);
+      up.appendChild(arrow);
+    }
+    header.appendChild(up);
+    header.title = 'トレーニングで強化されやすい';
   });
 
   const SKILL_TYPE_ORDER = ['物理攻撃', '魔法攻撃', 'バフスキル', 'デバフスキル', '状態異常', '回復・カウンター'];

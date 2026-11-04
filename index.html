@@ -16,7 +16,7 @@
     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css?v=1.3.6">
+    <link rel="stylesheet" href="style.css?v=1.3.7">
     <title>スラモン攻略メモ｜Mirrativ スラモンの育成・イベント・ボス討伐情報</title>
     <meta name="description" content="Mirrativのライブゲーム「スラモン」の攻略メモ。選択イベントの選択肢と報酬、トレーニング、アイテム、試験、スキル、加護、モンスター、ボス討伐のステータスをまとめています。">
     <link rel="canonical" href="https://slamon-info.cieln.com/">
@@ -40,14 +40,14 @@
       <h1>スラモン攻略メモ</h1>
 
       <div class="sticky-settings" id="stickySettings">
-        <button type="button" class="player-settings" id="playerSettingsBtn" aria-haspopup="dialog" data-open-settings>
+        <div class="player-settings" id="playerSettings">
           <span class="player-settings__image" id="settingsMonsterImage"></span>
           <span class="player-settings__body">
             <span class="player-settings__row">現在の育成モンスター: <span id="settingsMonsterLabel"></span></span>
             <span class="player-settings__row">加護: <span id="settingsBlessingLabel"></span></span>
           </span>
-          <span class="player-settings__edit">⚙️設定</span>
-        </button>
+          <button type="button" class="player-settings__edit" aria-haspopup="dialog" data-open-settings>⚙️設定</button>
+        </div>
       </div>
 
       <div class="tabs__nav tabs__nav--main" role="tablist">
@@ -461,10 +461,10 @@
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-training" role="tabpanel" aria-labelledby="tab-btn-training" data-tab-panel="training" hidden>
           <div class="tabs__nav tabs__nav--third" role="tablist">
-            <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-training-info" aria-controls="tab-panel-training-info" aria-selected="true" data-thirdtab="training-info">攻略情報</button>
-            <button type="button" class="tabs__btn" role="tab" id="tab-btn-training-trainer" aria-controls="tab-panel-training-trainer" aria-selected="false" data-thirdtab="training-trainer">トレーナー</button>
+            <button type="button" class="tabs__btn" role="tab" id="tab-btn-training-info" aria-controls="tab-panel-training-info" aria-selected="false" data-thirdtab="training-info">攻略情報</button>
+            <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-training-trainer" aria-controls="tab-panel-training-trainer" aria-selected="true" data-thirdtab="training-trainer">トレーナー</button>
           </div>
-          <div class="tabs__third-panel" id="tab-panel-training-info" role="tabpanel" aria-labelledby="tab-btn-training-info" data-tab-panel="training-info">
+          <div class="tabs__third-panel" id="tab-panel-training-info" role="tabpanel" aria-labelledby="tab-btn-training-info" data-tab-panel="training-info" hidden>
             <button type="button" class="summary-btn" data-summary="training">💡攻略のまとめ</button><br>
             <br>
             【トレーニング】<br>
@@ -480,7 +480,7 @@
             通常期間(1~2周目)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🔥+10~30♥️+3~7<br>
             集中強化合宿期間(3周目) 🔥+10~30♥️+6~14<br>
           </div>
-          <div class="tabs__third-panel" id="tab-panel-training-trainer" role="tabpanel" aria-labelledby="tab-btn-training-trainer" data-tab-panel="training-trainer" hidden>
+          <div class="tabs__third-panel" id="tab-panel-training-trainer" role="tabpanel" aria-labelledby="tab-btn-training-trainer" data-tab-panel="training-trainer">
             【トレーナーのボーナス値一覧】<br>
             ※レアリティボーナスは含みません<br>
             ※各ステータスの項目をタップするごとに、デフォルト→降順→昇順の順で並び替わります<br>
@@ -617,6 +617,7 @@
         <div class="tabs__nav tabs__nav--sub" role="tablist">
           <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-monster" aria-controls="tab-panel-monster" aria-selected="true" data-subtab="monster">モンスター</button>
           <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-skill" aria-controls="tab-panel-monster-skill" aria-selected="false" data-subtab="monster-skill">スキル</button>
+          <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-status" aria-controls="tab-panel-monster-status" aria-selected="false" data-subtab="monster-status">ステータス</button>
           <button type="button" class="tabs__btn" role="tab" id="tab-btn-rank" aria-controls="tab-panel-rank" aria-selected="false" data-subtab="rank">ステータスランク</button>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster" role="tabpanel" aria-labelledby="tab-btn-monster" data-tab-panel="monster">
@@ -624,16 +625,27 @@
           <div class="monster-card-grid" id="monsterDetailList"></div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster-skill" role="tabpanel" aria-labelledby="tab-btn-monster-skill" data-tab-panel="monster-skill" hidden>
-          【パッシブスキル】<br>
-          ・各ステータスの心得の♥️消費数<br>
-          ▶︎Lv.1 ♥️-5 / Lv.2 ♥️-10 / Lv.3 ♥️-20<br>
-          ・各ステータスの心得の上昇数値*<br>
-          ▶︎Lv.1 +10 / Lv.2 +10 / Lv.3 +10<br>
-          *魔法攻撃/防御の心得のみ<br>
-          ▶︎Lv.1 +20 / Lv.2 +15 / Lv.3 +15<br>
-          <br>
-          【各バトルスキルの詳細】<br>
-          <div class="skill-groups" id="monsterSkillGroups"></div>
+          <div class="tabs__nav tabs__nav--third" role="tablist">
+            <button type="button" class="tabs__btn is-active" role="tab" id="tab-btn-monster-skill-battle" aria-controls="tab-panel-monster-skill-battle" aria-selected="true" data-thirdtab="monster-skill-battle">バトルスキル</button>
+            <button type="button" class="tabs__btn" role="tab" id="tab-btn-monster-skill-passive" aria-controls="tab-panel-monster-skill-passive" aria-selected="false" data-thirdtab="monster-skill-passive">パッシブスキル</button>
+          </div>
+          <div class="tabs__third-panel" id="tab-panel-monster-skill-battle" role="tabpanel" aria-labelledby="tab-btn-monster-skill-battle" data-tab-panel="monster-skill-battle">
+            【各バトルスキルの詳細】<br>
+            <div class="skill-groups" id="monsterSkillGroups"></div>
+          </div>
+          <div class="tabs__third-panel" id="tab-panel-monster-skill-passive" role="tabpanel" aria-labelledby="tab-btn-monster-skill-passive" data-tab-panel="monster-skill-passive" hidden>
+            【パッシブスキル】<br>
+            ・各ステータスの心得の♥️消費数<br>
+            ▶︎Lv.1 ♥️-5 / Lv.2 ♥️-10 / Lv.3 ♥️-20<br>
+            ・各ステータスの心得の上昇数値*<br>
+            ▶︎Lv.1 +10 / Lv.2 +10 / Lv.3 +10<br>
+            *魔法攻撃/防御の心得のみ<br>
+            ▶︎Lv.1 +20 / Lv.2 +15 / Lv.3 +15<br>
+          </div>
+        </div>
+        <div class="tabs__panel tabs__panel--sub" id="tab-panel-monster-status" role="tabpanel" aria-labelledby="tab-btn-monster-status" data-tab-panel="monster-status" hidden>
+          【モンスターの初期ステータス一覧】<br>
+          <div id="monsterStatusTable"></div>
         </div>
         <div class="tabs__panel tabs__panel--sub" id="tab-panel-rank" role="tabpanel" aria-labelledby="tab-btn-rank" data-tab-panel="rank" hidden>
           S 250 〜<br>
@@ -813,12 +825,12 @@
       ・Lv.17とLv.MAXではトレーニング効果に差があるため可能ならLv.MAXに強化する
     </template>
 
-    <script src="skillData.js?v=1.3.6"></script>
-    <script src="trainerData.js?v=1.3.6"></script>
-    <script src="monsterData.js?v=1.3.6"></script>
-    <script src="monsterCard.js?v=1.3.6"></script>
-    <script src="bossData.js?v=1.3.6"></script>
-    <script src="script.js?v=1.3.6"></script>
+    <script src="skillData.js?v=1.3.7"></script>
+    <script src="trainerData.js?v=1.3.7"></script>
+    <script src="monsterData.js?v=1.3.7"></script>
+    <script src="monsterCard.js?v=1.3.7"></script>
+    <script src="bossData.js?v=1.3.7"></script>
+    <script src="script.js?v=1.3.7"></script>
 
   </body>
 </html>
