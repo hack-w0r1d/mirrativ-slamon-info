@@ -125,7 +125,7 @@ const BOSS_DATA = [
       ['ヤミクマ', null, null, null, null],
       ['ユーベェ', null, null, null, null],
       ['ライアード', null, null, null, null],
-      ['ラフリィ', null, null, null, null],
+      ['ラフリィ', 1200, 440, 390, 250],
       ['ルトペン', 1320, 460, 340, 130],
       ['ワルビット', 1140, 420, 380, 190],
     ],
