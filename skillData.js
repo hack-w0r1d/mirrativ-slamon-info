@@ -69,7 +69,7 @@ const SKILL_DATA = [
     name: 'ラッキーハーフ',
     heartCost: 40,
     type: '物理攻撃',
-    description: 'モンスター1体の残りHPを半分(小数点以下切り捨て)にする。',
+    description: 'モンスター1体の残りHPを半分(小数点以下切り捨て)にする。\n発動率 ★★★☆☆',
   },
   {
     name: 'ナイトメーア',
