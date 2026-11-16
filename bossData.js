@@ -101,7 +101,7 @@ const BOSS_DATA = [
   {
     label: '👑キング',
     bosses: [
-      ['アチポッチ', null, null, null, null],
+      ['アチポッチ', 1200, 480, 400, 310],
       ['アチャガラ', null, null, null, null],
       ['アトラン', 1320, 470, 380, 300],
       ['オーク', null, null, null, null],
